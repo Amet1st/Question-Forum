@@ -7,24 +7,7 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private fb: FormBuilder) {
+  constructor() {
 
-  }
-
-  userprofileForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: [''],
-
-    adress: this.fb.group({
-      adress1: [''],
-      adress2: [''],
-      state: [''],
-      zip: ['']
-    })
-  });
-
-  onSubmit() {
-    let firstName = this.userprofileForm.controls['firstName'].value;
-    let lastName = this.userprofileForm.get('lastName')?.value;
   }
 }

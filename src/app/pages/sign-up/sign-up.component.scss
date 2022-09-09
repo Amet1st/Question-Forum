@@ -41,8 +41,8 @@
             cursor: pointer;
         }
     }
- 
-    &__submit {
+
+    &__sign-up {
         margin-top: 20px;
         width: 200px;
         height: 50px;
@@ -50,11 +50,12 @@
         cursor: pointer;
         color: white;
         background: blue;
+
         &:hover {
             transition: all 0.3s;
             color: black;
         }
-    }  
+    }
 
     &__error {
         color: red;

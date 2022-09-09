@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.scss']
 })
-export class AuthComponent implements OnInit {
+  
+export class SignUpComponent implements OnInit {
 
   constructor(private fb: FormBuilder) { }
 
@@ -27,6 +28,8 @@ export class AuthComponent implements OnInit {
     }
 
     console.log(this.registrationForm.value);
+
+    this.registrationForm.reset();
   }
 
   private initForm() {

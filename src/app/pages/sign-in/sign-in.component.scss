@@ -1,3 +1,4 @@
+
 .auth {
 
     &__title {
@@ -64,6 +65,13 @@
     &__buttons {
         display: flex;
         gap: 20px;
+    }
+
+    &__media {
+        border: none;
+        outline: none;
+        width: 40px;
+        height: 40px;
     }
 }
 

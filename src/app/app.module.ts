@@ -12,6 +12,8 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
+import { AuthService } from './shared/services/auth.service';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
     HeaderComponent,
     SignUpComponent,
     SignInComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,7 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
     AngularFireStorageModule,
     AngularFireDatabaseModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

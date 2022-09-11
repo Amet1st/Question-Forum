@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
-
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -45,7 +44,8 @@ export class SignUpComponent implements OnInit {
         
       password: ['', [
         Validators.required,
-        Validators.minLength(10)
+        Validators.minLength(10),
+        Validators.maxLength(20)
       ]]
     })
   }

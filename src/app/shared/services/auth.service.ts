@@ -16,18 +16,7 @@ export class AuthService {
     public afAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone 
-  ) {
-    this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
-      } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user')!);
-      }
-    });
-  }
+  ) {}
   
   SignIn(email: string, password: string) {
     return this.afAuth
@@ -41,7 +30,7 @@ export class AuthService {
         });
       })
       .catch((error) => {
-        window.alert(error.message);
+        console.log(error);
       });
   }
   
@@ -52,7 +41,7 @@ export class AuthService {
         this.SetUserData(result.user);
       })
       .catch((error) => {
-        window.alert(error.message);
+        console.log(error);
       });
   }
   
@@ -63,7 +52,19 @@ export class AuthService {
   
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['home']);
+    });
+  }
+
+  FacebookAuth() {
+    return this.AuthLogin(new auth.FacebookAuthProvider()).then((res: any) => {
+      this.router.navigate(['home']);
+    });
+  }
+  
+  GithubAuth() {
+    return this.AuthLogin(new auth.GithubAuthProvider()).then((res: any) => {
+      this.router.navigate(['home']);
     });
   }
   
@@ -75,7 +76,7 @@ export class AuthService {
         this.SetUserData(result.user);
       })
       .catch((error) => {
-        window.alert(error);
+        console.log(error);
       });
   }
 

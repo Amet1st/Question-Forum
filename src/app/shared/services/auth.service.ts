@@ -10,45 +10,35 @@ import { Router } from '@angular/router';
 })
   
 export class AuthService {
-  userData: any; 
+  isLoggedIn: boolean = false;
   constructor(
-    public afs: AngularFirestore, 
-    public afAuth: AngularFireAuth,
+    public ngFireStore: AngularFirestore, 
+    public ngFireAuth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone 
   ) {}
   
-  SignIn(email: string, password: string) {
-    return this.afAuth
-      .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.SetUserData(result.user);
-        this.afAuth.authState.subscribe((user) => {
-          if (user) {
-            this.router.navigate(['home']);
-          }
-        });
+  async SignIn(email: string, password: string) {
+    await this.ngFireAuth.signInWithEmailAndPassword(email, password)
+      .then(result => {
+        this.isLoggedIn = true;
+        localStorage.setItem('user', JSON.stringify(result.user));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+  }
+
+  async SignUp(email: string, password: string) {
+    await this.ngFireAuth.createUserWithEmailAndPassword(email, password)
+      .then(result => {
+        this.isLoggedIn = true;
+        localStorage.setItem('user', JSON.stringify(result.user));
+      })
+  }
+
+  Logout() {
+    this.ngFireAuth.signOut();
+    localStorage.removeItem('user');
   }
   
-  SignUp(email: string, password: string) {
-    return this.afAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.SetUserData(result.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  
-  get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    return user !== null ? true : false;
-  }
   
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
@@ -69,7 +59,7 @@ export class AuthService {
   }
   
   AuthLogin(provider: any) {
-    return this.afAuth
+    return this.ngFireAuth
       .signInWithPopup(provider)
       .then((result) => {
         this.router.navigate(['home']);
@@ -81,7 +71,7 @@ export class AuthService {
   }
 
   SetUserData(user: any) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+    const userRef: AngularFirestoreDocument<any> = this.ngFireStore.doc(
       `users/${user.uid}`
     );
     const userData: User = {
@@ -97,7 +87,7 @@ export class AuthService {
   }
 
   SignOut() {
-    return this.afAuth.signOut().then(() => {
+    return this.ngFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['sign-in']);
     });

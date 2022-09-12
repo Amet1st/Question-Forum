@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  @Output() isLogout = new EventEmitter<void>() 
+
+  constructor(
+    public authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    this.authService.Logout();
+    this.isLogout.emit();
   }
 
 }

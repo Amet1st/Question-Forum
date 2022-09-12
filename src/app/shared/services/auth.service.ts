@@ -18,44 +18,64 @@ export class AuthService {
     public ngZone: NgZone 
   ) {}
   
-  async SignIn(email: string, password: string) {
-    await this.ngFireAuth.signInWithEmailAndPassword(email, password)
+  SignIn(email: string, password: string) {
+    this.ngFireAuth.signInWithEmailAndPassword(email, password)
       .then(result => {
         this.isLoggedIn = true;
         localStorage.setItem('user', JSON.stringify(result.user));
       })
+      .catch((error) => {
+        console.log(error.message);
+      })
   }
 
-  async SignUp(email: string, password: string) {
-    await this.ngFireAuth.createUserWithEmailAndPassword(email, password)
+  SignUp(email: string, password: string) {
+    this.ngFireAuth.createUserWithEmailAndPassword(email, password)
       .then(result => {
         this.isLoggedIn = true;
         localStorage.setItem('user', JSON.stringify(result.user));
       })
+      .catch((error) => {
+        console.log(error.message);
+      })
   }
 
-  Logout() {
-    this.ngFireAuth.signOut();
-    localStorage.removeItem('user');
+  SignOut() {
+    return this.ngFireAuth.signOut()
+      .then(() => {
+        localStorage.removeItem('user');
+        this.router.navigate(['sign-in']);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      })
   }
-  
   
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
       this.router.navigate(['home']);
-    });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    })
   }
 
   FacebookAuth() {
     return this.AuthLogin(new auth.FacebookAuthProvider()).then((res: any) => {
       this.router.navigate(['home']);
-    });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    })
   }
   
   GithubAuth() {
     return this.AuthLogin(new auth.GithubAuthProvider()).then((res: any) => {
       this.router.navigate(['home']);
-    });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    })
   }
   
   AuthLogin(provider: any) {
@@ -83,13 +103,6 @@ export class AuthService {
     };
     return userRef.set(userData, {
       merge: true,
-    });
-  }
-
-  SignOut() {
-    return this.ngFireAuth.signOut().then(() => {
-      localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
     });
   }
 }

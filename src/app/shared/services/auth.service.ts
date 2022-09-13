@@ -10,87 +10,77 @@ import { Router } from '@angular/router';
 })
   
 export class AuthService {
-  isLoggedIn: boolean = false;
+  public isLoggedIn: boolean = false;
   constructor(
     public ngFireStore: AngularFirestore, 
-    public ngFireAuth: AngularFireAuth,
-    public router: Router,
-    public ngZone: NgZone 
+    public ngFireAuth: AngularFireAuth, 
   ) {}
   
-  SignIn(email: string, password: string) {
-    this.ngFireAuth.signInWithEmailAndPassword(email, password)
+  public handleResponse(promise: Promise<any>): Promise<any> {
+    return promise;
+  }
+
+  public signIn(email: string, password: string) {
+    this.handleResponse(this.ngFireAuth.signInWithEmailAndPassword(email, password))
       .then(result => {
         this.isLoggedIn = true;
-        localStorage.setItem('user', JSON.stringify(result.user));
       })
       .catch((error) => {
         console.log(error.message);
       })
   }
 
-  SignUp(email: string, password: string) {
-    this.ngFireAuth.createUserWithEmailAndPassword(email, password)
-      .then(result => {
-        this.isLoggedIn = true;
-        localStorage.setItem('user', JSON.stringify(result.user));
-      })
-      .catch((error) => {
-        console.log(error.message);
-      })
-  }
-
-  SignOut() {
-    return this.ngFireAuth.signOut()
-      .then(() => {
-        localStorage.removeItem('user');
-        this.router.navigate(['sign-in']);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      })
-  }
-  
-  GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
-      this.router.navigate(['home']);
+  public signUp(email: string, password: string): void {
+    this.handleResponse(this.ngFireAuth.createUserWithEmailAndPassword(email, password))
+    .then(result => {
+      this.isLoggedIn = true;
     })
     .catch((error) => {
       console.log(error.message);
     })
   }
 
-  FacebookAuth() {
-    return this.AuthLogin(new auth.FacebookAuthProvider()).then((res: any) => {
-      this.router.navigate(['home']);
+  public signOut(): void {
+    this.ngFireAuth.signOut()
+    .catch((error) => {
+        console.log(error.message);
+      })
+  }
+  
+  public googleAuth() {
+    return this.authLogin(new auth.GoogleAuthProvider()).then((res: any) => {})
+    .catch((error) => {
+      console.log(error.message);
     })
+  }
+
+  public facebookAuth() {
+    return this.authLogin(new auth.FacebookAuthProvider())
+    .then((res: any) => {})
     .catch((error) => {
       console.log(error.message);
     })
   }
   
-  GithubAuth() {
-    return this.AuthLogin(new auth.GithubAuthProvider()).then((res: any) => {
-      this.router.navigate(['home']);
-    })
+  public githubAuth() {
+    return this.authLogin(new auth.GithubAuthProvider()).then((res: any) => {})
     .catch((error) => {
       console.log(error.message);
     })
   }
   
-  AuthLogin(provider: any) {
+  public authLogin(provider: any) {
     return this.ngFireAuth
       .signInWithPopup(provider)
       .then((result) => {
-        this.router.navigate(['home']);
-        this.SetUserData(result.user);
+        this.setUserData(result.user);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  SetUserData(user: any) {
+  public setUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.ngFireStore.doc(
       `users/${user.uid}`
     );

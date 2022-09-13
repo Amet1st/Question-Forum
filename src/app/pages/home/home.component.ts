@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    this.authService.SignOut();
+    this.authService.signOut();
     this.isLogout.emit();
   }
 

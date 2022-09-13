@@ -55,6 +55,11 @@
             transition: all 0.3s;
             color: white;
         }
+
+        &[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
 
     &__error {

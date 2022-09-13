@@ -44,7 +44,7 @@ export class SignInComponent implements OnInit {
       return;
     }
 
-    this.authService.SignIn(controls['email'].value, controls['password'].value);
+    this.authService.signIn(controls['email'].value, controls['password'].value);
 
     this.registrationForm.reset();
   }
@@ -58,7 +58,6 @@ export class SignInComponent implements OnInit {
         
       password: ['', [
         Validators.required,
-        Validators.minLength(10)
       ]]
     })
   }

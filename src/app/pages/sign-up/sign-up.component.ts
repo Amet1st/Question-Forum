@@ -9,6 +9,8 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   
 export class SignUpComponent implements OnInit {
 
+  public isSubmitted = false;
+
   constructor(
     private fb: FormBuilder,
     public authService: AuthService
@@ -30,7 +32,7 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
-    this.authService.SignUp(controls['email'].value, controls['password'].value);
+    this.authService.signUp(controls['email'].value, controls['password'].value);
 
     this.registrationForm.reset();
   }
@@ -44,8 +46,8 @@ export class SignUpComponent implements OnInit {
         
       password: ['', [
         Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(20)
+        Validators.minLength(8),
+        Validators.maxLength(18)
       ]]
     })
   }

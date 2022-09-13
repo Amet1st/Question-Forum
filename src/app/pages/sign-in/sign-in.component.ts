@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Route, Routes, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,43 +11,20 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 })
   
 export class SignInComponent implements OnInit {
-  userData: any;
+  public isSubmitted = false;
+  public errorMessage: string;
+  public isLoggedIn = false;
+  public  registrationForm: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
-    public afAuth: AngularFireAuth
-  ) { 
-    this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
-      } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user')!);
-      }
-    });
-  }
-
-  registrationForm: FormGroup;
+    public afAuth: AngularFireAuth,
+    public router: Router
+  ) { }
 
   ngOnInit(): void {
       this.initForm();
-  }
-
-  onSubmit() {
-    const controls = this.registrationForm.controls;
-
-    if (this.registrationForm.invalid) {
-      Object.keys(controls)
-        .forEach(controlName => controls[controlName].markAllAsTouched());
-      
-      return;
-    }
-
-    this.authService.signIn(controls['email'].value, controls['password'].value);
-
-    this.registrationForm.reset();
   }
 
   private initForm() {
@@ -62,12 +40,38 @@ export class SignInComponent implements OnInit {
     })
   }
 
+  onSubmit() {
+    const controls = this.registrationForm.controls;
+
+    if (this.registrationForm.invalid) {
+      Object.keys(controls)
+        .forEach(controlName => controls[controlName].markAllAsTouched());
+    }
+
+    this.authService.signIn(controls['email'].value, controls['password'].value)
+      .then((result: any) => {
+        alert('Successful sgin in!')
+        this.registrationForm.reset();
+        this.router.navigate(['home']);
+      })
+      .catch((error: any) => {
+        switch (error.message) {
+          case 'Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).':
+            this.errorMessage = 'Incorrect password and/or email!';
+            break;
+          case 'Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found).':
+            this.errorMessage = 'There is no such user!';
+            break;
+        }
+      })
+
+    this.registrationForm.reset();
+  }
+
   isControlInvalid(controlName: string): boolean {
     const control = this.registrationForm.controls[controlName];
     
-    let result = control.invalid && control.touched;
-
-    return result;
+    return control.invalid && control.touched;
   }
 
 }

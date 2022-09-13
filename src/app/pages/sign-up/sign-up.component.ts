@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Routes, Route, Router } from '@angular/router';
+import { AppModule } from 'src/app/app.module';
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -10,13 +13,17 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 export class SignUpComponent implements OnInit {
 
   public isSubmitted = false;
+  public isLoggedIn = false;
+  public errorMessage: string | null = null;
+  registrationForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    public router: Router,
+    public appModule: AppModule
   ) { }
 
-  registrationForm: FormGroup;
 
   ngOnInit(): void {
       this.initForm();
@@ -24,17 +31,22 @@ export class SignUpComponent implements OnInit {
 
   onSubmit() {
     const controls = this.registrationForm.controls;
+    this.errorMessage = null;
 
     if (this.registrationForm.invalid) {
       Object.keys(controls)
         .forEach(controlName => controls[controlName].markAllAsTouched());
-      
-      return;
     }
-
-    this.authService.signUp(controls['email'].value, controls['password'].value);
-
-    this.registrationForm.reset();
+    
+    this.authService.signUp(controls['email'].value, controls['password'].value)
+      .then((result: any) => {
+        alert('Successful registration!')
+        this.registrationForm.reset();
+        this.router.navigate(['home']);
+      })
+      .catch((error: any) => {
+         
+      })
   }
 
   private initForm() {
@@ -55,9 +67,8 @@ export class SignUpComponent implements OnInit {
   isControlInvalid(controlName: string): boolean {
     const control = this.registrationForm.controls[controlName];
     
-    let result = control.invalid && control.touched;
+    return control.invalid && control.touched;
 
-    return result;
   }
 
 }

@@ -2,15 +2,14 @@ import { Injectable, NgZone } from '@angular/core';
 import { User } from '../services/user';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore, AngularFirestoreDocument} from '@angular/fire/compat/firestore';
-import { Router } from '@angular/router';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
   
 export class AuthService {
-  public isLoggedIn: boolean = false;
+
   constructor(
     public ngFireStore: AngularFirestore, 
     public ngFireAuth: AngularFireAuth, 
@@ -20,56 +19,34 @@ export class AuthService {
     return promise;
   }
 
-  public signIn(email: string, password: string) {
-    this.handleResponse(this.ngFireAuth.signInWithEmailAndPassword(email, password))
-      .then(result => {
-        this.isLoggedIn = true;
-      })
-      .catch((error) => {
-        console.log(error.message);
-      })
+  public signIn(email: string, password: string): Promise<any> {
+    return this.handleResponse(this.ngFireAuth.signInWithEmailAndPassword(email, password));
   }
 
-  public signUp(email: string, password: string): void {
-    this.handleResponse(this.ngFireAuth.createUserWithEmailAndPassword(email, password))
-    .then(result => {
-      this.isLoggedIn = true;
-    })
-    .catch((error) => {
-      console.log(error.message);
-    })
+  public signUp(email: string, password: string): Promise<any> {
+    return this.handleResponse(this.ngFireAuth.createUserWithEmailAndPassword(email, password));
   }
 
   public signOut(): void {
-    this.ngFireAuth.signOut()
-    .catch((error) => {
-        console.log(error.message);
-      })
+    this.ngFireAuth.signOut();
   }
   
-  public googleAuth() {
-    return this.authLogin(new auth.GoogleAuthProvider()).then((res: any) => {})
-    .catch((error) => {
-      console.log(error.message);
-    })
+  public googleAuth(): Promise<void> {
+    const gAuth = this.authLogin(new auth.GoogleAuthProvider());
+    return gAuth;
   }
 
-  public facebookAuth() {
-    return this.authLogin(new auth.FacebookAuthProvider())
-    .then((res: any) => {})
-    .catch((error) => {
-      console.log(error.message);
-    })
+  public facebookAuth(): Promise<void> {
+    const fAuth = this.authLogin(new auth.FacebookAuthProvider());
+    return fAuth;
   }
   
-  public githubAuth() {
-    return this.authLogin(new auth.GithubAuthProvider()).then((res: any) => {})
-    .catch((error) => {
-      console.log(error.message);
-    })
+  public githubAuth(): Promise<void> {
+    const gtAuth = this.authLogin(new auth.GithubAuthProvider());
+    return gtAuth;
   }
   
-  public authLogin(provider: any) {
+  private authLogin(provider: any) {
     return this.ngFireAuth
       .signInWithPopup(provider)
       .then((result) => {
@@ -80,7 +57,7 @@ export class AuthService {
       });
   }
 
-  public setUserData(user: any) {
+  private setUserData(user: any) {
     const userRef: AngularFirestoreDocument<any> = this.ngFireStore.doc(
       `users/${user.uid}`
     );

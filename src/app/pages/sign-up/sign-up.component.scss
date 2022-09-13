@@ -55,11 +55,15 @@
             transition: all 0.3s;
             color: black;
         }
+        &[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
 
     &__error {
         color: red;
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 

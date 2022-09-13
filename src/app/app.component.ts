@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
@@ -11,6 +11,8 @@ import { AuthService } from './shared/services/auth.service';
 })
   
 export class AppComponent implements OnInit{
+  
+  public isLoggedIn = false;
 
   constructor(
     public firebaseDatabase: AngularFireDatabase,

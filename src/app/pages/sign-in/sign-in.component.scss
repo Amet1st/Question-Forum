@@ -52,10 +52,13 @@
         display: flex;
         gap: 20px;
 
-        & svg {
+        & img {
             width: 40px;
             height: 40px;
             cursor: pointer;
+            &:hover {
+                transform: scale(1.05);
+            }
         }
     }
 
@@ -77,14 +80,6 @@
     &__buttons {
         display: flex;
         gap: 20px;
-    }
-
-    &__media {
-        border: none;
-        outline: none;
-        background: none;
-        width: 40px;
-        height: 40px;
     }
 
     &__media-label {

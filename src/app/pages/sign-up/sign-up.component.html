@@ -5,7 +5,7 @@
             <div class="auth__form-group">
                 <label class="auth__label" for="user">Email</label>
 
-                <input class="auth__input" id="user" type="text" formControlName="email">
+                <input class="auth__input" id="user" type="text" formControlName="email" (focus)="onFocus()">
             </div>
 
             <div class="auth__error" *ngIf="isControlInvalid('email')">
@@ -15,7 +15,7 @@
             <div class="auth__form-group">
                 <label class="auth__label" for="password">Password</label>
 
-                <input class="auth__input" id="password" type="password" formControlName="password">
+                <input class="auth__input" id="password" type="password" formControlName="password" (focus)="onFocus()">
             </div>
 
             <div class="auth__error" *ngIf="isControlInvalid('password')">
@@ -27,7 +27,7 @@
             </div>
 
             <div class="auth__buttons">
-                <button class="auth__sign-up" type="submit" [disabled]="registrationForm.invalid">
+                <button class="auth__sign-up" type="submit" [disabled]="registrationForm.invalid || isSubmitted">
                     Sign Up
                 </button>
             </div>

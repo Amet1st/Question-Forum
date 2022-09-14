@@ -12,11 +12,11 @@ import { Route, Routes, Router } from '@angular/router';
   
 export class SignInComponent implements OnInit {
   public isSubmitted = false;
-  public errorMessage: string;
+  public errorMessage: string | null;
   public  registrationForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     public authService: AuthService,
     public afAuth: AngularFireAuth,
     public router: Router
@@ -27,7 +27,7 @@ export class SignInComponent implements OnInit {
   }
 
   private initForm() {
-      this.registrationForm = this.fb.group({
+      this.registrationForm = this.formBuilder.group({
       email: ['', [
         Validators.required,
         Validators.email
@@ -41,6 +41,7 @@ export class SignInComponent implements OnInit {
 
   onSubmit() {
     const controls = this.registrationForm.controls;
+    this.isSubmitted = true;
 
     if (this.registrationForm.invalid) {
       Object.keys(controls)
@@ -61,7 +62,7 @@ export class SignInComponent implements OnInit {
             this.errorMessage = 'There is no such user!';
             break;
           default:
-            this.errorMessage = 'Error';
+            this.errorMessage = 'An unknown error occurred';
             break;
         }
       })
@@ -73,6 +74,11 @@ export class SignInComponent implements OnInit {
     const control = this.registrationForm.controls[controlName];
     
     return control.invalid && control.touched;
+  }
+
+  onFocus() {
+    this.errorMessage = null;
+    this.isSubmitted = false;
   }
 
 }

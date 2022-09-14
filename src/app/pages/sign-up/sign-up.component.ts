@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Routes, Route, Router } from '@angular/router';
-import { AppModule } from 'src/app/app.module';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,10 +17,9 @@ export class SignUpComponent implements OnInit {
   public registrationForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     public authService: AuthService,
     public router: Router,
-    public appModule: AppModule
   ) { }
 
 
@@ -31,7 +29,7 @@ export class SignUpComponent implements OnInit {
 
   public onSubmit() {
     const controls = this.registrationForm.controls;
-    this.errorMessage = null;
+    this.isSubmitted = true;
 
     if (this.registrationForm.invalid) {
       Object.keys(controls)
@@ -45,21 +43,21 @@ export class SignUpComponent implements OnInit {
       })
       .catch((error: Error) => {
          switch (error.message) {
-          case 'Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).':
-            this.errorMessage = 'Incorrect password and/or email!';
+          case 'Firebase: The email address is already in use by another account. (auth/email-already-in-use).':
+            this.errorMessage = 'The email address is already in use by another account';
             break;
-          case 'Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found).':
-            this.errorMessage = 'There is no such user!';
+          case 'Firebase: The email address is badly formatted. (auth/invalid-email).':
+            this.errorMessage = 'The email address is badly formatted.';
             break;
           default:
-            this.errorMessage = 'Error';
+            this.errorMessage = 'An unknown error occurred';
             break;
         }
       })
   }
 
   private initForm() {
-      this.registrationForm = this.fb.group({
+      this.registrationForm = this.formBuilder.group({
       email: ['', [
         Validators.required,
         Validators.email
@@ -78,6 +76,11 @@ export class SignUpComponent implements OnInit {
     
     return control.invalid && control.touched;
 
+  }
+
+  onFocus() {
+    this.errorMessage = null;
+    this.isSubmitted = false;
   }
 
 }

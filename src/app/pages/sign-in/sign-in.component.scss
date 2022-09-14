@@ -1,20 +1,19 @@
 @mixin auth-button($color) {
-    margin-top: 20px;
-        width: 200px;
-        height: 50px;
-        font-size: 25px;
-        cursor: pointer;
-        background-color: $color;
-    
-        &:hover {
-            transition: all 0.3s;
-            color: white;
-        }
-    
-        &[disabled] {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+    width: 200px;
+    height: 50px;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: $color;
+
+    &:hover {
+        transition: all 0.3s;
+        color: white;
+    }
+
+    &[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
 }
 
 .auth {
@@ -64,10 +63,10 @@
         @include auth-button(aqua);
     }
     &__sign-up {
+        @include auth-button(green);
         display: flex;
         justify-content: center;
         align-items: center;
-        @include auth-button(green);
     }
 
     &__error {
@@ -91,6 +90,10 @@
     &__media-label {
         font-size: 16px;
         margin-top: 20px;
+    }
+
+    &__not-have {
+        font-size: 16px;
     }
 }
 

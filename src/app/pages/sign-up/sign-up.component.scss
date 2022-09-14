@@ -66,10 +66,16 @@
     }
 
     &__sign-in {
+        @include auth-button(aqua);
         display: flex;
         justify-content: center;
         align-items: center;
-        @include auth-button(aqua);
+        margin-top: 0px;
+    }
+
+    &__already {
+        font-size: 16px;
+        margin: 0px;
     }
 
     &__error {

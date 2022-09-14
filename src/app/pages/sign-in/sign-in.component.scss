@@ -1,3 +1,21 @@
+@mixin auth-button($color) {
+    margin-top: 20px;
+        width: 200px;
+        height: 50px;
+        font-size: 25px;
+        cursor: pointer;
+        background-color: $color;
+    
+        &:hover {
+            transition: all 0.3s;
+            color: white;
+        }
+    
+        &[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+}
 
 .auth {
 
@@ -34,7 +52,6 @@
     &__icons {
         display: flex;
         gap: 20px;
-        margin-top: 40px;
 
         & svg {
             width: 40px;
@@ -44,22 +61,13 @@
     }
 
     &__sign-in {
-        margin-top: 20px;
-        width: 200px;
-        height: 50px;
-        font-size: 25px;
-        cursor: pointer;
-        background: aqua;
-
-        &:hover {
-            transition: all 0.3s;
-            color: white;
-        }
-
-        &[disabled] {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        @include auth-button(aqua);
+    }
+    &__sign-up {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include auth-button(green);
     }
 
     &__error {
@@ -75,8 +83,14 @@
     &__media {
         border: none;
         outline: none;
+        background: none;
         width: 40px;
         height: 40px;
+    }
+
+    &__media-label {
+        font-size: 16px;
+        margin-top: 20px;
     }
 }
 

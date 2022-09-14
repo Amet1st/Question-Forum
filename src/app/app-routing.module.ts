@@ -7,11 +7,11 @@ import { AuthGuard } from './shared/guard/auth.guard';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: '**', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'sign-in', component: SignInComponent },
-  { path: 'sign-up', component: SignUpComponent }
+  { path: 'sign-up', component: SignUpComponent },
+  { path: 'home', component: HomeComponent },
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({

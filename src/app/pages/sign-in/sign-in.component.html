@@ -26,6 +26,10 @@
                 {{errorMessage}}
             </div>
 
+            <div class="auth__media-label">
+                Or Sign In with:
+            </div>
+
             <ul class="auth__icons">
                 <li>
                     <button class="auth__media" (click)="authService.facebookAuth()">
@@ -57,6 +61,13 @@
             <button class="auth__sign-in" type="submit" [disabled]="registrationForm.invalid">
                 Sign In
             </button>
+
+            <div>
+                Don't have an account?
+            </div>
+            <a routerLink="sign-up" class="auth__sign-up">
+                Sign Up
+            </a>
         </form>
     </div>
 </section>

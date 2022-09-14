@@ -1,3 +1,22 @@
+@mixin auth-button($color) {
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+    font-size: 25px;
+    cursor: pointer;
+    background-color: $color;
+
+    &:hover {
+        transition: all 0.3s;
+        color: white;
+    }
+
+    &[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
 .auth {
 
     &__title {
@@ -43,22 +62,14 @@
     }
 
     &__sign-up {
-        margin-top: 20px;
-        width: 200px;
-        height: 50px;
-        font-size: 25px;
-        cursor: pointer;
-        color: white;
-        background: rgb(5, 194, 68);
+        @include auth-button(green);
+    }
 
-        &:hover {
-            transition: all 0.3s;
-            color: black;
-        }
-        &[disabled] {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+    &__sign-in {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include auth-button(aqua);
     }
 
     &__error {

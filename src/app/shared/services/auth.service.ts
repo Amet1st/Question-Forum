@@ -1,22 +1,25 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from '../services/user';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { AuthProvider, GoogleAuthProvider, UserCredential } from 'firebase/auth';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
   
 export class AuthService {
+  public isLoggedIn = false;
 
   constructor(
     public ngFireStore: AngularFirestore, 
-    public ngFireAuth: AngularFireAuth, 
+    public ngFireAuth: AngularFireAuth 
   ) {}
   
   public handleResponse(promise: Promise<any>): Promise<any> {
-    return promise;
+    return promise.then((result: any) => {
+      this.isLoggedIn = true;
+    });
   }
 
   public signIn(email: string, password: string): Promise<any> {
@@ -28,48 +31,25 @@ export class AuthService {
   }
 
   public signOut(): void {
-    this.ngFireAuth.signOut();
-  }
-  
-  public googleAuth(): Promise<void> {
-    const gAuth = this.authLogin(new auth.GoogleAuthProvider());
-    return gAuth;
-  }
-
-  public facebookAuth(): Promise<void> {
-    const fAuth = this.authLogin(new auth.FacebookAuthProvider());
-    return fAuth;
-  }
-  
-  public githubAuth(): Promise<void> {
-    const gtAuth = this.authLogin(new auth.GithubAuthProvider());
-    return gtAuth;
-  }
-  
-  private authLogin(provider: any) {
-    return this.ngFireAuth
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.setUserData(result.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  private setUserData(user: any) {
-    const userRef: AngularFirestoreDocument<any> = this.ngFireStore.doc(
-      `users/${user.uid}`
-    );
-    const userData: User = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
-    };
-    return userRef.set(userData, {
-      merge: true,
+    this.ngFireAuth.signOut().then((result: any) => {
+      this.isLoggedIn = false;
     });
   }
+  
+  public googleAuth(): Promise<firebase.default.auth.UserCredential> {
+    return this.handleResponse(this.authLogin(new auth.GoogleAuthProvider())); 
+  }
+
+  public facebookAuth(): Promise<firebase.default.auth.UserCredential> {
+    return this.handleResponse(this.authLogin(new auth.FacebookAuthProvider()));
+  }
+  
+  public githubAuth(): Promise<firebase.default.auth.UserCredential> {
+    return this.handleResponse(this.authLogin(new auth.GithubAuthProvider())); 
+  }
+  
+  private authLogin(provider: AuthProvider ) {
+    return this.ngFireAuth.signInWithPopup(provider);
+  }
+
 }

@@ -13,7 +13,6 @@ import { Route, Routes, Router } from '@angular/router';
 export class SignInComponent implements OnInit {
   public isSubmitted = false;
   public errorMessage: string;
-  public isLoggedIn = false;
   public  registrationForm: FormGroup;
 
   constructor(
@@ -49,18 +48,20 @@ export class SignInComponent implements OnInit {
     }
 
     this.authService.signIn(controls['email'].value, controls['password'].value)
-      .then((result: any) => {
-        alert('Successful sgin in!')
+      .then((result: Promise<any>) => { 
         this.registrationForm.reset();
         this.router.navigate(['home']);
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         switch (error.message) {
           case 'Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).':
             this.errorMessage = 'Incorrect password and/or email!';
             break;
           case 'Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found).':
             this.errorMessage = 'There is no such user!';
+            break;
+          default:
+            this.errorMessage = 'Error';
             break;
         }
       })

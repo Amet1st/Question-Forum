@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './shared/services/auth.service';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +10,12 @@ import { Component, OnInit } from '@angular/core';
   
 export class AppComponent implements OnInit{
 
-  constructor() { }
+  constructor(
+    public au: AuthService
+  ) { }
 
   ngOnInit(): void {
-
+    alert(this.au.isLoggedIn);
   }
   
 }

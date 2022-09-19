@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,8 @@ export class HomeComponent implements OnInit {
   @Output() isLogout = new EventEmitter<void>() 
 
   constructor(
-    public authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -20,6 +22,7 @@ export class HomeComponent implements OnInit {
   logout() {
     this.authService.signOut();
     this.isLogout.emit();
+    this.router.navigate(['sign-in']);
   }
 
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Provider } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Route, Routes, Router } from '@angular/router';
+import { AuthProvider, UserCredential } from 'firebase/auth';
 
 @Component({
   selector: 'app-sign-in',
@@ -13,7 +14,7 @@ import { Route, Routes, Router } from '@angular/router';
 export class SignInComponent implements OnInit {
   public isSubmitted = false;
   public errorMessage: string | null;
-  public  registrationForm: FormGroup;
+  public form: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,7 +28,7 @@ export class SignInComponent implements OnInit {
   }
 
   private initForm() {
-      this.registrationForm = this.formBuilder.group({
+      this.form = this.formBuilder.group({
       email: ['', [
         Validators.required,
         Validators.email
@@ -39,18 +40,18 @@ export class SignInComponent implements OnInit {
     })
   }
 
-  onSubmit() {
-    const controls = this.registrationForm.controls;
+  public onSubmit() {
+    const controls = this.form.controls;
     this.isSubmitted = true;
 
-    if (this.registrationForm.invalid) {
+    if (this.form.invalid) {
       Object.keys(controls)
         .forEach(controlName => controls[controlName].markAllAsTouched());
     }
 
     this.authService.signIn(controls['email'].value, controls['password'].value)
       .then((result: Promise<any>) => { 
-        this.registrationForm.reset();
+        this.form.reset();
         this.router.navigate(['home']);
       })
       .catch((error: Error) => {
@@ -67,11 +68,35 @@ export class SignInComponent implements OnInit {
         }
       })
 
-    this.registrationForm.reset();
+    this.form.reset();
+  }
+
+  public facebookAuth() {
+    this.authService.facebookAuth()
+      .then((result: firebase.default.auth.UserCredential) => {
+        this.authService.isLoggedIn = true;
+        this.router.navigate(['home']);
+    })
+  }
+
+  public githubAuth() {
+    this.authService.githubAuth()
+      .then((result: firebase.default.auth.UserCredential) => {
+        this.authService.isLoggedIn = true;
+        this.router.navigate(['home']);
+    })
+  }
+
+  public googleAuth() {
+    this.authService.googleAuth()
+      .then((result: firebase.default.auth.UserCredential) => {
+        this.authService.isLoggedIn = true;
+        this.router.navigate(['home']);
+    })
   }
 
   isControlInvalid(controlName: string): boolean {
-    const control = this.registrationForm.controls[controlName];
+    const control = this.form.controls[controlName];
     
     return control.invalid && control.touched;
   }

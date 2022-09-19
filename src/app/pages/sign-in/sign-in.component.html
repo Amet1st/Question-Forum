@@ -1,6 +1,6 @@
 <section class="auth">
     <div class="container auth__container">
-        <form class="auth__form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <form class="auth__form" [formGroup]="form" (ngSubmit)="onSubmit()">
             <h2 class="auth__title">Sign In</h2>
             <div class="auth__form-group">
                 <label class="auth__label" for="user">Email</label>
@@ -32,15 +32,15 @@
 
             <ul class="auth__icons">
                 <li>
-                    <img src="../../../assets/svg/facebook.svg" alt="facebook" (click)="authService.facebookAuth()">
+                    <img src="../../../assets/svg/facebook.svg" alt="facebook" (click)="facebookAuth()">
                 </li>
-                    <img src="../../../assets/svg/git.svg" alt="facebook" (click)="authService.githubAuth()">
+                    <img src="../../../assets/svg/git.svg" alt="github" (click)="githubAuth()">
                 <li>
-                    <img src="../../../assets/svg/google.svg" alt="facebook" (click)="authService.googleAuth()">
+                    <img src="../../../assets/svg/google.svg" alt="google" (click)="googleAuth()">
                 </li>
             </ul>
             
-            <button class="auth__sign-in" type="submit" [disabled]="registrationForm.invalid || isSubmitted">
+            <button class="auth__sign-in" type="submit" [disabled]="form.invalid || isSubmitted">
                 Sign In
             </button>
 

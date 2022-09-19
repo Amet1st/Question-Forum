@@ -1,6 +1,6 @@
 import { Component, OnInit, Provider } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Route, Routes, Router } from '@angular/router';
 import { AuthProvider, UserCredential } from 'firebase/auth';
@@ -55,11 +55,12 @@ export class SignInComponent implements OnInit {
         this.router.navigate(['home']);
       })
       .catch((error: Error) => {
-        switch (error.message) {
-          case 'Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).':
+        switch(error.message) {
+          case `Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).`:
             this.errorMessage = 'Incorrect password and/or email!';
             break;
-          case 'Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found).':
+          case `Firebase: There is no user record corresponding to this identifier. The user may have been deleted. 
+            (auth / user - not - found).`:
             this.errorMessage = 'There is no such user!';
             break;
           default:
@@ -71,27 +72,37 @@ export class SignInComponent implements OnInit {
     this.form.reset();
   }
 
-  public facebookAuth() {
-    this.authService.facebookAuth()
-      .then((result: firebase.default.auth.UserCredential) => {
-        this.authService.isLoggedIn = true;
-        this.router.navigate(['home']);
-    })
+  public facebookAuth(): void {
+    this.handleSocialAuth(this.authService.facebookAuth());
   }
 
-  public githubAuth() {
-    this.authService.githubAuth()
-      .then((result: firebase.default.auth.UserCredential) => {
-        this.authService.isLoggedIn = true;
-        this.router.navigate(['home']);
-    })
+  public githubAuth(): void {
+    this.handleSocialAuth(this.authService.githubAuth());
   }
 
-  public googleAuth() {
-    this.authService.googleAuth()
+  public googleAuth(): void {
+    this.handleSocialAuth(this.authService.googleAuth());
+  }
+
+  public handleSocialAuth(provider: Promise<firebase.default.auth.UserCredential>): void {
+    const controls = this.form.controls;
+
+    Object.keys(controls).forEach(controlName => controls[controlName].markAsUntouched());
+    
+    provider
       .then((result: firebase.default.auth.UserCredential) => {
         this.authService.isLoggedIn = true;
         this.router.navigate(['home']);
+      })
+      .catch((error: Error) => {
+        switch (error.message) {
+          case `Firebase: An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address. (auth/account-exists-with-different-credential).`:
+            this.errorMessage = 'An account already exists with the same email address but different sign-in credentials';
+            break;
+          default:
+            this.errorMessage = 'An unknown error occurred';
+            break;
+        }
     })
   }
 

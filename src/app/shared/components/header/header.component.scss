@@ -29,10 +29,60 @@
         @include auth-link((rgb(5, 194, 68)));
     }
 
-    &__links {
+    &__content {
         display: flex;
         gap: 20px;
         padding: 10px;
+        align-items: center;
+    }
+
+    &__add {
+        padding: 5px;
+        font-size: 18px;
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    &__user-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    &__email {
+        position: relative;
+        &::after {
+            display: block;
+            position: absolute;
+            right: -20px;
+            top: 8px;
+            width: 0;
+            height: 0;
+            content: '';
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 10px solid #000000;
+            cursor: pointer;
+        }
+    }
+
+    &__menu-items {
+        display: flex;
+        flex-direction: column;
+    
+        
+        & a {
+            cursor: pointer;
+            background-color: rgb(241, 232, 232);
+            border: 2px solid black;
+            padding: 5px;
+            margin: 5px;
+        }
+    }
+
+    &__drop-down {
+        position: relative;
+        display: inline-block;
     }
 }
 

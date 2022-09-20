@@ -3,8 +3,24 @@
         <img class="header__logo" src="../../../assets/logo.png" alt="logo">
     </a>
 
-    <nav class="header__links">
-        <a class="header__sign-in" routerLink="sign-in" routerLinkActive="active">Sign In</a>
-        <a class="header__sign-up" routerLink="sign-up" routerLinkActive="active">Sign Up</a>
+    <nav class="header__content">
+        <ng-container *ngIf="!isLoggedIn; else loggedHeader">
+            <a class="header__sign-in" routerLink="sign-in" routerLinkActive="active">Sign In</a>
+            <a class="header__sign-up" routerLink="sign-up" routerLinkActive="active">Sign Up</a>
+        </ng-container>
+        <ng-template #loggedHeader>
+            <button class="header__add">Add question</button>
+            <img class="header__user-logo" src="../../../../assets/png/user.png" alt="user">
+            <p class="header__email" (click)="toggleMenu()">
+                {{userEmail}}
+            </p>
+        </ng-template>
+        <div class="header__drop-down">
+            <ul class="header__menu-items" *ngIf="isMenuVisible">
+                <a class="header__menu-item" (click)="goToProfile()">Profile</a>
+                <a class="header__menu-item" (click)="logout()">Log out</a>
+            </ul>
+        </div>
     </nav>
 </header>
+

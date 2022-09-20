@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  @Output() isLogout = new EventEmitter<void>() 
 
   constructor(
     private authService: AuthService,
@@ -17,12 +16,6 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
-
-  logout() {
-    this.authService.signOut();
-    this.isLogout.emit();
-    this.router.navigate(['sign-in']);
   }
 
 }

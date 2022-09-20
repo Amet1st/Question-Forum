@@ -1,22 +1,14 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import * as firebse  from '@angular/fire/compat/auth';
 import { User } from 'firebase/auth';
 import { tap } from 'rxjs/operators';
-import { OnChanges } from '@angular/core';
-import { DoCheck } from '@angular/core';
-import { Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, DoCheck {
-
-  @Output() isLogout = new EventEmitter<void>();
+export class HeaderComponent implements OnInit {
   
   public isLoggedIn: User;
   public userEmail: string;
@@ -27,11 +19,7 @@ export class HeaderComponent implements OnInit, DoCheck {
     public router: Router
   ) { }
 
-  ngOnInit(): void {
-    
-  }
-
-  ngDoCheck(): void {
+  public ngOnInit(): void {
     this.authService.authStream$
       .pipe(
         tap((user: User) => {
@@ -47,18 +35,19 @@ export class HeaderComponent implements OnInit, DoCheck {
     )
   }
 
-  public toggleMenu() {
+  public toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
-  goToProfile() {
-    
+  public goToProfile(): void {
+    this.isMenuVisible = false;
   }
 
-  logout() {
+  public logOut(): void {
+    this.isMenuVisible = false;
     this.authService.signOut();
-    this.isLogout.emit();
-    this.router.navigate(['sign-in']);
+    this.router.navigate(['/sign-in']);
   }
+
   
 }

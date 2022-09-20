@@ -1,4 +1,4 @@
-import { Component, OnInit, Provider } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   
 export class SignInComponent implements OnInit {
   public isSubmitted = false;
-  public errorMessage: string | null;
+  public errorMessage: string;
   public form: FormGroup;
 
   constructor(
@@ -58,9 +58,11 @@ export class SignInComponent implements OnInit {
           case `Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).`:
             this.errorMessage = 'Incorrect password for this email!';
             break;
-          case `Firebase: There is no user record corresponding to this identifier. The user may have been deleted. 
-            (auth / user - not - found).`:
+          case `Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found).`:
             this.errorMessage = 'There is no such user!';
+            break;
+          case `A network AuthError (such as timeout, interrupted connection or unreachable host) has occurred. (auth/network-request-failed).`:
+            this.errorMessage = 'A network error';
             break;
           default:
             this.errorMessage = 'An unknown error occurred';

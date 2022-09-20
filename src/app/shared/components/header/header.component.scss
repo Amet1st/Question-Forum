@@ -37,16 +37,21 @@
     }
 
     &__add {
+        cursor: pointer;
         padding: 5px;
         font-size: 18px;
+        background-color: red;
         &:hover {
             transform: scale(1.05);
+            box-shadow: 1px;
+            color: white;
         }
     }
 
     &__user-logo {
         width: 40px;
         height: 40px;
+        cursor: pointer;
     }
 
     &__email {
@@ -69,14 +74,25 @@
     &__menu-items {
         display: flex;
         flex-direction: column;
-    
-        
-        & a {
-            cursor: pointer;
-            background-color: rgb(241, 232, 232);
-            border: 2px solid black;
-            padding: 5px;
-            margin: 5px;
+        position: relative;
+        margin: 0px;
+        top: 20px;
+        right: 50px;
+        width: 0px;
+        height: 0px;
+    }
+
+    &__menu-item {
+        cursor: pointer;
+        background-color: rgb(241, 232, 232);
+        border: 2px solid black;
+        padding: 3px;
+        margin: 3px;
+        display: block;
+        width: 70px;
+        &--logout {
+            background-color: rgb(224, 82, 82);
+            color: white;
         }
     }
 

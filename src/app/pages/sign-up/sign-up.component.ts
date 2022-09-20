@@ -12,8 +12,7 @@ import { Router } from '@angular/router';
 export class SignUpComponent implements OnInit {
 
   public isSubmitted = false;
-  public isLoggedIn = false;
-  public errorMessage: string = null;
+  public errorMessage: string;
   public form: FormGroup;
 
   constructor(
@@ -39,7 +38,7 @@ export class SignUpComponent implements OnInit {
     this.authService.signUp(controls['email'].value, controls['password'].value)
       .then(() => {
         this.form.reset();
-        this.router.navigate(['home']);
+        this.router.navigate(['/home']);
       })
       .catch((error: Error) => {
          switch (error.message) {
@@ -48,6 +47,9 @@ export class SignUpComponent implements OnInit {
             break;
           case 'Firebase: The email address is badly formatted. (auth/invalid-email).':
             this.errorMessage = 'The email address is badly formatted.';
+             break;
+          case `A network AuthError (such as timeout, interrupted connection or unreachable host) has occurred. (auth/network-request-failed).`:
+            this.errorMessage = 'A network error';
             break;
           default:
             this.errorMessage = 'An unknown error occurred';
@@ -101,7 +103,7 @@ export class SignUpComponent implements OnInit {
     Object.keys(controls).forEach(controlName => controls[controlName].markAsUntouched());
     
     provider
-      .then((result: firebase.default.auth.UserCredential) => {
+      .then(() => {
         this.router.navigate(['home']);
       })
       .catch((error: Error) => {

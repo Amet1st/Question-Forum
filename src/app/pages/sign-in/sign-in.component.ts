@@ -1,9 +1,8 @@
 import { Component, OnInit, Provider } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { Route, Routes, Router } from '@angular/router';
-import { AuthProvider, UserCredential } from 'firebase/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -50,14 +49,14 @@ export class SignInComponent implements OnInit {
     }
 
     this.authService.signIn(controls['email'].value, controls['password'].value)
-      .then((result: Promise<any>) => { 
+      .then(() => {
         this.form.reset();
-        this.router.navigate(['home']);
+        this.router.navigate(['/home']);
       })
       .catch((error: Error) => {
-        switch(error.message) {
+        switch (error.message) {
           case `Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).`:
-            this.errorMessage = 'Incorrect password and/or email!';
+            this.errorMessage = 'Incorrect password for this email!';
             break;
           case `Firebase: There is no user record corresponding to this identifier. The user may have been deleted. 
             (auth / user - not - found).`:
@@ -90,9 +89,8 @@ export class SignInComponent implements OnInit {
     Object.keys(controls).forEach(controlName => controls[controlName].markAsUntouched());
     
     provider
-      .then((result: firebase.default.auth.UserCredential) => {
-        this.authService.isLoggedIn = true;
-        this.router.navigate(['home']);
+      .then(() => {
+        this.router.navigate(['/home']);
       })
       .catch((error: Error) => {
         switch (error.message) {
@@ -106,13 +104,13 @@ export class SignInComponent implements OnInit {
     })
   }
 
-  isControlInvalid(controlName: string): boolean {
+  public isControlInvalid(controlName: string): boolean {
     const control = this.form.controls[controlName];
     
     return control.invalid && control.touched;
   }
 
-  onFocus() {
+  public onFocus() {
     this.errorMessage = null;
     this.isSubmitted = false;
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { Routes, Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -13,8 +13,8 @@ export class SignUpComponent implements OnInit {
 
   public isSubmitted = false;
   public isLoggedIn = false;
-  public errorMessage: string | null = null;
-  public registrationForm: FormGroup;
+  public errorMessage: string = null;
+  public form: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,17 +28,17 @@ export class SignUpComponent implements OnInit {
   }
 
   public onSubmit() {
-    const controls = this.registrationForm.controls;
+    const controls = this.form.controls;
     this.isSubmitted = true;
 
-    if (this.registrationForm.invalid) {
+    if (this.form.invalid) {
       Object.keys(controls)
         .forEach(controlName => controls[controlName].markAllAsTouched());
     }
     
     this.authService.signUp(controls['email'].value, controls['password'].value)
-      .then((result: Promise<any>) => {
-        this.registrationForm.reset();
+      .then(() => {
+        this.form.reset();
         this.router.navigate(['home']);
       })
       .catch((error: Error) => {
@@ -57,7 +57,7 @@ export class SignUpComponent implements OnInit {
   }
 
   private initForm() {
-      this.registrationForm = this.formBuilder.group({
+      this.form = this.formBuilder.group({
       email: ['', [
         Validators.required,
         Validators.email
@@ -71,16 +71,48 @@ export class SignUpComponent implements OnInit {
     })
   }
 
-  isControlInvalid(controlName: string): boolean {
-    const control = this.registrationForm.controls[controlName];
+  public isControlInvalid(controlName: string): boolean {
+    const control = this.form.controls[controlName];
     
     return control.invalid && control.touched;
 
   }
 
-  onFocus() {
+  public onFocus() {
     this.errorMessage = null;
     this.isSubmitted = false;
   }
 
+   public facebookAuth(): void {
+    this.handleSocialAuth(this.authService.facebookAuth());
+  }
+
+  public githubAuth(): void {
+    this.handleSocialAuth(this.authService.githubAuth());
+  }
+
+  public googleAuth(): void {
+    this.handleSocialAuth(this.authService.googleAuth());
+  }
+
+  public handleSocialAuth(provider: Promise<firebase.default.auth.UserCredential>): void {
+    const controls = this.form.controls;
+
+    Object.keys(controls).forEach(controlName => controls[controlName].markAsUntouched());
+    
+    provider
+      .then((result: firebase.default.auth.UserCredential) => {
+        this.router.navigate(['home']);
+      })
+      .catch((error: Error) => {
+        switch (error.message) {
+          case `Firebase: An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address. (auth/account-exists-with-different-credential).`:
+            this.errorMessage = 'An account already exists with the same email address but different sign-in credentials';
+            break;
+          default:
+            this.errorMessage = 'An unknown error occurred';
+            break;
+        }
+    })
+  }
 }

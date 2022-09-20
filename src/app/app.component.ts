@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './shared/services/auth.service';
-import { AuthGuard } from './shared/guard/auth.guard';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +10,10 @@ import { AuthGuard } from './shared/guard/auth.guard';
 export class AppComponent implements OnInit{
 
   constructor(
-    public au: AuthService
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
-  
   }
   
 }

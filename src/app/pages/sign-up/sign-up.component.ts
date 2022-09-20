@@ -26,6 +26,21 @@ export class SignUpComponent implements OnInit {
       this.initForm();
   }
 
+  private initForm() {
+    this.form = this.formBuilder.group({
+    email: ['', [
+      Validators.required,
+      Validators.email
+    ]],
+      
+    password: ['', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(18)
+    ]]
+  })
+}
+
   public onSubmit() {
     const controls = this.form.controls;
     this.isSubmitted = true;
@@ -37,55 +52,14 @@ export class SignUpComponent implements OnInit {
     
     this.authService.signUp(controls['email'].value, controls['password'].value)
       .then(() => {
-        this.form.reset();
         this.router.navigate(['/home']);
       })
       .catch((error: Error) => {
-         switch (error.message) {
-          case 'Firebase: The email address is already in use by another account. (auth/email-already-in-use).':
-            this.errorMessage = 'The email address is already in use by another account';
-            break;
-          case 'Firebase: The email address is badly formatted. (auth/invalid-email).':
-            this.errorMessage = 'The email address is badly formatted.';
-             break;
-          case `A network AuthError (such as timeout, interrupted connection or unreachable host) has occurred. (auth/network-request-failed).`:
-            this.errorMessage = 'A network error';
-            break;
-          default:
-            this.errorMessage = 'An unknown error occurred';
-            break;
-        }
+        this.errorMessage = this.handleError(error.message);
       })
   }
 
-  private initForm() {
-      this.form = this.formBuilder.group({
-      email: ['', [
-        Validators.required,
-        Validators.email
-      ]],
-        
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(18)
-      ]]
-    })
-  }
-
-  public isControlInvalid(controlName: string): boolean {
-    const control = this.form.controls[controlName];
-    
-    return control.invalid && control.touched;
-
-  }
-
-  public onFocus() {
-    this.errorMessage = null;
-    this.isSubmitted = false;
-  }
-
-   public facebookAuth(): void {
+  public facebookAuth(): void {
     this.handleSocialAuth(this.authService.facebookAuth());
   }
 
@@ -104,17 +78,39 @@ export class SignUpComponent implements OnInit {
     
     provider
       .then(() => {
-        this.router.navigate(['home']);
+        this.router.navigate(['/home']);
       })
       .catch((error: Error) => {
-        switch (error.message) {
-          case `Firebase: An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address. (auth/account-exists-with-different-credential).`:
-            this.errorMessage = 'An account already exists with the same email address but different sign-in credentials';
-            break;
-          default:
-            this.errorMessage = 'An unknown error occurred';
-            break;
-        }
-    })
+        this.errorMessage = this.handleError(error.message);
+      });
   }
+
+
+  private handleError(message: string): string {
+    switch (message) {
+      case 'Firebase: The email address is already in use by another account. (auth/email-already-in-use).':
+        return 'The email address is already in use by another account';
+      case 'Firebase: The email address is badly formatted. (auth/invalid-email).':
+        return 'The email address is badly formatted.';
+      case `A network AuthError (such as timeout, interrupted connection or unreachable host) has occurred. (auth/network-request-failed).`:
+        return 'A network error';
+      case `Firebase: An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address. (auth/account-exists-with-different-credential).`:
+        return 'An account already exists with the same email address but different sign-in credentials';
+      default:
+        return 'An unknown error occurred';
+    }
+  }
+
+  public isControlInvalid(controlName: string): boolean {
+    const control = this.form.controls[controlName];
+    
+    return control.invalid && control.touched;
+
+  }
+
+  public onFocus() {
+    this.errorMessage = null;
+    this.isSubmitted = false;
+  }
+
 }

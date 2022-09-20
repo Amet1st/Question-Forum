@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from 'firebase/auth';
-import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   
   public isLoggedIn: User;
   public userEmail: string;
   public isMenuVisible = false;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     public authService: AuthService,
@@ -20,19 +23,14 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.authService.authStream$
-      .pipe(
-        tap((user: User) => {
+    this.authService.getAuthState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (user: User) => {
           this.isLoggedIn = user;
           this.userEmail = user?.email;
-        })
-      )
-    .subscribe(
-      (user: User) => {
-        this.isLoggedIn = user;
-        this.userEmail = user?.email;
-      }
-    )
+        }
+      );
   }
 
   public toggleMenu(): void {
@@ -45,9 +43,18 @@ export class HeaderComponent implements OnInit {
 
   public logOut(): void {
     this.isMenuVisible = false;
-    this.authService.signOut();
-    this.router.navigate(['/sign-in']);
+
+    this.authService.signOut()
+      .then(
+        () => this.router.navigate(['/sign-in'])
+      )
+      .catch((error: Error) => {
+        console.warn(error.message);
+      });
   }
 
-  
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 }

@@ -7,12 +7,13 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class HomeGuard implements CanActivate {
+
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
-
+  ) { }
+  
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -21,13 +22,13 @@ export class AuthGuard implements CanActivate {
       .pipe(
         map(user => {
           if (user && user.email) {
-            this.router.navigate(['/home']);
-            return false;
-          } else {
             return true;
+          } else {
+            this.router.navigate(['/sign-in']);
+            return false;
           }
         })
-      );
+    );
   }
   
 }

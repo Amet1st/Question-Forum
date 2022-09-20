@@ -1,7 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { Router } from '@angular/router';
-
+import { Component, EventEmitter, OnInit } from '@angular/core';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,10 +6,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-
   constructor(
-    private authService: AuthService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {

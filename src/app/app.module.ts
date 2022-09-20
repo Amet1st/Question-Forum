@@ -15,7 +15,6 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { AuthService } from './shared/services/auth.service';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './shared/guard/auth.guard';
-import { AlreadyInComponent } from './pages/already-in/already-in.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { AlreadyInComponent } from './pages/already-in/already-in.component';
     SignUpComponent,
     SignInComponent,
     HomeComponent,
-    AlreadyInComponent,
   ],
   imports: [
     BrowserModule,

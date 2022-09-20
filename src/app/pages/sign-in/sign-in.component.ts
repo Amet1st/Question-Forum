@@ -1,5 +1,4 @@
 import { Component, OnInit} from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
@@ -11,6 +10,7 @@ import { Router } from '@angular/router';
 })
   
 export class SignInComponent implements OnInit {
+
   public isSubmitted = false;
   public errorMessage: string;
   public form: FormGroup;
@@ -18,7 +18,6 @@ export class SignInComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public authService: AuthService,
-    public afAuth: AngularFireAuth,
     public router: Router
   ) { }
 
@@ -54,23 +53,9 @@ export class SignInComponent implements OnInit {
         this.router.navigate(['/home']);
       })
       .catch((error: Error) => {
-        switch (error.message) {
-          case `Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).`:
-            this.errorMessage = 'Incorrect password for this email!';
-            break;
-          case `Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found).`:
-            this.errorMessage = 'There is no such user!';
-            break;
-          case `A network AuthError (such as timeout, interrupted connection or unreachable host) has occurred. (auth/network-request-failed).`:
-            this.errorMessage = 'A network error';
-            break;
-          default:
-            this.errorMessage = 'An unknown error occurred';
-            break;
-        }
+        this.errorMessage = this.handleError(error.message);
       })
 
-    this.form.reset();
   }
 
   public facebookAuth(): void {
@@ -92,18 +77,27 @@ export class SignInComponent implements OnInit {
     
     provider
       .then(() => {
+        this.form.reset();
         this.router.navigate(['/home']);
       })
       .catch((error: Error) => {
-        switch (error.message) {
-          case `Firebase: An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address. (auth/account-exists-with-different-credential).`:
-            this.errorMessage = 'An account already exists with the same email address but different sign-in credentials';
-            break;
-          default:
-            this.errorMessage = 'An unknown error occurred';
-            break;
-        }
-    })
+        this.errorMessage = this.handleError(error.message);
+      });
+  }
+
+  private handleError(message: string): string {
+    switch (message) {
+      case `Firebase: The password is invalid or the user does not have a password. (auth/wrong-password).`:
+        return 'Incorrect password for this email!';
+      case `Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found).`:
+        return 'There is no such user!';
+      case `A network AuthError (such as timeout, interrupted connection or unreachable host) has occurred. (auth/network-request-failed).`:
+        return 'A network error';
+      case `Firebase: An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address. (auth/account-exists-with-different-credential).`:
+        return 'An account already exists with the same email address but different sign-in credentials';
+      default:
+        return 'An unknown error occurred';
+    }
   }
 
   public isControlInvalid(controlName: string): boolean {

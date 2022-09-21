@@ -1,0 +1,41 @@
+<section class="add">
+    <div class="container add__container">
+        <h2 class="add__title">Add question</h2>
+
+        <form class="add__form" [formGroup]="form">
+            <div class="add__group">
+                <label class="add__label" for="title">
+                    Title:
+                    <input id="title" type="text" formControlName="title">
+                </label>
+            </div>
+
+            <div class="add__group">
+                <label class="add__label" for="text">
+                    Text:
+                    <textarea name="text" id="text" formControlName="text"></textarea>
+                </label>
+            </div>
+
+            <div class="add__group add__group--tags">
+                <label class="add__label">
+                    Tags:
+                    <ul class="add__checkbox">
+                        <li *ngFor="let item of categories">
+                            <label class="add__checkbox-label" for="{{item}}">
+                                <input type="checkbox" id="{{item}}">
+                                {{item}}
+                            </label>
+                        </li>
+                    </ul>
+                </label>
+            </div>
+
+            <div class="add__group add__group--buttons">
+                <a class="add__button add__button--ok" >Ok</a>
+                <a class="add__button add__button--cancel" routerLink="/home">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</section>

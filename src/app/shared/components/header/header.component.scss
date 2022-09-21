@@ -21,6 +21,11 @@
         margin-bottom: 100px;
     }
 
+    &__logo {
+        width: 60px;
+        height: 60px;
+    }
+
     &__sign-in {
         @include auth-link(aqua);
     }

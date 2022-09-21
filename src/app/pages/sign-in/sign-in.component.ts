@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core'; 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
@@ -17,8 +17,8 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public authService: AuthService,
-    public router: Router
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {

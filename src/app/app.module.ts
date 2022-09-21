@@ -15,6 +15,7 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { AuthService } from './shared/services/auth.service';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './shared/guard/auth.guard';
+import { AddQuestionComponent } from './pages/add-question/add-question.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
     SignUpComponent,
     SignInComponent,
     HomeComponent,
+    AddQuestionComponent,
   ],
   imports: [
     BrowserModule,

@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
   constructor(
-    public ngFireAuth: AngularFireAuth,
+    private ngFireAuth: AngularFireAuth,
   ) {}
   
   public signIn(email: string, password: string): Promise<firebase.default.auth.UserCredential> {
@@ -34,7 +34,7 @@ export class AuthService {
     return this.authLogin(new auth.GithubAuthProvider());
   }
   
-  private authLogin(provider: AuthProvider) {
+  private authLogin(provider: AuthProvider): Promise<firebase.default.auth.UserCredential> {
     return this.ngFireAuth.signInWithPopup(provider);
   }
 

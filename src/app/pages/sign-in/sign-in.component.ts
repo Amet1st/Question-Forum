@@ -25,7 +25,7 @@ export class SignInComponent implements OnInit {
       this.initForm();
   }
 
-  private initForm() {
+  private initForm(): void {
       this.form = this.formBuilder.group({
       email: ['', [
         Validators.required,
@@ -38,7 +38,7 @@ export class SignInComponent implements OnInit {
     })
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     const controls = this.form.controls;
     this.isSubmitted = true;
 
@@ -52,7 +52,7 @@ export class SignInComponent implements OnInit {
         this.form.reset();
         this.router.navigate(['/home']);
       })
-      .catch((error: Error) => {
+      .catch((error: Error):void => {
         this.errorMessage = this.handleError(error.message);
       })
 
@@ -80,7 +80,7 @@ export class SignInComponent implements OnInit {
         this.form.reset();
         this.router.navigate(['/home']);
       })
-      .catch((error: Error) => {
+      .catch((error: Error):void => {
         this.errorMessage = this.handleError(error.message);
       });
   }
@@ -106,7 +106,7 @@ export class SignInComponent implements OnInit {
     return control.invalid && control.touched;
   }
 
-  public onFocus() {
+  public onFocus(): void {
     this.errorMessage = null;
     this.isSubmitted = false;
   }

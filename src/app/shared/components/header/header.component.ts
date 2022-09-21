@@ -18,8 +18,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    public authService: AuthService,
-    public router: Router
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   public ngOnInit(): void {

@@ -17,8 +17,8 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    public authService: AuthService,
-    public router: Router,
+    private authService: AuthService,
+    private router: Router,
   ) { }
 
 
@@ -26,7 +26,7 @@ export class SignUpComponent implements OnInit {
       this.initForm();
   }
 
-  private initForm() {
+  private initForm(): void {
     this.form = this.formBuilder.group({
     email: ['', [
       Validators.required,
@@ -41,20 +41,20 @@ export class SignUpComponent implements OnInit {
   })
 }
 
-  public onSubmit() {
+  public onSubmit(): void {
     const controls = this.form.controls;
     this.isSubmitted = true;
 
     if (this.form.invalid) {
       Object.keys(controls)
-        .forEach(controlName => controls[controlName].markAllAsTouched());
+        .forEach((controlName: string) => controls[controlName].markAllAsTouched());
     }
     
     this.authService.signUp(controls['email'].value, controls['password'].value)
-      .then(() => {
+      .then(():void => {
         this.router.navigate(['/home']);
       })
-      .catch((error: Error) => {
+      .catch((error: Error):void => {
         this.errorMessage = this.handleError(error.message);
       })
   }
@@ -77,10 +77,10 @@ export class SignUpComponent implements OnInit {
     Object.keys(controls).forEach(controlName => controls[controlName].markAsUntouched());
     
     provider
-      .then(() => {
+      .then(():void => {
         this.router.navigate(['/home']);
       })
-      .catch((error: Error) => {
+      .catch((error: Error):void => {
         this.errorMessage = this.handleError(error.message);
       });
   }
@@ -108,7 +108,7 @@ export class SignUpComponent implements OnInit {
 
   }
 
-  public onFocus() {
+  public onFocus(): void {
     this.errorMessage = null;
     this.isSubmitted = false;
   }

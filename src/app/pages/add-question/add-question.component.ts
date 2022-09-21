@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-question',
@@ -32,5 +32,9 @@ export class AddQuestionComponent implements OnInit {
       ]]
     })
   }
+
+  /*private get tags(): FormArray {
+    return this.form.get('tags') as FormArray; 
+  }*/
 
 }

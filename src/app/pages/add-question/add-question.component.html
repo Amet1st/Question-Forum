@@ -2,7 +2,7 @@
     <div class="container add__container">
         <h2 class="add__title">Add question</h2>
 
-        <form class="add__form" [formGroup]="form">
+        <form class="add__form" [formGroup]="form" (ngSubmit)="addPost()">
             <div class="add__group">
                 <label class="add__label" for="title">
                     Title:
@@ -17,13 +17,13 @@
                 </label>
             </div>
 
-            <div class="add__group add__group--tags">
+            <div class="add__group add__group--tags" formGroupName="tags">
                 <span class="add__label">
                     Tags:
                     <ul class="add__checkbox">
-                        <li *ngFor="let item of categories">
+                        <li *ngFor="let item of categories; let i = index">
                             <label class="add__checkbox-label" for="{{item}}">
-                                <input type="checkbox" id="{{item}}">
+                                <input type="checkbox" id="{{item.toLocaleLowerCase()}}" (change)="onChecked($event)">
                                 {{item}}
                             </label>
                         </li>
@@ -32,10 +32,9 @@
             </div>
 
             <div class="add__group add__group--buttons">
-                <a class="add__button add__button--ok" >Ok</a>
+                <button class="add__button add__button--ok" routerLink="/home">Ok</button>
                 <a class="add__button add__button--cancel" routerLink="/home">Cancel</a>
             </div>
-
         </form>
     </div>
 </section>

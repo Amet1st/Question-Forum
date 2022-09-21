@@ -1,8 +1,29 @@
 <section class="home">
-    <div class="container home__container">
-        <a routerLink="/add-question">
-            <img class="home__plus" src="../../../assets/png/plus.png" alt="plus">
-        </a>
+    <div class="container">
+        <h2 class="home__title">Active questions</h2>
+        
+        <div class="home__posts">
+            <article class="home__post" *ngFor="let p of posts">
+                <h3 class="home__post-title">{{p.title}}</h3>
+
+                <span class="home__post-date">{{p.date | date: 'dd.MM.yyyy hh:mm'}}</span>
+
+                <p class="home__post-text">
+                    {{p.text}}
+                </p>
+
+                <ul class="home__post-tags">
+                    <li class="home__post-tag" *ngFor="let t of p.tags; let i = index">
+                        {{t}}
+                    </li>
+                </ul>
+            </article>
+        </div>
+        <div class="container home__container">
+            <a routerLink="/add-question">
+                <img class="home__plus" src="../../../assets/png/plus.png" alt="plus">
+            </a>
+        </div>
     </div>
 </section>
 

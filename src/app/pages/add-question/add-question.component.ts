@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-question',
@@ -29,12 +29,32 @@ export class AddQuestionComponent implements OnInit {
       text: ['', [
         Validators.required,
         Validators.maxLength(200)
-      ]]
+      ]],
+      
+      tags: this.formBuilder.group({})
     })
   }
 
-  /*private get tags(): FormArray {
-    return this.form.get('tags') as FormArray; 
+  onChecked(event: Event) {
+    const checkbox = this.getHTMLElement(event);
+
+    if (checkbox.checked) {
+      (<FormGroup>this.form.controls['tags']).addControl(`${checkbox.id}`, new FormControl(true));
+    } else {
+      (<FormGroup>this.form.controls['tags']).removeControl(`${checkbox.id}`);
+    }
+  }
+
+  public addPost() {
+    
+  }
+
+  private getHTMLElement(event: Event): HTMLInputElement {
+    return event.target as HTMLInputElement;
+  }
+
+  /*public showForm() {
+    console.log(this.form.value);
   }*/
 
 }

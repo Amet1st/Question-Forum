@@ -38,7 +38,10 @@ import { HttpClientModule }   from '@angular/common/http';
     AngularFireDatabaseModule,
     HttpClientModule
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [
+    AuthService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

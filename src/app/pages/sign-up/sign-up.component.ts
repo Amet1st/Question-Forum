@@ -46,8 +46,7 @@ export class SignUpComponent implements OnInit {
     this.isSubmitted = true;
 
     if (this.form.invalid) {
-      Object.keys(controls)
-        .forEach((controlName: string) => controls[controlName].markAllAsTouched());
+      this.form.markAllAsTouched();
     }
     
     this.authService.signUp(controls['email'].value, controls['password'].value)
@@ -72,9 +71,8 @@ export class SignUpComponent implements OnInit {
   }
 
   public handleSocialAuth(provider: Promise<firebase.default.auth.UserCredential>): void {
-    const controls = this.form.controls;
-
-    Object.keys(controls).forEach(controlName => controls[controlName].markAsUntouched());
+    
+    this.form.markAsUntouched();
     
     provider
       .then(():void => {

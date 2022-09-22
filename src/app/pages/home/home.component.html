@@ -6,20 +6,19 @@
             <article class="home__post" *ngFor="let p of posts">
                 <h3 class="home__post-title">{{p.title}}</h3>
 
-                <span class="home__post-date">{{p.date | date: 'dd.MM.yyyy hh:mm'}}</span>
+                <span class="home__post-date">{{p.date | date: 'd/M/yyyy, h:mm a'}}</span>
 
                 <p class="home__post-text">
                     {{p.text}}
                 </p>
-
-                <ul class="home__post-tags">
+                    <ul class="home__post-tags">
                     <li class="home__post-tag" *ngFor="let t of p.tags; let i = index">
                         {{t}}
                     </li>
                 </ul>
             </article>
         </div>
-    
+
         <a routerLink="/add-question">
             <img class="home__plus" src="../../../assets/png/plus.png" alt="plus">
         </a>

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   
 export class PostService {
 
-  public apiURL: string = 'https://question-forum-ee329-default-rtdb.europe-west1.firebasedatabase.app/questions.json';
+  public API_QESTION_URL: string = 'https://question-forum-ee329-default-rtdb.europe-west1.firebasedatabase.app/questions.json';
 
   constructor(
     private http: HttpClient

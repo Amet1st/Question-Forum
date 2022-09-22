@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, InjectionToken } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Question } from 'src/app/models/interfaces/question';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { PostService } from 'src/app/shared/services/post.service';
 
 @Component({
@@ -8,14 +9,16 @@ import { PostService } from 'src/app/shared/services/post.service';
   templateUrl: './add-question.component.html',
   styleUrls: ['./add-question.component.scss']
 })
-export class AddQuestionComponent implements OnInit {
+export class AddQuestionComponent implements OnInit, OnDestroy {
 
-  public categories: Array<string> = ['Frontend', 'Java', '.NET', 'Android'];
+  public categories: Array<string> = ['Frontend', 'Java', 'NET', 'Android'];
   public form: FormGroup;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
     private postService: PostService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -55,9 +58,20 @@ export class AddQuestionComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.form.addControl('date', new FormControl(new Date()));
     this.postService
-      .postData(this.postService.apiURL, JSON.stringify(this.form.value))
-      .subscribe(respone => console.log(respone));
+      .postData(this.postService.API_QESTION_URL, JSON.stringify(this.form.value))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response: Object) => { 
+          this.router.navigate(['/home']);
+        },
+        (error: Error) => console.log(error.message)
+      )
   }
  
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
 }

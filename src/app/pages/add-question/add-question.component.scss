@@ -59,6 +59,10 @@
 
         &--ok {
             background-color: green;
+            &[disabled] {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
         }
 
         &--cancel {

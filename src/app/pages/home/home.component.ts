@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Question } from 'src/app/models/interfaces/question';
+import { PostService } from 'src/app/shared/services/post.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,9 +16,13 @@ export class HomeComponent implements OnInit {
   ];
 
   constructor(
+    private postService: PostService
   ) { }
 
   ngOnInit(): void {
+    this.postService
+      .getData(this.postService.apiURL)
+      .subscribe(response => console.log(response));
   }
 
 }

@@ -32,7 +32,7 @@
             </div>
 
             <div class="add__group add__group--buttons">
-                <button class="add__button add__button--ok">Ok</button>
+                <button class="add__button add__button--ok" [disabled]="form.invalid">Ok</button>
                 <a class="add__button add__button--cancel" routerLink="/home">Cancel</a>
             </div>
         </form>

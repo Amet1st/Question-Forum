@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -10,8 +9,9 @@ import { Observable } from 'rxjs';
   
 export class PostService {
 
+  public apiURL: string = 'https://question-forum-ee329-default-rtdb.europe-west1.firebasedatabase.app/questions.json';
+
   constructor(
-    private dataBase: AngularFireDatabase,
     private http: HttpClient
   ) {}
 
@@ -19,4 +19,7 @@ export class PostService {
     return this.http.post(url, data);
   }
 
+  public getData(url:string): Observable<Object> {
+    return this.http.get(url);
+  }
 }

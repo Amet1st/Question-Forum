@@ -12,7 +12,6 @@ export class AddQuestionComponent implements OnInit {
 
   public categories: Array<string> = ['Frontend', 'Java', '.NET', 'Android'];
   public form: FormGroup;
-  private apiURL: string = 'https://question-forum-ee329-default-rtdb.europe-west1.firebasedatabase.app/questions.json';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,11 +26,13 @@ export class AddQuestionComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: ['', [
         Validators.required,
+        Validators.minLength(5),
         Validators.maxLength(50)
       ]],
 
       text: ['', [
         Validators.required,
+        Validators.minLength(10),
         Validators.maxLength(200)
       ]],
       
@@ -53,8 +54,10 @@ export class AddQuestionComponent implements OnInit {
     return event.target as HTMLInputElement;
   }
 
-  onSubmit() {
-    this.postService.postData(this.apiURL, JSON.stringify(this.form.value)).subscribe(respone => console.log(respone));
+  public onSubmit() {
+    this.postService
+      .postData(this.postService.apiURL, JSON.stringify(this.form.value))
+      .subscribe(respone => console.log(respone));
   }
-
+ 
 }

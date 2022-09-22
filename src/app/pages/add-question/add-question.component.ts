@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Question } from 'src/app/models/interfaces/question';
+import { PostService } from 'src/app/shared/services/post.service';
 
 @Component({
   selector: 'app-add-question',
@@ -10,9 +12,11 @@ export class AddQuestionComponent implements OnInit {
 
   public categories: Array<string> = ['Frontend', 'Java', '.NET', 'Android'];
   public form: FormGroup;
+  private apiURL: string = 'https://question-forum-ee329-default-rtdb.europe-west1.firebasedatabase.app/questions.json';
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private postService: PostService,
   ) { }
 
   ngOnInit(): void {
@@ -45,16 +49,12 @@ export class AddQuestionComponent implements OnInit {
     }
   }
 
-  public addPost() {
-    
-  }
-
   private getHTMLElement(event: Event): HTMLInputElement {
     return event.target as HTMLInputElement;
   }
 
-  /*public showForm() {
-    console.log(this.form.value);
-  }*/
+  onSubmit() {
+    this.postService.postData(this.apiURL, JSON.stringify(this.form.value)).subscribe(respone => console.log(respone));
+  }
 
 }

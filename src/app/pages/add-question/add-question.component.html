@@ -2,7 +2,7 @@
     <div class="container add__container">
         <h2 class="add__title">Add question</h2>
 
-        <form class="add__form" [formGroup]="form" (ngSubmit)="addPost()">
+        <form class="add__form" [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="add__group">
                 <label class="add__label" for="title">
                     Title:
@@ -32,7 +32,7 @@
             </div>
 
             <div class="add__group add__group--buttons">
-                <button class="add__button add__button--ok" routerLink="/home">Ok</button>
+                <button class="add__button add__button--ok">Ok</button>
                 <a class="add__button add__button--cancel" routerLink="/home">Cancel</a>
             </div>
         </form>

@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-export interface Question {
-  title: string;
-  text: string;
-  date: Date;
-  tags: Array<string>;
-}
+import { Question } from 'src/app/models/interfaces/question';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

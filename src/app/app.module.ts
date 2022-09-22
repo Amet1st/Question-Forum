@@ -16,6 +16,7 @@ import { AuthService } from './shared/services/auth.service';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { AddQuestionComponent } from './pages/add-question/add-question.component';
+import { HttpClientModule }   from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AddQuestionComponent } from './pages/add-question/add-question.componen
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireDatabaseModule,
+    HttpClientModule
   ],
   providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]

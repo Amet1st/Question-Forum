@@ -9,7 +9,11 @@
             <a class="header__sign-up" routerLink="/sign-up" routerLinkActive="active">Sign Up</a>
         </ng-container>
         <ng-template #loggedHeader>
-            <a class="header__add" routerLink="/add-question">Add question</a>
+            <a 
+                class="header__add" 
+                routerLink="/add-question"
+                routerLinkActive="active-add"
+            >Add question</a>
             <img class="header__user-logo" src="../../../../assets/png/user.png" alt="user">
             <p class="header__email" (click)="toggleMenu()">
                 {{userEmail}}

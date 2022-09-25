@@ -98,3 +98,15 @@
         }
     }
 }
+
+input, textarea {
+    
+    &.ng-invalid.ng-touched {
+        border: 2px solid red
+    }
+}
+
+.error {
+    color: red;
+    margin: 5px;
+}

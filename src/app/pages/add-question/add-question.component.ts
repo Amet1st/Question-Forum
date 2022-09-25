@@ -14,6 +14,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   public categories: Array<string> = ['Frontend', 'Java', 'NET', 'Android'];
   public form: FormGroup;
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  public isTagChecked: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,6 +52,12 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
     } else {
       (<FormGroup>this.form.controls['tags']).removeControl(`${checkbox.id}`);
     }
+
+    if ((Object.keys(this.form.get('tags').value)).length) {
+      this.isTagChecked = true;
+    } else {
+      this.isTagChecked = false
+    }
   }
 
   private getHTMLElement(event: Event): HTMLInputElement {
@@ -63,7 +70,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       .postData(this.postService.API_QESTION_URL, JSON.stringify(this.form.value))
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (response: Object) => { 
+        () => { 
           this.router.navigate(['/home']);
         },
         (error: Error) => console.log(error.message)

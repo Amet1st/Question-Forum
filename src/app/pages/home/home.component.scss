@@ -40,6 +40,11 @@ button {
         background-color: white;
         border: 2px solid black;
         height: 120px;
+
+        @media screen and (max-width: 500px) {
+            width: 40%;
+            justify-content: baseline;
+        }
     }
     
     &__post-title {
@@ -53,16 +58,23 @@ button {
         @media screen and (max-width: 850px) {
             font-size: 20px;
         }
-    }
 
-    &__post-text {
-        text-align: center;
-        font-size: 20px;
+        @media screen and (max-width: 350px) {
+            font-size: 15px;
+        }
     }
 
     &__post-date {
         font-size: 12px;
         align-self: center;
+
+        @media screen and (max-width: 600px) {
+            font-size: 8px;
+        }
+
+        @media screen and (max-width: 350px) {
+            font-size: 6px;
+        }
     }
 
     &__post-info {
@@ -91,6 +103,10 @@ button {
         @media screen and (max-width: 600px) {
             font-size: 10px;
         }
+
+        @media screen and (max-width: 350px) {
+            font-size: 8px;
+        }
     }
 
 }
@@ -101,11 +117,17 @@ button {
     bottom: 0;
     right: 0;
 
+    @media screen and (max-width: 600px) {
+        position: static;
+    }
+
     &__container {
         max-width: 1140px;
         margin: 0 auto;
         display: flex;
-            justify-content: end;
+        justify-content: end;
+        bottom: 0;
+        right: 0;
     }
 
     &__link {
@@ -114,6 +136,7 @@ button {
 
     &__plus {
         cursor: pointer;
+        margin-top: 100px;
         width: 80px;
         height: 80px;
         fill: white;

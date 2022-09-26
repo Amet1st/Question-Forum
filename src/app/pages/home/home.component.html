@@ -5,7 +5,9 @@
 
             <div class="home__posts">
                 <article class="home__post" data-id="{{i}}" *ngFor="let p of posts; let i = index">
-                    <h3 class="home__post-title" (click)="goToQuestion($event)">{{p.title}}</h3>
+                    <a routerLink="/question">
+                        <h3 class="home__post-title" (click)="goToQuestion($event)">{{p.title}}</h3>
+                    </a>
 
                     <div class="home__post-info">
                         <small class="home__post-date">{{p.date | date: 'd/M/yyyy, h:mm a'}}</small>

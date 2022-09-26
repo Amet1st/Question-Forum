@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from 'firebase/auth';
 import { Router } from '@angular/router';
@@ -20,7 +20,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) { 
+  }
 
   public ngOnInit(): void {
     this.authService.getAuthState()
@@ -30,7 +31,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.isLoggedIn = user;
           this.userEmail = user.email;
         }
-      );
+    );
+    
   }
 
   public toggleMenu(): void {

@@ -4,8 +4,8 @@
             <h2 class="home__title">Active questions</h2>
 
             <div class="home__posts">
-                <article class="home__post" *ngFor="let p of posts">
-                    <h3 class="home__post-title" routerLink="/question">{{p.title}}</h3>
+                <article class="home__post" data-id="{{i}}" *ngFor="let p of posts; let i = index">
+                    <h3 class="home__post-title" (click)="goToQuestion($event)">{{p.title}}</h3>
 
                     <div class="home__post-info">
                         <small class="home__post-date">{{p.date | date: 'd/M/yyyy, h:mm a'}}</small>

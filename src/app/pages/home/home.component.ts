@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { Question } from 'src/app/models/interfaces/question';
 import { PostService } from 'src/app/shared/services/post.service';
@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public posts: Array<Question> = [];
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  @Output() public getQuestion = new EventEmitter<Question>();
 
   constructor(
     private postService: PostService
@@ -39,6 +40,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private convertToQuestion(obj: Object) {
     return obj as Question;
+  }
+
+  private getHTMLElement(event: Event): HTMLElement {
+    return event.srcElement as HTMLElement;
+  }
+
+  public goToQuestion(event: Event) {
+    const questionId = Number(this.getHTMLElement(event).closest('article').id);
+    this.getQuestion.emit(this.posts[questionId]);
   }
 
   ngOnDestroy(): void {

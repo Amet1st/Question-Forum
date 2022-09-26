@@ -5,10 +5,10 @@
 
             <div class="home__posts">
                 <article class="home__post" *ngFor="let p of posts">
-                    <h3 class="home__post-title">{{p.title}}</h3>
+                    <h3 class="home__post-title" routerLink="/question">{{p.title}}</h3>
 
                     <div class="home__post-info">
-                        <span class="home__post-date">{{p.date | date: 'd/M/yyyy, h:mm a'}}</span>
+                        <small class="home__post-date">{{p.date | date: 'd/M/yyyy, h:mm a'}}</small>
                         <ul class="home__post-tags">
                             <li class="home__post-tag" *ngFor="let t of p.tags; let i = index">
                                 {{t}}

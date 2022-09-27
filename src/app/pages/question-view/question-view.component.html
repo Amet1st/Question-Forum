@@ -2,24 +2,22 @@
     <div class="container question__container">
         <article class="question__post">
             <div class="question__info">
-                <small class="question__date">Date</small>
+                <small class="question__date">{{post?.date | date}}</small>
                 
                 <small class="question__author">Author</small>
             </div>
         
-            <h2 class="question__title">Title</h2>
+            <h2 class="question__title">{{post?.title}}</h2>
         
             <p class="question__text">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Expedita quis velit dolorem repellat dolores temporibus quisquam odio
-                quos quaerat ab omnis atque adipisci quam corrupti eveniet, placeat, sunt,
-                maxime nobis???
+                {{post?.text}}
             </p>
 
             <div class="question__info">
                 <ul class="question__tags">
-                    <li class="question__tag">Tag 1</li>
-                    <li class="question__tag">Tag 2</li>
+                    <li class="question__tag" *ngFor="let tag of post?.tags">
+                        <a class="question__tag-link">{{tag}}</a>
+                    </li>
                 </ul>
 
                 <a class="question__back" routerLink="/home">Back</a>

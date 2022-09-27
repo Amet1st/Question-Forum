@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { PostService } from 'src/app/shared/services/post.service';
+import { TAGS } from 'src/app/models/tags.const';
 
 @Component({
   selector: 'app-add-question',
@@ -11,10 +12,10 @@ import { PostService } from 'src/app/shared/services/post.service';
 })
 export class AddQuestionComponent implements OnInit, OnDestroy {
 
-  public categories: Array<string> = ['Frontend', 'Java', 'NET', 'Android'];
+  public categories = TAGS;
   public form: FormGroup;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  public isTagChecked: boolean = false;
+  private destroy = new Subject<boolean>();
+  public isTagChecked = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,7 +46,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   }
 
   onChecked(event: Event) {
-    const checkbox = this.getHTMLElement(event);
+    const checkbox = event.target as HTMLInputElement;
 
     if (checkbox.checked) {
       (<FormGroup>this.form.controls['tags']).addControl(`${checkbox.id}`, new FormControl(true));
@@ -53,32 +54,33 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       (<FormGroup>this.form.controls['tags']).removeControl(`${checkbox.id}`);
     }
 
-    if ((Object.keys(this.form.get('tags').value)).length) {
-      this.isTagChecked = true;
-    } else {
-      this.isTagChecked = false
-    }
-  }
-
-  private getHTMLElement(event: Event): HTMLInputElement {
-    return event.target as HTMLInputElement;
+    this.isTagChecked = Boolean((Object.keys(this.form.get('tags').value)).length);
   }
 
   public onSubmit() {
-    this.form.addControl('date', new FormControl(new Date()));
-    this.postService
-      .postData(this.postService.API_QESTION_URL, JSON.stringify(this.form.value))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        () => { 
-          this.router.navigate(['/home']);
-        },
-        (error: Error) => console.log(error.message)
-      )
+    if (this.form.invalid) {
+      return;
+    }
+
+    const formData = { ...this.form.value }
+    formData.tags = Object.keys(formData.tags);
+
+    const body = {
+      date: new Date(),
+      ...formData
+    }
+
+    this.postService.createPost(body)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.form.reset();
+        this.router.navigate(['/home']);
+      });
+
   }
  
   ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 }

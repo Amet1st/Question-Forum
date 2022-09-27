@@ -1,0 +1,1 @@
+export const TAGS = ['Frontend', 'Java', 'NET', 'Android'];

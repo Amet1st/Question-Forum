@@ -78,6 +78,7 @@
 
     &__email {
         position: relative;
+        cursor: pointer;
         &::after {
             display: block;
             position: absolute;

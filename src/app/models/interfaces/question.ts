@@ -1,6 +1,7 @@
 export interface Question {
+  id: string;
   title: string;
   text: string;
-  date?: Date;
-  tags?: Array<string>;
+  date: Date;
+  tags: string[];
 }

@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'https://question-forum-ee329-default-rtdb.europe-west1.firebasedatabase.app',
   firebase: {
     apiKey: "AIzaSyAX2XuYU_H-j7lbdKIx86YAYBUUgNSb86w",
     authDomain: "question-forum-ee329.firebaseapp.com",

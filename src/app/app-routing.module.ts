@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'sign-up', component: SignUpComponent, canActivate: [AuthGuard]},
   { path: 'home', component: HomeComponent, canActivate: [HomeGuard] },
   { path: 'add-question', component: AddQuestionComponent, canActivate: [HomeGuard] },
-  { path: 'question', component: QuestionViewComponent, canActivate: [HomeGuard] },
+  { path: 'questions/:id', component: QuestionViewComponent, canActivate: [HomeGuard] },
   { path: '**', component: HomeComponent, canActivate: [HomeGuard] }
 ];
 

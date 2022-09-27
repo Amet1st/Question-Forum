@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isLoggedIn: User;
   public userEmail: string;
   public isMenuVisible = false;
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy = new Subject<boolean>();
 
   constructor(
     private authService: AuthService,
@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.authService.getAuthState()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy))
       .subscribe(
         (user: User) => {
           this.isLoggedIn = user;
@@ -56,7 +56,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 }

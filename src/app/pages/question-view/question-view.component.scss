@@ -33,6 +33,20 @@
     &__tags {
         display: inline-flex;
         gap: 5px;
+        
+    }
+
+    &__tag {
+        cursor: pointer;
+
+        &:hover {
+            transition: all linear 0.3s;
+            text-decoration: underline;
+        }
+    }
+
+    &__tag-link {
+        color: blue;
     }
 
     &__back {

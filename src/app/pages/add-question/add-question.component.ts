@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { PostService } from 'src/app/shared/services/post.service';
 import { TAGS } from 'src/app/models/tags.const';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-add-question',
@@ -16,15 +17,23 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   private destroy = new Subject<boolean>();
   public isTagChecked = false;
+  private author: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private postService: PostService,
+    private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.initForm();
+
+    this.authService.getAuthState()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(user => {
+        this.author = user.email;
+      });
   }
 
   private initForm(): void {
@@ -66,6 +75,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
     formData.tags = Object.keys(formData.tags);
 
     const body = {
+      author: this.author, 
       date: new Date(),
       ...formData
     }

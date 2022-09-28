@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Question } from 'src/app/models/interfaces/question';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostService } from 'src/app/shared/services/post.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 
@@ -13,27 +14,37 @@ import { UsersService } from 'src/app/shared/services/users.service';
 export class QuestionViewComponent implements OnInit, OnDestroy {
 
   public post: Question;
+  public postId: string;
   public authorId: string;
+  public isAuthor = false;
   private destroy = new Subject<boolean>();
 
   constructor(
     private postService: PostService,
     private usersService: UsersService,
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.url[1].path;
+    this.postId = this.activatedRoute.snapshot.url[1].path;
     
-    this.postService.getPost(id)
+    this.postService.getPost(this.postId)
       .pipe(takeUntil(this.destroy))
       .subscribe(
-      post => {
+        post => {
           this.post = post;
           this.getUser(post.author);
-      }
-    )
-    
+          this.checkAuthor(post.author);
+        }
+      );
+  }
+
+  private checkAuthor(author: string) {
+    this.authService.getAuthState()
+      .subscribe(user => {
+        this.isAuthor = user.email === author;
+      })
   }
 
   private getUser(email: string) {

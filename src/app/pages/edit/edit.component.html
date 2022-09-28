@@ -1,0 +1,67 @@
+<section class="add">
+    <div class="container add__container">
+        <h2 class="add__title">Edit question</h2>
+
+        <form class="add__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="add__group">
+                <label class="add__label" for="title">
+                    Title:
+                    <input id="title" type="text" formControlName="title">
+                </label>
+
+            </div>
+
+            <small class="error" *ngIf="form.get('title')?.errors?.required && form.get('title').touched">
+                Title is required!
+            </small>
+
+            <small class="error" *ngIf="form.get('title')?.errors?.minlength && form.get('title').touched">
+                Title must contain at least {{form.get('title')?.errors?.minlength.requiredLength}} characters!
+            </small>
+
+            <small class="error" *ngIf="form.get('title')?.errors?.maxlength && form.get('title').touched">
+                Title must contain no more than {{form.get('title')?.errors?.maxlength.requiredLength}} characters!
+            </small>
+
+
+            <div class="add__group">
+                <label class="add__label" for="text">
+                    Text:
+                    <textarea name="text" id="text" formControlName="text"></textarea>
+                </label>
+            </div>
+
+            <small class="error" *ngIf="form.get('text')?.errors?.required && form.get('text').touched">
+                Text is required!
+            </small>
+
+            <small class="error" *ngIf="form.get('text')?.errors?.minlength && form.get('text').touched">
+                Text must contain at least {{form.get('text')?.errors?.minlength.requiredLength}} characters!
+            </small>
+
+            <small class="error" *ngIf="form.get('text')?.errors?.maxlength && form.get('text').touched">
+                Text must contain no more than {{form.get('text')?.errors?.maxlength.requiredLength}} characters!
+            </small>
+
+            <div class="add__group add__group--tags" formGroupName="tags">
+                <span class="add__label">
+                    Tags:
+                    <ul class="add__checkbox">
+                        <li *ngFor="let item of categories; let i = index">
+                            <label class="add__checkbox-label" for="{{item}}">
+                                <input type="checkbox" [checked]="isChecked(item.toLocaleLowerCase())" id="{{item.toLocaleLowerCase()}}" (change)="onChecked($event)">
+                                {{item}}
+                            </label>
+                        </li>
+                    </ul>
+                </span>
+            </div>
+        
+            <div class="add__group add__group--buttons">
+                <button class="add__button add__button--ok" [disabled]="form.invalid || !isTagChecked">Ok</button>
+                
+                <a class="add__button add__button--cancel" routerLink="/home">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>

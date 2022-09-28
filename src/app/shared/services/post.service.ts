@@ -44,4 +44,8 @@ export class PostService {
         })
     )
   }
+
+  public updatePost(id: string, post: Question): Observable<Object> {
+    return this.http.put((environment.apiUrl + '/questions/' + id + '.json'), post);
+  }
 }

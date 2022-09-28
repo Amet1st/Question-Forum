@@ -19,6 +19,7 @@ import { AddQuestionComponent } from './pages/add-question/add-question.componen
 import { HttpClientModule }   from '@angular/common/http';
 import { QuestionViewComponent } from './pages/question-view/question-view.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { EditComponent } from './pages/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
     AddQuestionComponent,
     QuestionViewComponent,
     ProfileComponent,
+    EditComponent,
   ],
   imports: [
     BrowserModule,

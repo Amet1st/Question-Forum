@@ -24,7 +24,10 @@
                     </li>
                 </ul>
 
-                <a class="question__back" routerLink="/home">Back</a>
+                <div class="question__buttons">
+                    <a class="question__back" [routerLink]="'/edit/' + postId" *ngIf="isAuthor">Edit</a>
+                    <a class="question__edit" routerLink="/home">Back</a>
+                </div>
             </div>
         </article>
 

@@ -8,7 +8,7 @@ import { HomeGuard } from './shared/guard/home.guard';
 import { AddQuestionComponent } from './pages/add-question/add-question.component';
 import { QuestionViewComponent } from './pages/question-view/question-view.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-
+import { EditComponent } from './pages/edit/edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -17,7 +17,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [HomeGuard] },
   { path: 'add-question', component: AddQuestionComponent, canActivate: [HomeGuard] },
   { path: 'questions/:id', component: QuestionViewComponent, canActivate: [HomeGuard] },
-  {path: 'users/:id', component: ProfileComponent, canActivate: [HomeGuard]},
+  { path: 'users/:id', component: ProfileComponent, canActivate: [HomeGuard] },
+  { path: 'edit/:id', component: EditComponent, canActivate: [HomeGuard] },
   { path: '**', component: HomeComponent, canActivate: [HomeGuard] }
 ];
 

@@ -74,6 +74,10 @@
             width: 25px;
             height: 25px;
         }
+
+        &:hover {
+            transform: scale(1.05);
+        }
     }
 
     &__email {

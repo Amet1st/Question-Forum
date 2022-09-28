@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
+import { UsersService } from 'src/app/shared/services/users.service';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { User } from 'src/app/models/interfaces/user';
+import { isAdmin } from '@firebase/util';
 
 @Component({
   selector: 'app-sign-up',
@@ -9,21 +13,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up.component.scss']
 })
   
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
 
   public isSubmitted = false;
   public errorMessage: string;
   public form: FormGroup;
+  private destroy = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private usersService: UsersService,
     private router: Router,
   ) { }
 
 
   ngOnInit(): void {
-      this.initForm();
+    this.initForm();
   }
 
   private initForm(): void {
@@ -47,15 +53,62 @@ export class SignUpComponent implements OnInit {
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      return;
     }
     
-    this.authService.signUp(controls['email'].value, controls['password'].value)
-      .then(():void => {
-        this.router.navigate(['/home']);
-      })
-      .catch((error: Error):void => {
-        this.errorMessage = this.handleError(error.message);
-      })
+    this.authService
+      .signUp(controls['email'].value, controls['password'].value)
+      .pipe(takeUntil(this.destroy))
+      .subscribe({
+        next: () => {
+          this.setUser();
+          this.form.reset();
+          this.router.navigate(['/home']);
+        },
+        error: (error: Error) => {
+          this.errorMessage = this.handleError(error.message);
+        }
+      });
+  }
+
+   public handleSocialAuth(provider: Observable<firebase.default.auth.UserCredential>): void {
+    
+    this.form.markAsUntouched();
+    
+    provider
+      .pipe(takeUntil(this.destroy))
+      .subscribe({
+        next: () => {
+          this.setUser();
+          this.form.reset();
+        },
+        error: (error: Error): void => {
+          this.errorMessage = this.handleError(error.message);
+        }
+      });
+  }
+
+
+  private setUser() {
+    this.authService.getAuthState()
+      .pipe(takeUntil(this.destroy))
+      .subscribe({
+        next: (user) => {
+          this.createUser(user.email);
+        }
+    })
+  }
+
+  private createUser(email: string) {
+    this.usersService.createUser({
+      email,
+      dateOfSignUp: new Date(),
+      isAdmin: false,
+      posts: 0
+    })
+      .subscribe(() => {
+         this.router.navigate(['/home']);
+      });
   }
 
   public facebookAuth(): void {
@@ -69,20 +122,6 @@ export class SignUpComponent implements OnInit {
   public googleAuth(): void {
     this.handleSocialAuth(this.authService.googleAuth());
   }
-
-  public handleSocialAuth(provider: Promise<firebase.default.auth.UserCredential>): void {
-    
-    this.form.markAsUntouched();
-    
-    provider
-      .then(():void => {
-        this.router.navigate(['/home']);
-      })
-      .catch((error: Error):void => {
-        this.errorMessage = this.handleError(error.message);
-      });
-  }
-
 
   private handleError(message: string): string {
     switch (message) {
@@ -109,6 +148,11 @@ export class SignUpComponent implements OnInit {
   public onFocus(): void {
     this.errorMessage = null;
     this.isSubmitted = false;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next(true);
+    this.destroy.unsubscribe();
   }
 
 }

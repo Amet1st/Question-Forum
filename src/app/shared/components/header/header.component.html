@@ -14,7 +14,9 @@
                 routerLink="/add-question"
                 routerLinkActive="active-add"
             >Add question</a>
-            <img class="header__user-logo" src="../../../../assets/png/user.png" alt="user">
+            <a (click)="goToProfile()">
+                <img class="header__user-logo" src="../../../../assets/png/user.png" alt="user">
+            </a>
             <p class="header__email" (click)="toggleMenu()">
                 {{userEmail}}
             </p>

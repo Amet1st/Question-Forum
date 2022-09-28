@@ -1,0 +1,54 @@
+.profile {
+
+    &__card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 15px;
+        background-color: rgb(216, 197, 216);
+    }
+
+    &__main {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        font-size: 20px;
+
+        @media screen and (max-width: 500px) {
+            font-size: 15px;
+        }
+    }
+
+    &__avatar {
+        width: 250px;
+        height: 250px;
+
+        @media screen and (max-width: 500px) {
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+    &__buttons {
+        font-size: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    &__link {
+        border: 2px solid black;
+        padding: 5px;
+        background-color: green;
+
+        &:hover {
+            color: white;
+            transform: scale(1.05);
+        }
+    }
+}

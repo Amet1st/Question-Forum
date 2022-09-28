@@ -4,7 +4,11 @@
             <div class="question__info">
                 <small class="question__date">{{post?.date | date}}</small>
                 
-                <small class="question__author">{{post.author}}</small>
+                <a [routerLink]="'/users/' + authorId">
+                    <small class="question__author">
+                        {{post?.author}}
+                    </small>
+                </a>
             </div>
         
             <h2 class="question__title">{{post?.title}}</h2>

@@ -11,25 +11,23 @@ import { Question } from 'src/app/models/interfaces/question';
   
 export class PostService {
 
-  public API_URL = environment.apiUrl;
-
   constructor(
     private http: HttpClient
   ) { }
   
   public createPost(data: Question): Observable<Object> {
-    return this.http.post((this.API_URL + '/questions.json'), data);
+    return this.http.post((environment.apiUrl + '/questions.json'), data);
   }
 
   public getPost(id: string) {
-    return this.http.get((this.API_URL + '/questions/' + id + '.json'))
+    return this.http.get((environment.apiUrl + '/questions/' + id + '.json'))
       .pipe(
         map(item => {return item as Question})
       );
   }
 
   public getAllPosts(): Observable<Question[]> {
-    return this.http.get((this.API_URL + '/questions.json'))
+    return this.http.get((environment.apiUrl + '/questions.json'))
       .pipe(
         map(data => {
           if (data) {

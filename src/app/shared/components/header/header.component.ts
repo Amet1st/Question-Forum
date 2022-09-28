@@ -4,6 +4,7 @@ import { User } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { OnDestroy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-header',
@@ -14,11 +15,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   public isLoggedIn: User;
   public userEmail: string;
+  public userId: string;
   public isMenuVisible = false;
   private destroy = new Subject<boolean>();
 
   constructor(
     private authService: AuthService,
+    private usersService: UsersService,
     private router: Router
   ) { 
   }
@@ -29,30 +32,42 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(
         (user: User) => {
           this.isLoggedIn = user;
-          this.userEmail = user.email;
+          this.userEmail = user?.email;
         }
     );
     
+  }
+
+  public goToProfile() {
+    this.isMenuVisible = false;
+    this.getUser(this.userEmail);
+  }
+
+  private getUser(email: string) {
+    return this.usersService.getUserByEmail(email)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        user => {
+          this.userId = user?.id;
+          this.router.navigate(['/users/' + this.userId]);
+        }
+      );
   }
 
   public toggleMenu(): void {
     this.isMenuVisible = !this.isMenuVisible;
   }
 
-  public goToProfile(): void {
-    this.isMenuVisible = false;
-  }
-
   public logOut(): void {
     this.isMenuVisible = false;
 
     this.authService.signOut()
-      .then(
+      .subscribe(
         () => this.router.navigate(['/sign-in'])
-      )
-      .catch((error: Error) => {
-        console.warn(error.message);
-      });
+      ),
+      (error: Error) => {
+        console.log(error.message);
+      };
   }
 
   ngOnDestroy(): void {

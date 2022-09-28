@@ -18,6 +18,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { AddQuestionComponent } from './pages/add-question/add-question.component';
 import { HttpClientModule }   from '@angular/common/http';
 import { QuestionViewComponent } from './pages/question-view/question-view.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { QuestionViewComponent } from './pages/question-view/question-view.compo
     HomeComponent,
     AddQuestionComponent,
     QuestionViewComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

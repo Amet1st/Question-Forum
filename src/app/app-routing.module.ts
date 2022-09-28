@@ -7,6 +7,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { HomeGuard } from './shared/guard/home.guard';
 import { AddQuestionComponent } from './pages/add-question/add-question.component';
 import { QuestionViewComponent } from './pages/question-view/question-view.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [HomeGuard] },
   { path: 'add-question', component: AddQuestionComponent, canActivate: [HomeGuard] },
   { path: 'questions/:id', component: QuestionViewComponent, canActivate: [HomeGuard] },
+  {path: 'users/:id', component: ProfileComponent, canActivate: [HomeGuard]},
   { path: '**', component: HomeComponent, canActivate: [HomeGuard] }
 ];
 

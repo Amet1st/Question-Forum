@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Question } from 'src/app/models/interfaces/question';
 import { PostService } from 'src/app/shared/services/post.service';
+import { UsersService } from 'src/app/shared/services/users.service';
 
 @Component({
   selector: 'app-question-view',
@@ -12,10 +13,12 @@ import { PostService } from 'src/app/shared/services/post.service';
 export class QuestionViewComponent implements OnInit, OnDestroy {
 
   public post: Question;
+  public authorId: string;
   private destroy = new Subject<boolean>();
 
   constructor(
     private postService: PostService,
+    private usersService: UsersService,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -26,10 +29,18 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(
       post => {
-        this.post = post;
+          this.post = post;
+          this.getUser(post.author);
       }
     )
+    
+  }
 
+  private getUser(email: string) {
+    this.usersService.getUserByEmail(email)
+      .subscribe(user => {
+        this.authorId = user.id;
+      })
   }
 
   ngOnDestroy(): void {

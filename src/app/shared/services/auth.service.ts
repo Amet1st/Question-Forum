@@ -2,7 +2,8 @@ import { Injectable} from '@angular/core';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthProvider, User} from 'firebase/auth';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,35 +12,36 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
   constructor(
+    private usersService: UsersService,
     private ngFireAuth: AngularFireAuth,
   ) {}
   
-  public signIn(email: string, password: string): Promise<firebase.default.auth.UserCredential> {
-    return this.ngFireAuth.signInWithEmailAndPassword(email, password);
+  public signIn(email: string, password: string): Observable<firebase.default.auth.UserCredential> {
+    return from(this.ngFireAuth.signInWithEmailAndPassword(email, password));
   }
 
-  public signUp(email: string, password: string): Promise<firebase.default.auth.UserCredential> {
-    return this.ngFireAuth.createUserWithEmailAndPassword(email, password);
+  public signUp(email: string, password: string): Observable<firebase.default.auth.UserCredential> {
+    return from(this.ngFireAuth.createUserWithEmailAndPassword(email, password));
   }
 
-  public googleAuth(): Promise<firebase.default.auth.UserCredential> {
+  public googleAuth(): Observable<firebase.default.auth.UserCredential> {
     return this.authLogin(new auth.GoogleAuthProvider());
   }
 
-  public facebookAuth(): Promise<firebase.default.auth.UserCredential> {
+  public facebookAuth(): Observable<firebase.default.auth.UserCredential> {
     return this.authLogin(new auth.FacebookAuthProvider());
   }
   
-  public githubAuth(): Promise<firebase.default.auth.UserCredential> {
-    return this.authLogin(new auth.GithubAuthProvider());
+  public githubAuth(): Observable<firebase.default.auth.UserCredential> {
+    return from(this.authLogin(new auth.GithubAuthProvider()));
   }
   
-  private authLogin(provider: AuthProvider): Promise<firebase.default.auth.UserCredential> {
-    return this.ngFireAuth.signInWithPopup(provider);
+  private authLogin(provider: AuthProvider): Observable<firebase.default.auth.UserCredential> {
+    return from(this.ngFireAuth.signInWithPopup(provider));
   }
 
-  public signOut(): Promise<void>  {
-    return this.ngFireAuth.signOut();
+  public signOut(): Observable<void> {
+    return from(this.ngFireAuth.signOut());
   }
 
   public getAuthState(): Observable<User> {

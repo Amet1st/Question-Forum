@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in',
@@ -47,14 +48,15 @@ export class SignInComponent implements OnInit {
     }
 
     this.authService.signIn(controls['email'].value, controls['password'].value)
-      .then(() => {
-        this.form.reset();
-        this.router.navigate(['/home']);
-      })
-      .catch((error: Error):void => {
-        this.errorMessage = this.handleError(error.message);
-      })
-
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this.router.navigate(['/home']);
+        },
+        error: (error: Error): void => {
+          this.errorMessage = this.handleError(error.message);
+        }
+      });
   }
 
   public facebookAuth(): void {
@@ -69,17 +71,19 @@ export class SignInComponent implements OnInit {
     this.handleSocialAuth(this.authService.googleAuth());
   }
 
-  public handleSocialAuth(provider: Promise<firebase.default.auth.UserCredential>): void {
+  public handleSocialAuth(provider: Observable<firebase.default.auth.UserCredential>): void {
 
     this.form.markAsUntouched();
     
     provider
-      .then(() => {
-        this.form.reset();
-        this.router.navigate(['/home']);
-      })
-      .catch((error: Error):void => {
-        this.errorMessage = this.handleError(error.message);
+      .subscribe({
+        next: () => {
+          this.form.reset();
+          this.router.navigate(['/home']);
+        },
+        error: (error: Error): void => {
+          this.errorMessage = this.handleError(error.message);
+        }
       });
   }
 

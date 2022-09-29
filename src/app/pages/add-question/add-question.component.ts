@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, InjectionToken } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -49,7 +49,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
         Validators.minLength(10),
         Validators.maxLength(200)
       ]],
-      
+
       tags: this.formBuilder.group({})
     })
   }
@@ -75,7 +75,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
     formData.tags = Object.keys(formData.tags);
 
     const body = {
-      author: this.author, 
+      author: this.author,
       date: new Date(),
       ...formData
     }
@@ -88,7 +88,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       });
 
   }
- 
+
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.unsubscribe();

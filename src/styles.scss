@@ -32,3 +32,13 @@ li {
     padding: 0 15px;
     margin: 0 auto;
 }
+
+.error {
+  color: red;
+  margin: 5px;
+}
+
+input.ng-touched.ng-invalid,
+textarea.ng-touched.ng-invalid {
+  border: 2px solid red;
+}

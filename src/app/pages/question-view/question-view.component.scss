@@ -1,9 +1,9 @@
-@mixin button($color) {
+@mixin button($color, $width, $height) {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 30px;
+    width: $width;
+    height: $height;
     font-size: 18px;
     border: 2px solid black;
     background-color: $color;
@@ -58,7 +58,7 @@
     &__tags {
         display: inline-flex;
         gap: 5px;
-        
+
     }
 
     &__tag {
@@ -81,16 +81,39 @@
     }
 
     &__edit {
-        @include button(green);
+        @include button(green, 100px, 30px);
     }
 
     &__back {
-        @include button(blue);
+        @include button(blue, 100px, 30px);
     }
 
     &__media {
         background-color: rgb(0, 255, 255);
         padding: 10px;
+    }
+
+    &__media-title {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    &__form {
+        padding: 5px;
+        background-color:bisque;
+    }
+
+    &__comment-input {
+        width: 100%;
+        height: 100px;
+        padding: 5px;
+        resize: none;
+    }
+
+    &__submit-comment {
+        font-size: 15px;
+        cursor: pointer;
+        @include button(blue, 150px, 40px)
     }
 
     &__comments {
@@ -111,11 +134,27 @@
         background-color: blueviolet;
     }
 
+    &__comment-date {
+      font-size: 12px;
+    }
+
+    &__comment-email {
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+
     &__comment-author {
         & img {
             width: 40px;
             height: 40px;
             cursor: pointer;
+
+            &:hover {
+                transform: scale(1.05);
+            }
         }
     }
 

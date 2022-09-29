@@ -8,9 +8,9 @@
                 <input class="auth__input" id="user" type="text" formControlName="email" (focus)="onFocus()">
             </div>
 
-            <div class="auth__error" *ngIf="isControlInvalid('email')">
+            <small class="error" *ngIf="isControlInvalid('email')">
                 Invalid email!
-            </div>
+            </small>
 
             <div class="auth__form-group">
                 <label class="auth__label" for="password">Password</label>
@@ -18,13 +18,13 @@
                 <input class="auth__input" id="password" type="password" formControlName="password" (focus)="onFocus()">
             </div>
 
-            <div class="auth__error" *ngIf="isControlInvalid('password')">
+            <small class="error" *ngIf="isControlInvalid('password')">
                 Password must contain 8-18 characters!
-            </div>
+            </small>
 
-            <div class="auth__error" *ngIf="errorMessage">
+            <small class="error" *ngIf="errorMessage">
                 {{errorMessage}}
-            </div>
+            </small>
 
             <div class="auth__media-label">
                 Or Sign Up with:
@@ -49,7 +49,7 @@
             <div class="auth__already">
                 Already have an account?
             </div>
-            
+
             <a class="auth__sign-in" routerLink="/sign-in">
                 Sign In
             </a>

@@ -3,16 +3,16 @@
         <article class="question__post">
             <div class="question__info">
                 <small class="question__date">{{post?.date | date}}</small>
-                
+
                 <a [routerLink]="'/users/' + authorId">
                     <small class="question__author">
                         {{post?.author}}
                     </small>
                 </a>
             </div>
-        
+
             <h2 class="question__title">{{post?.title}}</h2>
-        
+
             <p class="question__text">
                 {{post?.text}}
             </p>
@@ -32,49 +32,46 @@
         </article>
 
         <div class="question__media">
-            <p>Comments / Answers</p>
+            <h2 class="question__media-title">Comments / Answers</h2>
+
+            <form class="question__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <label>
+                    Add comment
+                    <textarea
+                        class="question__comment-input"
+                        type="text"
+                        placeholder="Your text..."
+                        formControlName="text"
+                    ></textarea>
+                </label>
+
+              <small class="error" *ngIf="form.get('text')?.errors?.required && form.get('text').touched">
+                Text is required!
+              </small>
+
+              <small class="error" *ngIf="form.get('text')?.errors?.minlength && form.get('text').touched">
+                Text must contain at least {{form.get('text')?.errors?.minlength.requiredLength}} characters!
+              </small>
+
+              <small class="error" *ngIf="form.get('text')?.errors?.maxlength && form.get('text').touched">
+                Text must contain no more than {{form.get('text')?.errors?.maxlength.requiredLength}} characters!
+              </small>
+
+                <button class="question__submit-comment" type="submit">Submit comment</button>
+            </form>
+
             <ul class="question__comments">
-                <li>
+                <li *ngFor="let comment of comments">
                     <article class="question__comment">
                         <div class="question__comment-author">
                             <img src="../../../assets/png/user.png" alt="user avatar">
-                            <p>Author</p>
+                            <p class="question__comment-email">{{comment.author}}</p>
                         </div>
                         <p class="question__comment-text">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum, quas.
+                            {{comment.text}}
                         </p>
-                        <div class="question__comment-info">
-                            Date    
-                        </div>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="question__comment">
-                        <div class="question__comment-author">
-                            <img src="../../../assets/png/user.png" alt="user avatar">
-                            <p>Author</p>
-                        </div>
-                        <p class="question__comment-text">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero sunt, beatae natus numquam sequi quas quod corrupti eius ab illo qui ad nam. Natus alias ea architecto laborum, minus vero?
-                        </p>
-                        <div class="question__comment-info">
-                            Date
-                        </div>
-                    </article>
-                </li>
-
-                <li>
-                    <article class="question__comment">
-                        <div class="question__comment-author">
-                            <img src="../../../assets/png/user.png" alt="user avatar">
-                            <p>Author</p>
-                        </div>
-                        <p class="question__comment-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error ex similique eligendi? Iure, odio maiores, quasi eveniet earum officiis eum, mollitia est autem quaerat fugit!
-                        </p>
-                        <div class="question__comment-info">
-                            Date
+                        <div class="question__comment-date">
+                             Posted at: {{comment.date | date: 'd/M/yyyy, h:mm a'}}
                         </div>
                     </article>
                 </li>

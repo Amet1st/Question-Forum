@@ -1,3 +1,5 @@
+import { Comment } from "./comment";
+
 export interface Question {
   id: string;
   author: string;
@@ -5,4 +7,5 @@ export interface Question {
   text: string;
   date: Date;
   tags: string[];
+  comments: Comment[];
 }

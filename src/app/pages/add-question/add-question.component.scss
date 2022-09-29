@@ -86,13 +86,13 @@
             justify-content: center;
             gap: 20px;
         }
-    
+
         & textarea {
             width: 70%;
             height: 80px;
             resize: none;
         }
-    
+
         & input {
             width: 70%;
         }
@@ -100,13 +100,9 @@
 }
 
 input, textarea {
-    
+
     &.ng-invalid.ng-touched {
         border: 2px solid red
     }
 }
 
-.error {
-    color: red;
-    margin: 5px;
-}

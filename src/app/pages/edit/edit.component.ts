@@ -23,7 +23,7 @@ export class EditComponent implements OnInit, OnDestroy {
   private author: string;
   public post: Question;
   private postId: string;
-  
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,7 +66,7 @@ export class EditComponent implements OnInit, OnDestroy {
         Validators.minLength(10),
         Validators.maxLength(200)
       ]],
-      
+
       tags: this.formBuilder.group({
         frontend: true
       })
@@ -82,15 +82,14 @@ export class EditComponent implements OnInit, OnDestroy {
     formData.tags = Object.keys(formData.tags);
 
     const body = {
-      author: this.author, 
+      author: this.author,
       date: new Date(),
       ...formData
     }
 
     this.postService.updatePost(this.postId, body)
       .pipe(takeUntil(this.destroy))
-      .subscribe((response) => {
-        console.log(response);
+      .subscribe(() => {
         this.form.reset();
         this.router.navigate(['/home']);
       });
@@ -115,7 +114,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 
 }

@@ -91,6 +91,6 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 }

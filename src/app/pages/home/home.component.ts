@@ -7,7 +7,7 @@ import { PostService } from 'src/app/shared/services/post.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-  
+
 export class HomeComponent implements OnInit, OnDestroy {
 
   public posts: Question[];
@@ -27,6 +27,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 }

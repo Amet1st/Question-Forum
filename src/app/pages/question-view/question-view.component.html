@@ -65,10 +65,10 @@
                     <article class="question__comment">
                         <div class="question__comment-author">
                             <img src="../../../assets/png/user.png" alt="user avatar">
-                            <p class="question__comment-email">{{comment.author}}</p>
+                            <p class="question__comment-email">{{comment?.author}}</p>
                         </div>
                         <p class="question__comment-text">
-                            {{comment.text}}
+                            {{comment?.text}}
                         </p>
                         <div class="question__comment-date">
                              Posted at: {{comment.date | date: 'd/M/yyyy, h:mm a'}}
@@ -78,7 +78,7 @@
                           class="question__mark"
                           type="button"
                           *ngIf="isAuthor && !isPostSolved"
-                          (click)="markAsSolution(comment.id)"
+                          (click)="markAsSolution(comment?.id)"
                         >Mark as solution</button>
 
                         <small class="question__solution" *ngIf="comment.isSolution">&#10003;</small>

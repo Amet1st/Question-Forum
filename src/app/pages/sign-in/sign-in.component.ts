@@ -1,8 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import {Observable, Subject, takeUntil} from 'rxjs';
 import {UserCredential} from "@firebase/auth-types";
 
 @Component({
@@ -11,11 +11,12 @@ import {UserCredential} from "@firebase/auth-types";
   styleUrls: ['./sign-in.component.scss']
 })
 
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, OnDestroy {
 
   public isSubmitted = false;
   public errorMessage: string;
   public form: FormGroup;
+  private destroy = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,6 +50,7 @@ export class SignInComponent implements OnInit {
     }
 
     this.authService.signIn(controls['email'].value, controls['password'].value)
+      .pipe(takeUntil(this.destroy))
       .subscribe({
         next: () => {
           this.form.reset();
@@ -77,6 +79,7 @@ export class SignInComponent implements OnInit {
     this.form.markAsUntouched();
 
     provider
+      .pipe(takeUntil(this.destroy))
       .subscribe({
         next: () => {
           this.form.reset();
@@ -112,6 +115,11 @@ export class SignInComponent implements OnInit {
   public onFocus(): void {
     this.errorMessage = null;
     this.isSubmitted = false;
+  }
+
+  ngOnDestroy() {
+   this.destroy.next(true);
+   this.destroy.complete();
   }
 
 }

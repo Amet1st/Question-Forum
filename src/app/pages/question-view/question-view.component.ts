@@ -50,6 +50,7 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
       );
 
     this.postService.getAllComments(this.postId)
+      .pipe(takeUntil(this.destroy))
       .subscribe(comments => {
         this.comments = comments;
         this.isPostSolved = comments.some(comment => comment.isSolution);
@@ -80,6 +81,7 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
     }
 
     this.postService.createComment(this.postId, body)
+      .pipe(takeUntil(this.destroy))
       .subscribe(response => {
         const id =  Object.values(response)[0];
         const comment = body as Comment;
@@ -92,16 +94,18 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
 
   private checkAuthor(author: string) {
     this.authService.getAuthState()
+      .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        this.userEmail = user.email;
-        this.isAuthor = user.email === author;
+        this.userEmail = user?.email;
+        this.isAuthor = user?.email === author;
       })
   }
 
   private getUser(email: string) {
     this.usersService.getUserByEmail(email)
+      .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        this.authorId = user.id;
+        this.authorId = user?.id;
       })
   }
 
@@ -110,6 +114,7 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
     comment.isSolution = true;
 
     this.postService.markCommentAsSolution(this.postId, id, comment)
+      .pipe(takeUntil(this.destroy))
       .subscribe(result => {
         this.isPostSolved = true;
         console.log(result);

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { UsersService } from 'src/app/shared/services/users.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import {Observable, Subject, take, takeUntil} from 'rxjs';
 import {UserCredential} from "@firebase/auth-types";
 
 @Component({
@@ -76,6 +76,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.form.markAsUntouched();
 
     provider
+      .pipe(takeUntil(this.destroy))
       .subscribe({
         next: (userCred) => {
           this.createUser(userCred.user.email);

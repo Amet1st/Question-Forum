@@ -69,6 +69,11 @@ export class PostService {
   }
 
   public createComment(id: string, comment: object) {
-    return this.http.patch((environment.apiUrl + '/questions/' + id + '/comments' + '.json'), comment)
+    return this.http.post((environment.apiUrl + '/questions/' + id + '/comments' + '.json'), comment)
+  }
+
+  public markCommentAsSolution(postId: string, commentId: string, comment: Comment): Observable<Object>  {
+    return this.http
+      .patch((environment.apiUrl + '/questions/' + postId + '/comments/' + commentId + '/.json'), comment)
   }
 }

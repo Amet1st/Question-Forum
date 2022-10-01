@@ -4,15 +4,14 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { User } from 'src/app/models/interfaces/user';
-import { isAdmin } from '@firebase/util';
+import {UserCredential} from "@firebase/auth-types";
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-  
+
 export class SignUpComponent implements OnInit, OnDestroy {
 
   public isSubmitted = false;
@@ -38,7 +37,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       Validators.required,
       Validators.email
     ]],
-      
+
     password: ['', [
       Validators.required,
       Validators.minLength(8),
@@ -48,22 +47,23 @@ export class SignUpComponent implements OnInit, OnDestroy {
 }
 
   public onSubmit(): void {
-    const controls = this.form.controls;
     this.isSubmitted = true;
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
-    
+
+    const email = this.form.controls['email'].value;
+    const password = this.form.controls['password'].value;
+
     this.authService
-      .signUp(controls['email'].value, controls['password'].value)
+      .signUp(email, password)
       .pipe(takeUntil(this.destroy))
       .subscribe({
         next: () => {
-          this.setUser();
+          this.createUser(email);
           this.form.reset();
-          this.router.navigate(['/home']);
         },
         error: (error: Error) => {
           this.errorMessage = this.handleError(error.message);
@@ -71,32 +71,20 @@ export class SignUpComponent implements OnInit, OnDestroy {
       });
   }
 
-   public handleSocialAuth(provider: Observable<firebase.default.auth.UserCredential>): void {
-    
+   public handleSocialAuth(provider: Observable<UserCredential>): void {
+
     this.form.markAsUntouched();
-    
+
     provider
-      .pipe(takeUntil(this.destroy))
       .subscribe({
-        next: () => {
-          this.setUser();
+        next: (userCred) => {
+          this.createUser(userCred.user.email);
           this.form.reset();
         },
         error: (error: Error): void => {
           this.errorMessage = this.handleError(error.message);
         }
       });
-  }
-
-
-  private setUser() {
-    this.authService.getAuthState()
-      .pipe(takeUntil(this.destroy))
-      .subscribe({
-        next: (user) => {
-          this.createUser(user.email);
-        }
-    })
   }
 
   private createUser(email: string) {
@@ -106,6 +94,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       isAdmin: false,
       posts: 0
     })
+      .pipe(takeUntil(this.destroy))
       .subscribe(() => {
          this.router.navigate(['/home']);
       });
@@ -120,7 +109,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   public googleAuth(): void {
-    this.handleSocialAuth(this.authService.googleAuth());
+   this.handleSocialAuth(this.authService.googleAuth());
   }
 
   private handleError(message: string): string {
@@ -140,7 +129,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   public isControlInvalid(controlName: string): boolean {
     const control = this.form.controls[controlName];
-    
+
     return control.invalid && control.touched;
 
   }
@@ -152,7 +141,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 
 }

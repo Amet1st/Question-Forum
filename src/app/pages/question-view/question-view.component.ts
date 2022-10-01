@@ -21,6 +21,7 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
   public authorId: string;
   public userEmail: string;
   public isAuthor = false;
+  public isPostSolved = false;
   public form: FormGroup;
   private destroy = new Subject<boolean>();
 
@@ -49,7 +50,10 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
       );
 
     this.postService.getAllComments(this.postId)
-      .subscribe(comments => this.comments = comments);
+      .subscribe(comments => {
+        this.comments = comments;
+        this.isPostSolved = comments.some(comment => comment.isSolution);
+      });
   }
 
   private initForm() {
@@ -68,24 +72,19 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const id = this.generateId();
-
     const body = {
-      [id]: {
         author: this.userEmail,
         text: this.form.get('text').value,
         date: new Date(),
         isSolution: false
-      }
     }
 
     this.postService.createComment(this.postId, body)
       .subscribe(response => {
-        const comment = response as {[key: string]: object}
-        Object.keys(comment).map(id => {
-          // @ts-ignore
-          this.comments.push(response[id]);
-        })
+        const id =  Object.values(response)[0];
+        const comment = body as Comment;
+        comment.id = id;
+        this.comments.push(comment);
       });
 
     this.form.reset();
@@ -106,13 +105,19 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
       })
   }
 
-  private generateId(): string {
-    return "_" + Math.random().toString(36).substr(2, 9);
+  markAsSolution(id: string) {
+    const comment = this.comments.find(item => item.id === id);
+    comment.isSolution = true;
+
+    this.postService.markCommentAsSolution(this.postId, id, comment)
+      .subscribe(result => {
+        this.isPostSolved = true;
+        console.log(result);
+      })
   }
 
   ngOnDestroy(): void {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
-
 }

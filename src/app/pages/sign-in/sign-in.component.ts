@@ -1,15 +1,16 @@
-import { Component, OnInit} from '@angular/core'; 
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import {UserCredential} from "@firebase/auth-types";
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss']
 })
-  
+
 export class SignInComponent implements OnInit {
 
   public isSubmitted = false;
@@ -32,7 +33,7 @@ export class SignInComponent implements OnInit {
         Validators.required,
         Validators.email
       ]],
-        
+
       password: ['', [
         Validators.required,
       ]]
@@ -71,10 +72,10 @@ export class SignInComponent implements OnInit {
     this.handleSocialAuth(this.authService.googleAuth());
   }
 
-  public handleSocialAuth(provider: Observable<firebase.default.auth.UserCredential>): void {
+  public handleSocialAuth(provider: Observable<UserCredential>): void {
 
     this.form.markAsUntouched();
-    
+
     provider
       .subscribe({
         next: () => {
@@ -104,7 +105,7 @@ export class SignInComponent implements OnInit {
 
   public isControlInvalid(controlName: string): boolean {
     const control = this.form.controls[controlName];
-    
+
     return control.invalid && control.touched;
   }
 

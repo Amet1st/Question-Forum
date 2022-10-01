@@ -73,6 +73,15 @@
                         <div class="question__comment-date">
                              Posted at: {{comment.date | date: 'd/M/yyyy, h:mm a'}}
                         </div>
+
+                        <button
+                          class="question__mark"
+                          type="button"
+                          *ngIf="isAuthor && !isPostSolved"
+                          (click)="markAsSolution(comment.id)"
+                        >Mark as solution</button>
+
+                        <small class="question__solution" *ngIf="comment.isSolution">&#10003;</small>
                     </article>
                 </li>
             </ul>

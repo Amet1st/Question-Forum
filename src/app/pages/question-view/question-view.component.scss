@@ -4,7 +4,6 @@
     align-items: center;
     width: $width;
     height: $height;
-    font-size: 18px;
     border: 2px solid black;
     background-color: $color;
 
@@ -101,6 +100,7 @@
     &__form {
         padding: 5px;
         background-color:bisque;
+        margin-bottom: 30px;
     }
 
     &__comment-input {
@@ -126,12 +126,13 @@
     }
 
     &__comment {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px;
-        gap: 10px;
-        background-color: blueviolet;
+      color: black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px;
+      gap: 10px;
+      background-color: white;
     }
 
     &__comment-date {
@@ -142,6 +143,7 @@
       cursor: pointer;
 
       &:hover {
+        transform: scale(1.01);
         opacity: 0.5;
       }
     }
@@ -157,6 +159,19 @@
             }
         }
     }
+
+  &__mark {
+    @include button(#0b910b, 120px, 30px);
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+
+  &__solution {
+    margin-right: 20px;
+    font-size: 20px;
+    font-width: bold;
+  }
 
 
 }

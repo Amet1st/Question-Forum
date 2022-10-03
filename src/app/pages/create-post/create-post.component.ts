@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { PostService } from 'src/app/shared/services/post.service';
 import { TAGS } from 'src/app/models/tags.const';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import {Post} from "../../models/interfaces/post.interface";
 
 @Component({
   selector: 'app-create-post',
@@ -74,17 +75,19 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     const formData = { ...this.form.value }
     formData.tags = Object.keys(formData.tags);
 
-    const body = {
+    const body: Post = {
+      ...formData,
       author: this.author,
       date: new Date(),
-      ...formData
+      isApproved: false
     }
 
     this.postService.createPost(body)
       .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
+      .subscribe((response) => {
+        const id = Object.values(response)[0];
         this.form.reset();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/posts/', id]);
       });
 
   }

@@ -24,7 +24,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
     isAuthor: false,
     isPostSolved: false,
   }
-
   public form: FormGroup;
   private destroy = new Subject<boolean>();
 

@@ -1,6 +1,5 @@
 import {Comment} from "./comment.inteface";
 
-
 export interface Post {
   id: string;
   author: string;
@@ -10,4 +9,5 @@ export interface Post {
   date: Date;
   tags: string[];
   comments: Comment[];
+  isApproved: boolean;
 }

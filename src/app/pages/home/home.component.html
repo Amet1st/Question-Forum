@@ -3,18 +3,27 @@
         <h2 class="home__title">Active questions</h2>
 
         <div class="home__posts">
-            <article class="home__post" data-id="{{i}}" *ngFor="let post of posts; let i = index">
+            <article
+              class="home__post"
+              *ngFor="let post of posts"
+            >
                 <a [routerLink]="'/posts/' + post.id">
                     <h3 class="home__post-title">{{post.title}}</h3>
                 </a>
 
                 <div class="home__post-info">
                     <small class="home__post-date">{{post.date | date: 'd/M/yyyy, h:mm a'}}</small>
+
                     <ul class="home__post-tags">
                         <li class="home__post-tag" *ngFor="let tag of post.tags; let i = index">
                             {{tag}}
                         </li>
                     </ul>
+                </div>
+
+                <div class="home__post-moderation" *ngIf="isAdmin">
+                  <button class="home__post-approve" type="button" (click)="approvePost(post.id)">Approve</button>
+                  <button class="home__post-delete" type="button" (click)="deletePost(post.id)">Delete</button>
                 </div>
             </article>
         </div>

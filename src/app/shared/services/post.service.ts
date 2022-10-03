@@ -15,8 +15,8 @@ export class PostService {
     private http: HttpClient
   ) { }
 
-  public createPost(data: Post): Observable<Object> {
-    return this.http.post((environment.apiUrl + '/posts.json'), data);
+  public createPost(post: Post): Observable<Object> {
+    return this.http.post((environment.apiUrl + '/posts.json'), post);
   }
 
   public getPost(id: string): Observable<Post> {
@@ -87,5 +87,13 @@ export class PostService {
   public markCommentAsSolution(postId: string, commentId: string, comment: Comment): Observable<Object>  {
     return this.http
       .patch((environment.apiUrl + '/posts/' + postId + '/comments/' + commentId + '.json'), comment)
+  }
+
+  public approvePost(id: string, post: Post): Observable<Object> {
+    return this.http.patch((environment.apiUrl + '/posts/' + id), post);
+  }
+
+  public deletePost(id: string): Observable<Object> {
+    return this.http.delete((environment.apiUrl + '/posts/' + id + '.json'));
   }
 }

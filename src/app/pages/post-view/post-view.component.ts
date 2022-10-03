@@ -1,27 +1,30 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { Question } from 'src/app/models/interfaces/question';
-import { Comment } from 'src/app/models/interfaces/comment';
+import { Post } from 'src/app/models/interfaces/post.interface';
+import { Comment } from 'src/app/models/interfaces/comment.inteface';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostService } from 'src/app/shared/services/post.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-question-view',
-  templateUrl: './question-view.component.html',
-  styleUrls: ['./question-view.component.scss']
+  selector: 'app-post-view',
+  templateUrl: './post-view.component.html',
+  styleUrls: ['./post-view.component.scss']
 })
-export class QuestionViewComponent implements OnInit, OnDestroy {
+export class PostViewComponent implements OnInit, OnDestroy {
 
-  public post: Question;
+  public post: Post;
   public comments: Comment[];
-  public postId: string;
-  public authorId: string;
-  public userEmail: string;
-  public isAuthor = false;
-  public isPostSolved = false;
+  public postMeta = {
+    postId: '',
+    authorId: '',
+    userEmail: '',
+    isAuthor: false,
+    isPostSolved: false,
+  }
+
   public form: FormGroup;
   private destroy = new Subject<boolean>();
 
@@ -35,26 +38,21 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.postId = this.activatedRoute.snapshot.url[1].path;
+    this.postMeta.postId = this.activatedRoute.snapshot.url[1].path;
 
     this.initForm();
 
-    this.postService.getPost(this.postId)
+    this.postService.getPost(this.postMeta.postId)
       .pipe(takeUntil(this.destroy))
       .subscribe(
         post => {
           this.post = post;
+          this.comments = post.comments;
+          this.postMeta.isPostSolved = !this.comments.every(item => !item.isSolution);
           this.getUser(post.author);
           this.checkAuthor(post.author);
         }
       );
-
-    this.postService.getAllComments(this.postId)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(comments => {
-        this.comments = comments;
-        this.isPostSolved = comments.some(comment => comment.isSolution);
-      });
   }
 
   private initForm() {
@@ -73,19 +71,17 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const body = {
-        author: this.userEmail,
+    const commentBody = {
+        author: this.postMeta.userEmail,
         text: this.form.get('text').value,
         date: new Date(),
         isSolution: false
     }
 
-    this.postService.createComment(this.postId, body)
+    this.postService.createComment(this.postMeta.postId, commentBody)
       .pipe(takeUntil(this.destroy))
-      .subscribe(response => {
-        const id =  Object.values(response)[0];
-        const comment = body as Comment;
-        comment.id = id;
+      .subscribe(() => {
+        const comment = commentBody as Comment;
         this.comments.push(comment);
       });
 
@@ -96,8 +92,10 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        this.userEmail = user?.email;
-        this.isAuthor = user?.email === author;
+        if(user) {
+          this.postMeta.userEmail = user.email;
+          this.postMeta.isAuthor = user.email === author;
+        }
       })
   }
 
@@ -105,7 +103,7 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
     this.usersService.getUserByEmail(email)
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        this.authorId = user?.id;
+        this.postMeta.authorId = user?.id;
       })
   }
 
@@ -113,11 +111,10 @@ export class QuestionViewComponent implements OnInit, OnDestroy {
     const comment = this.comments.find(item => item.id === id);
     comment.isSolution = true;
 
-    this.postService.markCommentAsSolution(this.postId, id, comment)
+    this.postService.markCommentAsSolution(this.postMeta.postId, id, comment)
       .pipe(takeUntil(this.destroy))
-      .subscribe(result => {
-        this.isPostSolved = true;
-        console.log(result);
+      .subscribe(() => {
+        this.postMeta.isPostSolved = true;
       })
   }
 

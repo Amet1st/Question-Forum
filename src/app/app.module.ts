@@ -15,11 +15,11 @@ import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { AuthService } from './shared/services/auth.service';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './shared/guard/auth.guard';
-import { AddQuestionComponent } from './pages/add-question/add-question.component';
+import { CreatePostComponent } from './pages/create-post/create-post.component';
 import { HttpClientModule }   from '@angular/common/http';
-import { QuestionViewComponent } from './pages/question-view/question-view.component';
+import { PostViewComponent } from './pages/post-view/post-view.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { EditComponent } from './pages/edit/edit.component';
+import { EditPostComponent } from './pages/edit-post/edit-post.component';
 
 @NgModule({
   declarations: [
@@ -28,10 +28,10 @@ import { EditComponent } from './pages/edit/edit.component';
     SignUpComponent,
     SignInComponent,
     HomeComponent,
-    AddQuestionComponent,
-    QuestionViewComponent,
+    CreatePostComponent,
+    PostViewComponent,
     ProfileComponent,
-    EditComponent,
+    EditPostComponent,
   ],
   imports: [
     BrowserModule,

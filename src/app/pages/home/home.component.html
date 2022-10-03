@@ -4,7 +4,7 @@
 
         <div class="home__posts">
             <article class="home__post" data-id="{{i}}" *ngFor="let post of posts; let i = index">
-                <a [routerLink]="'/questions/' + post.id">
+                <a [routerLink]="'/posts/' + post.id">
                     <h3 class="home__post-title">{{post.title}}</h3>
                 </a>
 
@@ -24,7 +24,7 @@
 
 <footer class="footer">
     <div class="container footer__container">
-        <a routerLink="/add-question" class="footer__link">
+        <a routerLink="/create-post" class="footer__link">
             <img class="footer__plus" src="../../../assets/png/plus.png" alt="plus">
         </a>
     </div>

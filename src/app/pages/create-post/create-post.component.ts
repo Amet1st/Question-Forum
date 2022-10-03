@@ -7,11 +7,11 @@ import { TAGS } from 'src/app/models/tags.const';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
-  selector: 'app-add-question',
-  templateUrl: './add-question.component.html',
-  styleUrls: ['./add-question.component.scss']
+  selector: 'app-create-post',
+  templateUrl: './create-post.component.html',
+  styleUrls: ['./create-post.component.scss']
 })
-export class AddQuestionComponent implements OnInit, OnDestroy {
+export class CreatePostComponent implements OnInit, OnDestroy {
 
   public categories = TAGS;
   public form: FormGroup;

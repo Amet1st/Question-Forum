@@ -1,8 +1,10 @@
-import { Comment } from "./comment";
+import {Comment} from "./comment.inteface";
 
-export interface Question {
+
+export interface Post {
   id: string;
   author: string;
+  authorId: string;
   title: string;
   text: string;
   date: Date;

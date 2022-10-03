@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs';
-import { User } from 'src/app/models/interfaces/user';
+import { User } from 'src/app/models/interfaces/user.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -28,7 +28,7 @@ export class UsersService {
               return {
                 id,
                 ...res[id]
-              } as User
+              } as User;
             })
             .find(item => item.email === email)
         })
@@ -37,7 +37,7 @@ export class UsersService {
 
   public getUserById(id: string): Observable<User> {
     return this.http.get((environment.apiUrl) + '/users/' + id + '.json') as Observable<User>;
-  } 
+  }
 
   public editUser() {
 

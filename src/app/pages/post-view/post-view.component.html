@@ -4,7 +4,7 @@
             <div class="question__info">
                 <small class="question__date">{{post?.date | date}}</small>
 
-                <a [routerLink]="'/users/' + authorId">
+                <a [routerLink]="'/users/' + postMeta.authorId">
                     <small class="question__author">
                         {{post?.author}}
                     </small>
@@ -25,7 +25,11 @@
                 </ul>
 
                 <div class="question__buttons">
-                    <a class="question__back" [routerLink]="'/edit/' + postId" *ngIf="isAuthor">Edit</a>
+                    <a
+                      class="question__back"
+                      [routerLink]="'/edit-post/' + postMeta.postId"
+                      *ngIf="postMeta.isAuthor"
+                    >Edit</a>
                     <a class="question__edit" routerLink="/home">Back</a>
                 </div>
             </div>
@@ -77,7 +81,7 @@
                         <button
                           class="question__mark"
                           type="button"
-                          *ngIf="isAuthor && !isPostSolved"
+                          *ngIf="postMeta.isAuthor && !postMeta.isPostSolved"
                           (click)="markAsSolution(comment?.id)"
                         >Mark as solution</button>
 

@@ -5,20 +5,20 @@ import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AuthGuard } from './shared/guard/auth.guard';
 import { HomeGuard } from './shared/guard/home.guard';
-import { AddQuestionComponent } from './pages/add-question/add-question.component';
-import { QuestionViewComponent } from './pages/question-view/question-view.component';
+import { CreatePostComponent } from './pages/create-post/create-post.component';
+import { PostViewComponent } from './pages/post-view/post-view.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { EditComponent } from './pages/edit/edit.component';
+import { EditPostComponent } from './pages/edit-post/edit-post.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'sign-in', component: SignInComponent, canActivate: [AuthGuard]},
   { path: 'sign-up', component: SignUpComponent, canActivate: [AuthGuard]},
   { path: 'home', component: HomeComponent, canActivate: [HomeGuard] },
-  { path: 'add-question', component: AddQuestionComponent, canActivate: [HomeGuard] },
-  { path: 'questions/:id', component: QuestionViewComponent, canActivate: [HomeGuard] },
+  { path: 'create-post', component: CreatePostComponent, canActivate: [HomeGuard] },
+  { path: 'posts/:id', component: PostViewComponent, canActivate: [HomeGuard] },
   { path: 'users/:id', component: ProfileComponent, canActivate: [HomeGuard] },
-  { path: 'edit/:id', component: EditComponent, canActivate: [HomeGuard] },
+  { path: 'edit-post/:id', component: EditPostComponent, canActivate: [HomeGuard] },
   { path: '**', component: HomeComponent, canActivate: [HomeGuard] }
 ];
 

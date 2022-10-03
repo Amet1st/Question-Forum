@@ -1,16 +1,20 @@
 import { Injectable} from '@angular/core';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AuthProvider, User} from 'firebase/auth';
+import { AuthProvider, User as FirebaseUser} from 'firebase/auth';
 import { Observable, from } from 'rxjs';
 import { UsersService } from './users.service';
 import {UserCredential} from '@firebase/auth-types'
+import {user} from "@angular/fire/auth";
+
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
+
+  public currentUser: FirebaseUser;
 
   constructor(
     private usersService: UsersService,
@@ -45,7 +49,7 @@ export class AuthService {
     return from(this.ngFireAuth.signOut());
   }
 
-  public getAuthState(): Observable<User> {
+  public getAuthState(): Observable<FirebaseUser> {
     return this.ngFireAuth.authState;
   }
 

@@ -1,27 +1,26 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { Question } from 'src/app/models/interfaces/question';
+import { Post } from 'src/app/models/interfaces/post.interface';
 import { TAGS } from 'src/app/models/tags.const';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostService } from 'src/app/shared/services/post.service';
 
 
 
 @Component({
-  selector: 'app-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+  selector: 'app-edit-post',
+  templateUrl: './edit-post.component.html',
+  styleUrls: ['./edit-post.component.scss']
 })
-export class EditComponent implements OnInit, OnDestroy {
+export class EditPostComponent implements OnInit, OnDestroy {
 
   public categories = TAGS;
   public form: FormGroup;
   private destroy = new Subject<boolean>();
   public isTagChecked = false;
   private author: string;
-  public post: Question;
+  public post: Post;
   private postId: string;
 
 

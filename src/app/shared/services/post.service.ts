@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Question } from 'src/app/models/interfaces/question';
-import { Comment } from 'src/app/models/interfaces/comment';
+import {Post} from 'src/app/models/interfaces/post.interface';
+import { Comment } from 'src/app/models/interfaces/comment.inteface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,28 +15,59 @@ export class PostService {
     private http: HttpClient
   ) { }
 
-  public createPost(data: Question): Observable<Object> {
-    return this.http.post((environment.apiUrl + '/questions.json'), data);
+  public createPost(data: Post): Observable<Object> {
+    return this.http.post((environment.apiUrl + '/posts.json'), data);
   }
 
-  public getPost(id: string) {
-    return this.http.get((environment.apiUrl + '/questions/' + id + '.json'))
+  public getPost(id: string): Observable<Post> {
+    return this.http.get<Post>((environment.apiUrl + '/posts/' + id + '.json'))
       .pipe(
-        map(item => {return item as Question})
-      );
+        map(item => {
+          const comments: Comment[] = this.getAllComments(item.comments);
+
+          if(comments.length) {
+            return {
+              ...item,
+              comments: Object.keys(comments).map((id: any) => {
+                return {
+                  id,
+                  ...comments[id]
+                }
+              })
+            }
+          }
+
+          return {
+            ...item,
+            comments: []
+          }
+        }))
   }
 
-  public getAllPosts(): Observable<Question[]> {
-    return this.http.get((environment.apiUrl + '/questions.json'))
+  private getAllComments(comments: object): Comment[] {
+    if(!comments) {
+      return [];
+    }
+
+    const res = comments as {[key: string]: object}
+    return Object.keys(res).map((id: string) => {
+      return {
+        id,
+        ...res[id]
+      } as Comment;
+    })}
+
+
+  public getAllPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>((environment.apiUrl + '/posts.json'))
       .pipe(
         map(data => {
           if (data) {
-            const res = data as { [key: string]: object };
-            return Object.keys(res).map(id => {
+            return Object.keys(data).map((id: any) => {
               return {
                 id,
-                ...res[id]
-              } as Question
+                ...data[id]
+              }
             })
           }
 
@@ -45,35 +76,16 @@ export class PostService {
     )
   }
 
-  public updatePost(id: string, post: Question): Observable<Object> {
-    return this.http.put((environment.apiUrl + '/questions/' + id + '.json'), post);
+  public updatePost(id: string, post: Post): Observable<Object> {
+    return this.http.patch<Post>((environment.apiUrl + '/posts/' + id + '.json'), post);
   }
 
-  getAllComments(id: string): Observable<Comment[]> {
-    return this.http.get((environment.apiUrl + '/questions/' + id + '/comments.json'))
-      .pipe(
-        map(data => {
-          if (data) {
-            const res = data as { [key: string]: object };
-            return Object.keys(res).map(id => {
-              return {
-                id,
-                ...res[id]
-              } as unknown as Comment;
-            })
-          }
-
-          return [];
-        })
-      )
-  }
-
-  public createComment(id: string, comment: object) {
-    return this.http.post((environment.apiUrl + '/questions/' + id + '/comments' + '.json'), comment)
+  public createComment(id: string, comment: object): Observable<Object> {
+    return this.http.post((environment.apiUrl + '/posts/' + id + '/comments.json'), comment)
   }
 
   public markCommentAsSolution(postId: string, commentId: string, comment: Comment): Observable<Object>  {
     return this.http
-      .patch((environment.apiUrl + '/questions/' + postId + '/comments/' + commentId + '/.json'), comment)
+      .patch((environment.apiUrl + '/posts/' + postId + '/comments/' + commentId + '.json'), comment)
   }
 }

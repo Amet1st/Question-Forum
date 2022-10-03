@@ -12,7 +12,7 @@ import { UsersService } from '../../services/users.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  
+
   public isLoggedIn: User;
   public userEmail: string;
   public userId: string;
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private usersService: UsersService,
     private router: Router
-  ) { 
+  ) {
   }
 
   public ngOnInit(): void {
@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.userEmail = user?.email;
         }
     );
-    
+
   }
 
   public goToProfile() {

@@ -4,9 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthProvider, User as FirebaseUser} from 'firebase/auth';
 import { Observable, from } from 'rxjs';
 import { UsersService } from './users.service';
-import {UserCredential} from '@firebase/auth-types'
-import {user} from "@angular/fire/auth";
-
+import {UserCredential} from '@firebase/auth-types';
 
 @Injectable({
   providedIn: 'root'

@@ -24,14 +24,14 @@ export class PostService {
       .pipe(
         map(item => {
           const comments: Comment[] = this.getAllComments(item.comments);
-
           if(comments.length) {
             return {
               ...item,
-              comments: Object.keys(comments).map((id: any) => {
+              id,
+              comments: Object.keys(comments).map((commentId: any) => {
                 return {
-                  id,
-                  ...comments[id]
+                  commentId,
+                  ...comments[commentId]
                 }
               })
             }
@@ -39,6 +39,7 @@ export class PostService {
 
           return {
             ...item,
+            id,
             comments: []
           }
         }))
@@ -84,13 +85,17 @@ export class PostService {
     return this.http.post((environment.apiUrl + '/posts/' + id + '/comments.json'), comment)
   }
 
-  public markCommentAsSolution(postId: string, commentId: string, comment: Comment): Observable<Object>  {
+  public markCommentAsSolution(postId: string, commentId: string): Observable<Object>  {
     return this.http
-      .patch((environment.apiUrl + '/posts/' + postId + '/comments/' + commentId + '.json'), comment)
+      .patch((environment.apiUrl + '/posts/' + postId + '/comments/' + commentId + '.json'), {
+        isSolution: true
+      })
   }
 
-  public approvePost(id: string, post: Post): Observable<Object> {
-    return this.http.patch((environment.apiUrl + '/posts/' + id), post);
+  public approvePost(id: string): Observable<Object> {
+    return this.http.patch((environment.apiUrl + '/posts/' + id + '.json'), {
+      isApproved: true
+    });
   }
 
   public deletePost(id: string): Observable<Object> {

@@ -22,7 +22,12 @@
                 </div>
 
                 <div class="home__post-moderation" *ngIf="isAdmin">
-                  <button class="home__post-approve" type="button" (click)="approvePost(post.id)">Approve</button>
+                  <button
+                    class="home__post-approve"
+                    type="button"
+                    (click)="approvePost(post.id)"
+                    *ngIf="!post.isApproved"
+                  >Approve</button>
                   <button class="home__post-delete" type="button" (click)="deletePost(post.id)">Delete</button>
                 </div>
             </article>

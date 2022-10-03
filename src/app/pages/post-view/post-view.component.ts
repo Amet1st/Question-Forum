@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Post } from 'src/app/models/interfaces/post.interface';
 import { Comment } from 'src/app/models/interfaces/comment.inteface';
@@ -26,6 +26,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
   }
   public form: FormGroup;
   private destroy = new Subject<boolean>();
+  public isAdmin = true;
 
 
   constructor(
@@ -33,7 +34,8 @@ export class PostViewComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -110,15 +112,30 @@ export class PostViewComponent implements OnInit, OnDestroy {
     const comment = this.comments.find(item => item.id === id);
     comment.isSolution = true;
 
-    this.postService.markCommentAsSolution(this.postMeta.postId, id, comment)
+    this.postService.markCommentAsSolution(this.postMeta.postId, id)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.postMeta.isPostSolved = true;
       })
   }
 
+  approvePost(id: string) {
+    this.postService.approvePost(id).subscribe(() => {
+      this.router.navigate(['/home']);
+    })
+  }
+
+
+  deletePost(id: string) {
+    console.log(this.post);
+    this.postService.deletePost(id).subscribe(() => {
+      this.router.navigate(['/home']);
+    })
+  }
+
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
   }
+
 }

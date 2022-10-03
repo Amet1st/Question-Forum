@@ -87,6 +87,22 @@
         @include button(blue, 100px, 30px);
     }
 
+    &__post-moderation {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    &__post-approve {
+      @include button(green, 100px, 30px);
+      cursor: pointer;
+    }
+
+    &__post-delete {
+      @include button(red, 100px, 30px);
+      cursor: pointer;
+    }
+
     &__media {
         background-color: rgb(0, 255, 255);
         padding: 10px;

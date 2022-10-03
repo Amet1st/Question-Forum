@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import {Subject, take, takeUntil} from 'rxjs';
 import { Post } from 'src/app/models/interfaces/post.interface';
 import { PostService } from 'src/app/shared/services/post.service';
-import {AuthService} from "../../shared/services/auth.service";
+import { AuthService } from "../../shared/services/auth.service";
+import {UsersService} from "../../shared/services/users.service";
+import {getAll} from "@angular/fire/remote-config";
 
 @Component({
   selector: 'app-home',
@@ -13,16 +15,35 @@ import {AuthService} from "../../shared/services/auth.service";
 export class HomeComponent implements OnInit, OnDestroy {
 
   public posts: Post[];
-  public isAdmin = true;
+  public isAdmin = false;
   private destroy = new Subject<boolean>();
 
   constructor(
     private postService: PostService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UsersService
   ) { }
 
   ngOnInit(): void {
 
+    this.authService.getAuthState()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(user => {
+        this.initializeHomePage(user.email);
+      })
+
+  }
+
+  initializeHomePage(email: string): void {
+    this.userService.getUserByEmail(email)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(user => {
+        this.isAdmin = user.isAdmin;
+        this.getAllPosts();
+      });
+  }
+
+  private getAllPosts(): void {
     this.postService.getAllPosts()
       .pipe(takeUntil(this.destroy))
       .subscribe(posts => {
@@ -32,7 +53,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   approvePost(id: string) {
     const post = this.posts.find(post => post.id);
-    this.postService.approvePost(id, post)
+    post.isApproved = true;
+    this.postService.approvePost(id)
       .subscribe(value => {
         console.log(value);
       })

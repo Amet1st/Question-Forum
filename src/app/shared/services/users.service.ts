@@ -14,23 +14,37 @@ export class UsersService {
     private http: HttpClient
   ) { }
 
-  public createUser(user: User) {
-    return this.http.post((environment.apiUrl + '/users.json'), user);
+  public createUserWithEmail(email: string) {
+    this.getUserByEmail(email).subscribe(result => {
+      if (!result) {
+        this.createUser(email).subscribe();
+      }
+    })
+  }
+
+  public createUser(email: string): Observable<Object> {
+    return this.http.post((environment.apiUrl + '/users.json'), {
+      email,
+      dateOfSignUp: new Date(),
+      isAdmin: false,
+    });
   }
 
   getUserByEmail(email: string): Observable<User> {
     return this.http.get((environment.apiUrl + '/users.json'))
       .pipe(
         map(data => {
-          const res = data as { [key: string]: object };
-          return Object.keys(data)
-            .map(id => {
-              return {
-                id,
-                ...res[id]
-              } as User;
-            })
-            .find(item => item.email === email)
+          if (data) {
+            const res = data as { [key: string]: object };
+            return Object.keys(data)
+              .map(id => {
+                return {
+                  id,
+                  ...res[id]
+                } as User;
+              })
+              .find(item => item.email === email)
+          } else return null;
         })
       );
   }

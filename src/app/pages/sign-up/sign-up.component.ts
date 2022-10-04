@@ -89,12 +89,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   private createUser(email: string) {
-    this.usersService.createUser({
-      email,
-      dateOfSignUp: new Date(),
-      isAdmin: false,
-      posts: 0
-    })
+    this.usersService.createUser(email)
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
          this.router.navigate(['/home']);

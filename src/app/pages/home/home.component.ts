@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Subject, take, takeUntil} from 'rxjs';
+import {Subject, takeUntil} from 'rxjs';
 import { Post } from 'src/app/models/interfaces/post.interface';
 import { PostService } from 'src/app/shared/services/post.service';
 import { AuthService } from "../../shared/services/auth.service";
 import {UsersService} from "../../shared/services/users.service";
-import {getAll} from "@angular/fire/remote-config";
+
 
 @Component({
   selector: 'app-home',
@@ -15,6 +15,7 @@ import {getAll} from "@angular/fire/remote-config";
 export class HomeComponent implements OnInit, OnDestroy {
 
   public posts: Post[];
+  public userEmail: string;
   public isAdmin = false;
   private destroy = new Subject<boolean>();
 
@@ -29,7 +30,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        this.initializeHomePage(user.email);
+        if (user) {
+          this.userEmail = user.email;
+          this.initializeHomePage(user.email);
+        }
       })
 
   }
@@ -38,26 +42,25 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userService.getUserByEmail(email)
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        this.isAdmin = user.isAdmin;
-        this.getAllPosts();
+        if (user) {
+          this.isAdmin = user.isAdmin;
+          this.getAllPosts(email);
+        }
       });
   }
 
-  private getAllPosts(): void {
+  private getAllPosts(email: string): void {
     this.postService.getAllPosts()
       .pipe(takeUntil(this.destroy))
       .subscribe(posts => {
-        this.posts = this.isAdmin ? posts : posts.filter(post => post.isApproved);
+        this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
       });
   }
 
   approvePost(id: string) {
     const post = this.posts.find(post => post.id);
     post.isApproved = true;
-    this.postService.approvePost(id)
-      .subscribe(value => {
-        console.log(value);
-      })
+    this.postService.approvePost(id).subscribe();
   }
 
   deletePost(id: string) {

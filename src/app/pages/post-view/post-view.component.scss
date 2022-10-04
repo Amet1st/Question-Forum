@@ -80,7 +80,7 @@
     }
 
     &__edit {
-        @include button(green, 100px, 30px);
+        @include button(yellow, 100px, 30px);
     }
 
     &__back {

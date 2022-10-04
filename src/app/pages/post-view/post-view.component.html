@@ -30,22 +30,23 @@
                       class="question__post-approve"
                       type="button"
                       (click)="approvePost(post.id)"
-                      *ngIf="!post.isApproved"
+                      *ngIf="!post.isApproved && isAdmin"
                     >Approve</button>
 
                     <button
                       class="question__post-delete"
                       type="button"
                       (click)="deletePost(post.id)"
+                      *ngIf="isAdmin"
                     >Delete</button>
                   </div>
                     <a
-                      class="question__back"
+                      class="question__edit"
                       [routerLink]="'/edit-post/' + post.id"
                       *ngIf="postMeta.isAuthor && !post.isApproved"
                     >Edit</a>
 
-                    <a class="question__edit" routerLink="/home">Back</a>
+                    <a class="question__back" routerLink="/home">Back</a>
                 </div>
             </div>
         </article>

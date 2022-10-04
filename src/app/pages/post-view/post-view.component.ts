@@ -26,7 +26,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
   }
   public form: FormGroup;
   private destroy = new Subject<boolean>();
-  public isAdmin = true;
+  public isAdmin = false;
 
 
   constructor(
@@ -50,8 +50,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
           this.post = post;
           this.comments = post.comments;
           this.postMeta.isPostSolved = !this.comments.every(item => !item.isSolution);
-          this.getUser(post.author);
-          this.checkAuthor(post.author);
+          this.checkRole(post.author);
         }
       );
   }
@@ -89,22 +88,18 @@ export class PostViewComponent implements OnInit, OnDestroy {
     this.form.reset();
   }
 
-  private checkAuthor(author: string) {
+  private checkRole(author: string) {
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
         if(user) {
           this.postMeta.userEmail = user.email;
           this.postMeta.isAuthor = user.email === author;
+          this.usersService.getUserByEmail(user.email)
+            .subscribe(user => {
+              this.isAdmin = user.isAdmin
+            })
         }
-      })
-  }
-
-  private getUser(email: string) {
-    this.usersService.getUserByEmail(email)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(user => {
-        this.postMeta.authorId = user?.id;
       })
   }
 
@@ -127,7 +122,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
 
   deletePost(id: string) {
-    console.log(this.post);
     this.postService.deletePost(id).subscribe(() => {
       this.router.navigate(['/home']);
     })

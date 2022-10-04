@@ -30,6 +30,10 @@
                   >Approve</button>
                   <button class="home__post-delete" type="button" (click)="deletePost(post.id)">Delete</button>
                 </div>
+
+                <p class="home__moderation-caption" *ngIf="(post.author === userEmail) && !isAdmin">
+                  <i>Post on moderation</i>
+                </p>
             </article>
         </div>
     </div>

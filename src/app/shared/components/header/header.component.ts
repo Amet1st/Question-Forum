@@ -29,12 +29,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
-      .subscribe(
-        (user: User) => {
+      .subscribe(user => {
+        if (user) {
           this.isLoggedIn = user;
-          this.userEmail = user?.email;
+          this.userEmail = user.email;
         }
-    );
+      });
 
   }
 
@@ -48,8 +48,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(
         user => {
-          this.userId = user?.id;
-          this.router.navigate(['/users/' + this.userId]);
+          if (user) {
+            this.userId = user.id;
+            this.router.navigate(['/users/' + this.userId]);
+          }
         }
       );
   }
@@ -72,6 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy.next(true);
-    this.destroy.unsubscribe();
+    this.destroy.complete();
   }
 }

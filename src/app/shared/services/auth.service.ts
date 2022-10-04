@@ -5,6 +5,8 @@ import { AuthProvider, User as FirebaseUser} from 'firebase/auth';
 import { Observable, from } from 'rxjs';
 import { UsersService } from './users.service';
 import {UserCredential} from '@firebase/auth-types';
+import {Router} from "@angular/router";
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private ngFireAuth: AngularFireAuth,
+    private router: Router
   ) {}
 
   public signIn(email: string, password: string): Observable<UserCredential> {
@@ -40,7 +43,11 @@ export class AuthService {
   }
 
   private authLogin(provider: AuthProvider): Observable<UserCredential> {
-    return from(this.ngFireAuth.signInWithPopup(provider));
+    return from(this.ngFireAuth.signInWithPopup(provider)
+      .then(result => {
+        this.usersService.createUserWithEmail(result.user.email);
+        return result;
+      }));
   }
 
   public signOut(): Observable<void> {

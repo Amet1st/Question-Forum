@@ -50,7 +50,7 @@
             </div>
         </article>
 
-        <div class="question__media">
+        <div class="question__media" *ngIf="post.isApproved">
             <h2 class="question__media-title">Comments / Answers</h2>
 
             <form class="question__form" [formGroup]="form" (ngSubmit)="onSubmit()">

@@ -12,135 +12,136 @@
 }
 
 .header {
+  background-color: rgb(241, 232, 232);
+  border-radius: 10px 10px 0px 0px;
+
+  &__container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  &__logo {
+      width: 60px;
+      height: 60px;
+
+      @media screen and (max-width: 480px) {
+          width: 30px;
+          height: 30px;
+      }
+  }
+
+  &__sign-in {
+      @include auth-link(#08c7c7);
+  }
+
+   &__sign-up {
+      @include auth-link((rgb(5, 194, 68)));
+  }
+
+  &__content {
+      display: flex;
+      gap: 20px;
+      padding: 10px;
+      align-items: center;
+  }
+
+  &__add {
+      cursor: pointer;
+      padding: 5px;
+      font-size: 18px;
+      background-color: rgb(233, 223, 18);
+      border-radius: 10px;
+
+      &:hover {
+          transform: scale(1.05);
+          color: white;
+      }
+
+      @media screen and (max-width: 480px) {
+          font-size: 12px;
+          width: 100%;
+      }
+  }
+
+  &__user-logo {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+
+      @media screen and (max-width: 480px) {
+          width: 25px;
+          height: 25px;
+      }
+
+      &:hover {
+          transform: scale(1.05);
+      }
+  }
+
+  &__email {
+      position: relative;
+      cursor: pointer;
+      &::after {
+          display: block;
+          position: absolute;
+          right: -20px;
+          top: 8px;
+          width: 0;
+          height: 0;
+          content: '';
+          border-left: 7px solid transparent;
+          border-right: 7px solid transparent;
+          border-top: 10px solid #000000;
+          cursor: pointer;
+      }
+
+      @media screen and (max-width: 440px) {
+          font-size: 12px;
+          &::after {
+              border-left: 4px solid transparent;
+              border-right: 4px solid transparent;
+              border-top: 7px solid #000000;
+              right: -15px;
+              top: 5px;
+          }
+      }
+  }
+
+  &__menu-items {
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+  }
+
+  &__menu-item {
+    cursor: pointer;
     background-color: rgb(241, 232, 232);
-
-    &__container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    border: 2px solid black;
+    padding: 3px;
+    margin: 3px;
+    display: block;
+    width: 70px;
+    &--logout {
+        background-color: rgb(224, 82, 82);
+        color: white;
     }
+  }
 
-    &__logo {
-        width: 60px;
-        height: 60px;
+}
 
-        @media screen and (max-width: 480px) {
-            width: 30px;
-            height: 30px;
-        }
-    }
+.menu-container {
+  position: relative;
+}
 
-    &__sign-in {
-        @include auth-link(#08c7c7);
-    }
-
-     &__sign-up {
-        @include auth-link((rgb(5, 194, 68)));
-    }
-
-    &__content {
-        display: flex;
-        gap: 20px;
-        padding: 10px;
-        align-items: center;
-    }
-
-    &__add {
-        cursor: pointer;
-        padding: 5px;
-        font-size: 18px;
-        background-color: rgb(233, 223, 18);
-        border-radius: 10px;
-
-        &:hover {
-            transform: scale(1.05);
-            color: white;
-        }
-
-        @media screen and (max-width: 480px) {
-            font-size: 12px;
-            width: 100%;
-        }
-    }
-
-    &__user-logo {
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-
-        @media screen and (max-width: 480px) {
-            width: 25px;
-            height: 25px;
-        }
-
-        &:hover {
-            transform: scale(1.05);
-        }
-    }
-
-    &__email {
-        position: relative;
-        cursor: pointer;
-        &::after {
-            display: block;
-            position: absolute;
-            right: -20px;
-            top: 8px;
-            width: 0;
-            height: 0;
-            content: '';
-            border-left: 7px solid transparent;
-            border-right: 7px solid transparent;
-            border-top: 10px solid #000000;
-            cursor: pointer;
-        }
-
-        @media screen and (max-width: 440px) {
-            font-size: 12px;
-            &::after {
-                border-left: 4px solid transparent;
-                border-right: 4px solid transparent;
-                border-top: 7px solid #000000;
-                right: -15px;
-                top: 5px;
-            }
-        }
-    }
-
-    &__menu-items {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        margin: 0px;
-        top: 20px;
-        right: 50px;
-        width: 0px;
-        height: 0px;
-    }
-
-    &__menu-item {
-        cursor: pointer;
-        background-color: rgb(241, 232, 232);
-        border: 2px solid black;
-        padding: 3px;
-        margin: 3px;
-        display: block;
-        width: 70px;
-        &--logout {
-            background-color: rgb(224, 82, 82);
-            color: white;
-        }
-    }
-
-    &__drop-down {
-        position: relative;
-        display: inline-block;
-    }
+.menu {
+  position: absolute;
+  right: 0;
+  top: 20px;
 }
 
 .active {
     opacity: 0.4;
-    box-shadow: 1px;
 }
 
 .active-add {

@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public posts: Post[];
   public userEmail: string;
   public isAdmin = false;
+  public toggledMenuId: number;
   private destroy = new Subject<boolean>();
 
   constructor(
@@ -67,6 +68,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.postService.deletePost(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id);
     });
+  }
+
+  toggleMenu(id: number) {
+    this.toggledMenuId = id;
+  }
+
+  clickedOutside() {
+    this.toggledMenuId = null;
   }
 
   ngOnDestroy(): void {

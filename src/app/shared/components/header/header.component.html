@@ -1,6 +1,6 @@
 <header class="header container header__container">
     <a routerLink="/home" routerLinkActive="header__home">
-        <img class="header__logo" src="../../../assets/logo.png" alt="logo">
+        <img class="header__logo" src="./../../assets/logo.png" alt="logo">
     </a>
 
     <nav class="header__content">
@@ -17,13 +17,23 @@
             <a (click)="goToProfile()">
                 <img class="header__user-logo" src="../../../../assets/png/user.png" alt="user">
             </a>
-            <p class="header__email" (click)="toggleMenu()">
+
+            <div class="menu-container" clickOutside (clickOutside)="clickOutside()">
+              <p class="header__email" (click)="toggleMenu()">
                 {{userEmail}}
-            </p>
-            <ul class="header__menu-items" *ngIf="isMenuVisible">
-                <a class="header__menu-item" (click)="goToProfile()">Profile</a>
-                <a class="header__menu-item header__menu-item--logout" (click)="logOut()">Log out</a>
-            </ul>
+              </p>
+              <div class="menu" *ngIf="isMenuOpened">
+                <ul class="header__menu-items">
+                  <li>
+                    <a class="header__menu-item" (click)="goToProfile()">Profile</a>
+                  </li>
+
+                  <li>
+                    <a class="header__menu-item header__menu-item--logout" (click)="logOut()">Log out</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
         </ng-template>
         <div class="header__drop-down">
         </div>

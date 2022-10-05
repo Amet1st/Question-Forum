@@ -1,10 +1,38 @@
 <section class="home">
     <div class="container home__container">
         <div class="home__header">
-          <ul class="home__options">
-            <li class="home__filter">Filter</li>
-            <li class="home__sort">Sort</li>
-            <li class="home__settings">Settings</li>
+          <ul class="home__options" clickOutside (clickOutside)="clickedOutside()">
+            <li class="menu-container">
+              <p class="home__filter" [id]="1" (click)="toggleMenu(1)">Filter</p>
+
+              <div class="menu" *ngIf="toggledMenuId === 1">
+                <div class="menu-item">Answered</div>
+
+                <div class="menu-item">Categories</div>
+
+                <div class="menu-item">Time period</div>
+              </div>
+            </li>
+
+            <li class="menu-container">
+              <p class="home__sort" [id]="2" (click)="toggleMenu(2)">Sort</p>
+
+              <div class="menu" *ngIf="toggledMenuId === 2">
+                <div class="menu-item">New</div>
+
+                <div class="menu-item">Old</div>
+              </div>
+            </li>
+
+            <li class="menu-container">
+              <p class="home__filter" [id]="3" (click)="toggleMenu(3)">Settings</p>
+
+              <div class="menu" *ngIf="toggledMenuId === 3">
+                <div class="menu-item">Posts display</div>
+
+                <div class="menu-item">Theme</div>
+              </div>
+            </li>
           </ul>
         </div>
         <h2 class="home__title">Active questions</h2>

@@ -20,6 +20,7 @@ import { HttpClientModule }   from '@angular/common/http';
 import { PostViewComponent } from './pages/post-view/post-view.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditPostComponent } from './pages/edit-post/edit-post.component';
+import { ClickOutsideDirective } from './shared/directives/click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { EditPostComponent } from './pages/edit-post/edit-post.component';
     PostViewComponent,
     ProfileComponent,
     EditPostComponent,
+    ClickOutsideDirective,
   ],
   imports: [
     BrowserModule,

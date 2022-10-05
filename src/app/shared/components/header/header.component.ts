@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isLoggedIn: User;
   public userEmail: string;
   public userId: string;
-  public isMenuVisible = false;
+  public isMenuOpened = false;
   private destroy = new Subject<boolean>();
 
   constructor(
@@ -28,10 +28,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-
-    this.route.url.subscribe(value => {
-      console.log(value);
-    })
 
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
@@ -45,7 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public goToProfile() {
-    this.isMenuVisible = false;
+    this.isMenuOpened = false;
     this.getUser(this.userEmail);
   }
 
@@ -63,11 +59,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public toggleMenu(): void {
-    this.isMenuVisible = !this.isMenuVisible;
+    this.isMenuOpened = !this.isMenuOpened;
   }
 
   public logOut(): void {
-    this.isMenuVisible = false;
+    this.isMenuOpened = false;
 
     this.authService.signOut()
       .subscribe(
@@ -76,6 +72,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (error: Error) => {
         console.log(error.message);
       };
+  }
+
+  clickOutside() {
+    this.isMenuOpened = false;
   }
 
   ngOnDestroy(): void {

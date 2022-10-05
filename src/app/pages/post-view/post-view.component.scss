@@ -16,9 +16,10 @@
 .question {
 
     &__container {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 100px;
     }
 
     &__info {

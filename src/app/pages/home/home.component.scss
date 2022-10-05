@@ -15,100 +15,129 @@
 
 .home {
 
-    &__title {
-        font-size: 30px;
-        color: white;
-        text-align: center;
+  &__container {
+    padding: 0px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    color: white;
+    background: #ad2929;
+    width: 100%;
+    height: 60px;
+    padding: 10px 150px;
+    margin-bottom: 100px;
+    max-width: 1170px;
+    border: 2px solid black;
+  }
+
+  &__options {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 25px;
+
+    & li {
+      font-size: 18px;
+      cursor: pointer;
     }
+  }
 
-    &__posts {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
+  &__title {
+      font-size: 30px;
+      text-align: center;
+      margin-bottom: 30px;
+  }
 
-    &__post {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        overflow: hidden;
-        gap: 5px;
-        padding: 5px 10px;
-        width: 30%;
-        background-color: white;
-        border: 2px solid black;
-        height: 160px;
+  &__posts {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+  }
 
-        @media screen and (max-width: 500px) {
-            width: 40%;
-        }
-    }
+  &__post {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      overflow: hidden;
+      gap: 5px;
+      padding: 5px 10px;
+      width: 30%;
+      background-color: white;
+      border: 2px solid black;
+      height: 160px;
 
-    &__post-title {
-        font-size: 25px;
-        cursor: pointer;
-        text-overflow: ellipsis;
-        overflow: hidden;
+      @media screen and (max-width: 500px) {
+          width: 40%;
+      }
+  }
 
-        &:hover {
-            text-decoration: underline;
-        }
+  &__post-title {
+      font-size: 25px;
+      cursor: pointer;
+      text-overflow: ellipsis;
+      overflow: hidden;
 
-        @media screen and (max-width: 850px) {
-            font-size: 20px;
-        }
+      &:hover {
+          text-decoration: underline;
+      }
 
-        @media screen and (max-width: 350px) {
-            font-size: 15px;
-        }
-    }
+      @media screen and (max-width: 850px) {
+          font-size: 20px;
+      }
 
-    &__post-date {
-        font-size: 12px;
-        align-self: center;
+      @media screen and (max-width: 350px) {
+          font-size: 15px;
+      }
+  }
 
-        @media screen and (max-width: 600px) {
-            font-size: 8px;
-        }
+  &__post-date {
+      font-size: 12px;
+      align-self: center;
 
-        @media screen and (max-width: 350px) {
-            font-size: 6px;
-        }
-    }
+      @media screen and (max-width: 600px) {
+          font-size: 8px;
+      }
 
-    &__post-info {
-        border-top: 1px solid #000;
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-    }
+      @media screen and (max-width: 350px) {
+          font-size: 6px;
+      }
+  }
 
-    &__post-tags {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 5px;
-        padding: 10px;
-        font-style: italic;
-    }
+  &__post-info {
+      border-top: 1px solid #000;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+  }
 
-    &__post-tag {
-        cursor: pointer;
-        color: blue;
-        &:hover {
-            text-decoration: underline;
-        }
+  &__post-tags {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 10px;
+      font-style: italic;
+  }
 
-        @media screen and (max-width: 600px) {
-            font-size: 10px;
-        }
+  &__post-tag {
+      cursor: pointer;
+      color: blue;
+      &:hover {
+          text-decoration: underline;
+      }
 
-        @media screen and (max-width: 350px) {
-            font-size: 8px;
-        }
-    }
+      @media screen and (max-width: 600px) {
+          font-size: 10px;
+      }
+
+      @media screen and (max-width: 350px) {
+          font-size: 8px;
+      }
+  }
 
   &__post-moderation {
     display: flex;

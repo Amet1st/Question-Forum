@@ -2,13 +2,12 @@
     <div class="container question__container">
         <article class="question__post" *ngIf="post">
             <div class="question__info">
-                <small class="question__date">{{post.date | date}}</small>
+              <small class="question__date">{{post.date | date}}</small>
 
-                <a [routerLink]="'/users/' + postMeta.authorId">
-                    <small class="question__author">
-                        {{post.author}}
-                    </small>
-                </a>
+              <small class="question__author">
+                  {{post.author}}
+              </small>
+
             </div>
 
             <h2 class="question__title">{{post.title}}</h2>

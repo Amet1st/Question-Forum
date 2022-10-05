@@ -1,10 +1,11 @@
 @mixin auth-button($color) {
-    margin-top: 20px;
-    width: 200px;
-    height: 50px;
-    font-size: 25px;
-    cursor: pointer;
-    background-color: $color;
+  margin-top: 20px;
+  width: 200px;
+  height: 50px;
+  font-size: 25px;
+  cursor: pointer;
+  background-color: $color;
+  border-radius: 10px;
 
     &:hover {
         transition: all 0.3s;
@@ -25,12 +26,13 @@
     }
 
     &__form {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        align-items: center;
-        background-color: rgb(216, 197, 216);
-        padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      background-color: rgb(216, 197, 216);
+      padding: 30px;
+      margin-top: 100px;
     }
 
     &__form-group {
@@ -53,7 +55,7 @@
     }
 
     &__sign-in {
-        @include auth-button(aqua);
+        @include auth-button(#08c7c7);
         display: flex;
         justify-content: center;
         align-items: center;

@@ -12,6 +12,7 @@
                   <option>Not solved</option>
                 </select>
 
+
                 <select class="menu-item" [ngModel]="options.selectedByCategory" (ngModelChange)="onChange($event)">
                   <option>By category</option>
                   <option *ngFor="let category of categories">{{category}}</option>

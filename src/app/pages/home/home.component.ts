@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Subject, takeUntil} from 'rxjs';
+import { Subject, takeUntil} from 'rxjs';
 import { Post } from 'src/app/models/interfaces/post.interface';
 import { PostService } from 'src/app/shared/services/post.service';
 import { AuthService } from "../../shared/services/auth.service";
@@ -16,7 +16,9 @@ import {TAGS} from "../../models/tags.const";
 export class HomeComponent implements OnInit, OnDestroy {
 
   public posts: Post[];
+  public allPosts: Post[];
   public categories = TAGS;
+  public timeFilters = ['Time period', 'Last day', 'Last week', 'Last month', 'All time'];
   public userEmail: string;
   public isAdmin = false;
   public options = {
@@ -64,6 +66,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(posts => {
         this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
+        this.allPosts = this.posts;
       });
   }
 
@@ -87,12 +90,78 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.toggledMenuId = null;
   }
 
+  onChange(option: string) {
+
+    if (this.categories.includes(option)) {
+      this.filterByTag(option);
+      return;
+    }
+
+    if (this.timeFilters.includes(option)) {
+      this.filterByTime(option);
+      return;
+    }
+
+    switch (option) {
+      case 'Solved':
+        break;
+    }
+  }
+
+  private filterByTag(option: string) {
+    this.posts = this.allPosts.filter(post => post.tags.includes(option.toLowerCase()));
+  }
+
+  private filterByTime(option: string) {
+
+    switch (option) {
+      case 'Last day':
+        this.posts = this.allPosts.filter(post => {
+          const timeDifference = new Date().getTime() - new Date(post.date).getTime();
+          return timeDifference <= 8.64e+7;
+        })
+        break;
+      case 'Last week':
+        this.posts = this.allPosts.filter(post => {
+          const timeDifference = new Date().getTime() - new Date(post.date).getTime();
+          return timeDifference <= 6.048e+8;
+        })
+        break;
+      case 'Last month':
+        this.posts = this.allPosts.filter(post => {
+          const timeDifference = new Date().getTime() - new Date(post.date).getTime();
+          return timeDifference <= 2.628e+9;
+        })
+        break;
+      case 'All time':
+        this.posts = this.allPosts;
+        break;
+    }
+  }
+
+  public sortPosts(event: Event) {
+    this.toggledMenuId = null;
+
+    const target = event.target as HTMLElement;
+    const value = target.innerText;
+
+    switch (value) {
+      case 'New':
+        this.posts = this.allPosts.sort((a, b) => {
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        })
+        break;
+      case 'Old':
+        this.posts = this.allPosts.sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        })
+        break;
+    }
+  }
+
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
   }
 
-  onChange(event: any) {
-    console.log(event)
-  }
 }

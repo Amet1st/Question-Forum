@@ -14,16 +14,12 @@
 
                 <select class="menu-item" [ngModel]="options.selectedByCategory" (ngModelChange)="onChange($event)">
                   <option>By category</option>
-                  <option *ngFor="let category of categories">{{category | titlecase}}</option>
+                  <option *ngFor="let category of categories">{{category}}</option>
                 </select>
 
 
                 <select class="menu-item" [ngModel]="options.selectedByTime" (ngModelChange)="onChange($event)">
-                  <option>Time period</option>
-                  <option>Last day</option>
-                  <option>Last week</option>
-                  <option>Last month</option>
-                  <option>All time</option>
+                  <option *ngFor="let option of timeFilters">{{option}}</option>
                 </select>
               </div>
             </li>
@@ -32,9 +28,9 @@
               <p class="home__sort" [id]="2" (click)="toggleMenu(2)">Sort</p>
 
               <div class="menu" *ngIf="toggledMenuId === 2">
-                <div class="menu-item">New</div>
+                <div class="menu-item" (click)="sortPosts($event)">New</div>
 
-                <div class="menu-item">Old</div>
+                <div class="menu-item" (click)="sortPosts($event)">Old</div>
               </div>
             </li>
 

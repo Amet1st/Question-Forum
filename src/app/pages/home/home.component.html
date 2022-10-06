@@ -1,24 +1,24 @@
 <section class="home">
     <div class="container home__container">
         <div class="home__header">
-          <ul class="home__options" clickOutside (clickOutside)="clickedOutside()">
+          <ul class="home__options" (clickOutside)="clickedOutside()">
             <li class="menu-container">
               <p class="home__filter" [id]="1" (click)="toggleMenu(1)">Filter</p>
 
               <div class="menu" *ngIf="toggledMenuId === 1">
-                <select class="menu-item">
+                <select class="menu-item" [(ngModel)]="options.selectedByAnswer" (ngModelChange)="onChange($event)">
                   <option>By answer</option>
                   <option>Solved</option>
                   <option>Not solved</option>
                 </select>
 
-                <select class="menu-item">
+                <select class="menu-item" [ngModel]="options.selectedByCategory" (ngModelChange)="onChange($event)">
                   <option>By category</option>
                   <option *ngFor="let category of categories">{{category | titlecase}}</option>
                 </select>
 
 
-                <select class="menu-item">
+                <select class="menu-item" [ngModel]="options.selectedByTime" (ngModelChange)="onChange($event)">
                   <option>Time period</option>
                   <option>Last day</option>
                   <option>Last week</option>
@@ -42,13 +42,13 @@
               <p class="home__filter" [id]="3" (click)="toggleMenu(3)">Settings</p>
 
               <div class="menu" *ngIf="toggledMenuId === 3">
-                <select class="menu-item">
+                <select class="menu-item" [ngModel]="options.selectedPostDisplay" (ngModelChange)="onChange($event)">
                   <option>Posts display</option>
                   <option>Tiled</option>
                   <option>Inline</option>
                 </select>
 
-                <select class="menu-item">
+                <select class="menu-item" [ngModel]="options.selectedTheme" (ngModelChange)="onChange($event)">
                   <option>Theme</option>
                   <option>Light</option>
                   <option>Dark</option>

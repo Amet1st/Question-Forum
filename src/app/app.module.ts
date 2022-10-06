@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -35,17 +35,18 @@ import { ClickOutsideDirective } from './shared/directives/click-outside.directi
     EditPostComponent,
     ClickOutsideDirective,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireDatabaseModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
+        AngularFirestoreModule,
+        AngularFireStorageModule,
+        AngularFireDatabaseModule,
+        HttpClientModule,
+        FormsModule
+    ],
   providers: [
     AuthService,
     AuthGuard

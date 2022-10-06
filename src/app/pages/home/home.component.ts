@@ -19,6 +19,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   public categories = TAGS;
   public userEmail: string;
   public isAdmin = false;
+  public options = {
+    selectedByAnswer: 'By answer',
+    selectedByCategory: 'By category',
+    selectedByTime: 'Time period',
+    selectedPostDisplay: 'Posts display',
+    selectedTheme: 'Theme'
+  };
   public toggledMenuId: number;
   private destroy = new Subject<boolean>();
 
@@ -85,4 +92,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
+  onChange(event: any) {
+    console.log(event)
+  }
 }

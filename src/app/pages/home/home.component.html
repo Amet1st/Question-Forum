@@ -18,7 +18,6 @@
                   <option *ngFor="let category of categories">{{category}}</option>
                 </select>
 
-
                 <select class="menu-item" [ngModel]="options.selectedByTime" (ngModelChange)="onChange($event)">
                   <option *ngFor="let option of timeFilters">{{option}}</option>
                 </select>

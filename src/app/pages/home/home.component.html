@@ -6,11 +6,25 @@
               <p class="home__filter" [id]="1" (click)="toggleMenu(1)">Filter</p>
 
               <div class="menu" *ngIf="toggledMenuId === 1">
-                <div class="menu-item">Answered</div>
+                <select class="menu-item">
+                  <option>By answer</option>
+                  <option>Solved</option>
+                  <option>Not solved</option>
+                </select>
 
-                <div class="menu-item">Categories</div>
+                <select class="menu-item">
+                  <option>By category</option>
+                  <option *ngFor="let category of categories">{{category | titlecase}}</option>
+                </select>
 
-                <div class="menu-item">Time period</div>
+
+                <select class="menu-item">
+                  <option>Time period</option>
+                  <option>Last day</option>
+                  <option>Last week</option>
+                  <option>Last month</option>
+                  <option>All time</option>
+                </select>
               </div>
             </li>
 
@@ -28,9 +42,17 @@
               <p class="home__filter" [id]="3" (click)="toggleMenu(3)">Settings</p>
 
               <div class="menu" *ngIf="toggledMenuId === 3">
-                <div class="menu-item">Posts display</div>
+                <select class="menu-item">
+                  <option>Posts display</option>
+                  <option>Tiled</option>
+                  <option>Inline</option>
+                </select>
 
-                <div class="menu-item">Theme</div>
+                <select class="menu-item">
+                  <option>Theme</option>
+                  <option>Light</option>
+                  <option>Dark</option>
+                </select>
               </div>
             </li>
           </ul>

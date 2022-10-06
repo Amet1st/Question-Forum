@@ -4,6 +4,7 @@ import { Post } from 'src/app/models/interfaces/post.interface';
 import { PostService } from 'src/app/shared/services/post.service';
 import { AuthService } from "../../shared/services/auth.service";
 import {UsersService} from "../../shared/services/users.service";
+import {TAGS} from "../../models/tags.const";
 
 
 @Component({
@@ -15,6 +16,7 @@ import {UsersService} from "../../shared/services/users.service";
 export class HomeComponent implements OnInit, OnDestroy {
 
   public posts: Post[];
+  public categories = TAGS;
   public userEmail: string;
   public isAdmin = false;
   public toggledMenuId: number;
@@ -70,11 +72,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  toggleMenu(id: number) {
-    this.toggledMenuId = id;
+  toggleMenu(id: number): void {
+    this.toggledMenuId = this.toggledMenuId === id ? null : id;
   }
 
-  clickedOutside() {
+  clickedOutside(): void {
     this.toggledMenuId = null;
   }
 
@@ -82,4 +84,5 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy.next(true);
     this.destroy.complete();
   }
+
 }

@@ -80,8 +80,9 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
     this.postService.createComment(this.postMeta.postId, commentBody)
       .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
+      .subscribe((id) => {
         const comment = commentBody as Comment;
+        comment.id = Object.values(id)[0];
         this.comments.push(comment);
       });
 
@@ -104,12 +105,18 @@ export class PostViewComponent implements OnInit, OnDestroy {
   }
 
   markAsSolution(id: string) {
+
+    this.postService.markPostAsSolved(this.postMeta.postId).subscribe(value => {
+      console.log(value);
+    })
+
     const comment = this.comments.find(item => item.id === id);
     comment.isSolution = true;
 
     this.postService.markCommentAsSolution(this.postMeta.postId, id)
       .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
+      .subscribe((res) => {
+        console.log(res);
         this.postMeta.isPostSolved = true;
       })
   }

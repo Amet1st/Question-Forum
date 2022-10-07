@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     selectedTheme: 'Theme'
   };
   public toggledMenuId: number;
+  public isDisplayInline = false;
   private destroy = new Subject<boolean>();
 
   constructor(
@@ -104,11 +105,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     switch (option) {
       case 'Solved':
+        this.posts = this.allPosts.filter(post => post.isSolved);
+        break;
+      case 'Not solved':
+        this.posts = this.allPosts.filter(post => !post.isSolved);
+        break;
+      case 'Inline':
+        this.isDisplayInline = true;
+        break;
+      case 'Tiled':
+        this.isDisplayInline = false;
         break;
     }
   }
 
-  private filterByTag(option: string) {
+  public filterByTag(option: string) {
     this.posts = this.allPosts.filter(post => post.tags.includes(option.toLowerCase()));
   }
 
@@ -148,13 +159,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     switch (value) {
       case 'New':
         this.posts = this.allPosts.sort((a, b) => {
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
-        })
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
         break;
       case 'Old':
         this.posts = this.allPosts.sort((a, b) => {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        })
+          return new Date(a.date).getTime() - new Date(b.date).getTime();
+        });
         break;
     }
   }

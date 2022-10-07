@@ -92,6 +92,12 @@ export class PostService {
       })
   }
 
+  public markPostAsSolved(id: string) {
+    return this.http.patch((environment.apiUrl + '/posts/' + id + '.json'), {
+      isSolved: true
+    })
+  }
+
   public approvePost(id: string): Observable<Object> {
     return this.http.patch((environment.apiUrl + '/posts/' + id + '.json'), {
       isApproved: true

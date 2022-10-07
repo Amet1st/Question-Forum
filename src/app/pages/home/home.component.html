@@ -3,7 +3,7 @@
         <div class="home__header">
           <ul class="home__options" (clickOutside)="clickedOutside()">
             <li class="menu-container">
-              <p class="home__filter" [id]="1" (click)="toggleMenu(1)">Filter</p>
+              <p class="home__filter" (click)="toggleMenu(1)">Filter</p>
 
               <div class="menu" *ngIf="toggledMenuId === 1">
                 <select class="menu-item" [(ngModel)]="options.selectedByAnswer" (ngModelChange)="onChange($event)">
@@ -25,7 +25,7 @@
             </li>
 
             <li class="menu-container">
-              <p class="home__sort" [id]="2" (click)="toggleMenu(2)">Sort</p>
+              <p class="home__sort" (click)="toggleMenu(2)">Sort</p>
 
               <div class="menu" *ngIf="toggledMenuId === 2">
                 <div class="menu-item" (click)="sortPosts($event)">New</div>
@@ -35,7 +35,7 @@
             </li>
 
             <li class="menu-container">
-              <p class="home__filter" [id]="3" (click)="toggleMenu(3)">Settings</p>
+              <p class="home__filter" (click)="toggleMenu(3)">Settings</p>
 
               <div class="menu" *ngIf="toggledMenuId === 3">
                 <select class="menu-item" [ngModel]="options.selectedPostDisplay" (ngModelChange)="onChange($event)">
@@ -59,16 +59,22 @@
             <article
               class="home__post"
               *ngFor="let post of posts"
+              [class.inline]="isDisplayInline"
             >
                 <a [routerLink]="'/posts/' + post.id">
                     <h3 class="home__post-title">{{post.title}}</h3>
                 </a>
 
                 <div class="home__post-info">
-                    <small class="home__post-date">{{post.date | date: 'd/M/yyyy, h:mm a'}}</small>
+                    <small class="home__post-date">{{post.date | date: 'd.M.yyyy, h:mm a'}}</small>
 
                     <ul class="home__post-tags">
-                        <li class="home__post-tag" *ngFor="let tag of post.tags; let i = index">
+                        <li
+                          class="home__post-tag"
+                          *ngFor="let tag of post.tags;
+                          let i = index"
+                          (click)="filterByTag(tag)"
+                        >
                             {{tag}}
                         </li>
                     </ul>

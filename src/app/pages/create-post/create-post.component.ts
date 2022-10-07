@@ -72,14 +72,15 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const formData = { ...this.form.value }
+    const formData = { ...this.form.value };
     formData.tags = Object.keys(formData.tags);
 
     const body: Post = {
       ...formData,
       author: this.author,
       date: new Date(),
-      isApproved: false
+      isApproved: false,
+      isSolved: false
     }
 
     this.postService.createPost(body)

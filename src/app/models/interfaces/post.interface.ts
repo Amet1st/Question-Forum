@@ -10,4 +10,5 @@ export interface Post {
   tags: string[];
   comments: Comment[];
   isApproved: boolean;
+  isSolved: boolean;
 }

@@ -1,31 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:wght@500&family=Oswald&family=Press+Start+2P&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Ibarra Real Nova', serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Ibarra Real Nova', serif;
+}
+
+body {
+  background: #eee;
 }
 
 
 a {
-    text-decoration: none;
-    color: #000;
+  text-decoration: none;
+  color: #000;
 }
 
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
 
 .container {
-    max-width: 1170px;
-    width: 100%;
-    padding: 0 15px;
-    margin: 0 auto;
+  max-width: 1170px;
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
 }
 
 .error {

@@ -92,6 +92,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onChange(option: string) {
+    this.toggledMenuId = null;
 
     if (this.categories.includes(option)) {
       this.filterByTag(option);

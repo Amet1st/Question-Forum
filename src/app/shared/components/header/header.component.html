@@ -1,6 +1,6 @@
 <header class="header container header__container">
     <a routerLink="/home" routerLinkActive="header__home">
-        <img class="header__logo" src="./../../assets/logo.png" alt="logo">
+        <img class="header__logo" src="assets/png/logo.png" alt="logo">
     </a>
 
     <nav class="header__content">
@@ -18,7 +18,7 @@
                 <img class="header__user-logo" src="../../../../assets/png/user.png" alt="user">
             </a>
 
-            <div class="menu-container" clickOutside (clickOutside)="clickOutside()">
+            <div class="menu-container" (clickOutside)="clickOutside()">
               <p class="header__email" (click)="toggleMenu()">
                 {{userEmail}}
               </p>

@@ -6,9 +6,9 @@ export interface Post {
   authorId: string;
   title: string;
   text: string;
+  isApproved: boolean;
+  isSolved: boolean;
   date: Date;
   tags: string[];
   comments: Comment[];
-  isApproved: boolean;
-  isSolved: boolean;
 }

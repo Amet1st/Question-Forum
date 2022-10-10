@@ -48,18 +48,18 @@
                     Tags:
                     <ul class="add__checkbox">
                         <li *ngFor="let item of categories; let i = index">
-                            <label class="add__checkbox-label" for="{{item}}">
-                                <input type="checkbox" [checked]="isChecked(item.toLocaleLowerCase())" id="{{item.toLocaleLowerCase()}}" (change)="onChecked($event)">
+                            <label class="add__checkbox-label">
+                                <input type="checkbox" [checked]="isChecked(item.toLocaleLowerCase())" (change)="onChecked($event)">
                                 {{item}}
                             </label>
                         </li>
                     </ul>
                 </span>
             </div>
-        
+
             <div class="add__group add__group--buttons">
                 <button class="add__button add__button--ok" [disabled]="form.invalid || !isTagChecked">Ok</button>
-                
+
                 <a class="add__button add__button--cancel" routerLink="/home">Cancel</a>
             </div>
         </form>

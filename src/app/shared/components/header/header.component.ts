@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { User } from 'firebase/auth';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { OnDestroy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { UsersService } from '../../services/users.service';
@@ -22,8 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {
   }
 

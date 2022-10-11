@@ -13,7 +13,7 @@ import { UsersService } from '../../services/users.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  public isLoggedIn: User;
+  public isLoggedIn: boolean;
   public userEmail: string;
   public userId: string;
   public isMenuOpened = false;
@@ -31,10 +31,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        if (user) {
-          this.isLoggedIn = user;
-          this.userEmail = user.email;
-        }
+          this.isLoggedIn = !!user;
+          if (user) {
+            this.userEmail = user.email;
+          }
       });
 
   }

@@ -21,6 +21,9 @@ import { PostViewComponent } from './pages/post-view/post-view.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditPostComponent } from './pages/edit-post/edit-post.component';
 import { ClickOutsideDirective } from './shared/directives/click-outside.directive';
+import { FilterByTagPipe } from './shared/pipes/filter-by-tag.pipe';
+import { FilterByTimePipe } from './shared/pipes/filter-by-time.pipe';
+import { FilterBySolutionPipe } from './shared/pipes/filter-by-solution.pipe';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,9 @@ import { ClickOutsideDirective } from './shared/directives/click-outside.directi
     ProfileComponent,
     EditPostComponent,
     ClickOutsideDirective,
+    FilterByTagPipe,
+    FilterByTimePipe,
+    FilterBySolutionPipe,
   ],
     imports: [
         BrowserModule,

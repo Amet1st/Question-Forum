@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
 
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
@@ -65,15 +65,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isMenuOpened = false;
 
     this.authService.signOut()
-      .subscribe(
-        () => this.router.navigate(['/sign-in'])
-      ),
-      (error: Error) => {
-        console.log(error.message);
-      };
+      .subscribe(() => this.router.navigate(['/sign-in']))
   }
 
-  clickOutside() {
+  public clickOutside(): void {
     this.isMenuOpened = false;
   }
 

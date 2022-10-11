@@ -16,9 +16,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   public categories = TAGS;
   public form: FormGroup;
-  private destroy = new Subject<boolean>();
   public isTagChecked = false;
   private author: string;
+  private destroy = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,7 +33,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        this.author = user.email;
+        if (user) {
+          this.author = user.email;
+        }
       });
   }
 
@@ -55,7 +57,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     })
   }
 
-  onChecked(event: Event) {
+  public onChecked(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
 
     if (checkbox.checked) {
@@ -67,13 +69,14 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     this.isTagChecked = Boolean((Object.keys(this.form.get('tags').value)).length);
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     if (this.form.invalid) {
       return;
     }
 
     const formData = { ...this.form.value };
     formData.tags = Object.keys(formData.tags);
+    console.log(formData);
 
     const body: Post = {
       ...formData,

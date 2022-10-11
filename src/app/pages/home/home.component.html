@@ -6,20 +6,26 @@
             <p class="home__filter" (click)="toggleMenu(1)">Filter</p>
 
             <div class="menu" *ngIf="toggledMenuId === 1">
-              <select class="menu-item" [(ngModel)]="options.selectedByAnswer" (ngModelChange)="onChange($event)">
-                <option>By answer</option>
+              <select class="menu-item" [(ngModel)]="filters.filterByAnswer">
+                <option disabled>By answer</option>
                 <option>Solved</option>
                 <option>Not solved</option>
+                <option>All</option>
               </select>
 
 
-              <select class="menu-item" [ngModel]="options.selectedByCategory" (ngModelChange)="onChange($event)">
-                <option>By category</option>
+              <select class="menu-item" [(ngModel)]="filters.filterByCategory">
+                <option disabled>By category</option>
                 <option *ngFor="let category of categories">{{category}}</option>
+                <option>All</option>
               </select>
 
-              <select class="menu-item" [ngModel]="options.selectedByTime" (ngModelChange)="onChange($event)">
-                <option *ngFor="let option of timeFilters">{{option}}</option>
+              <select class="menu-item" [(ngModel)]="filters.filterByTime">
+                <option disabled>Time period</option>
+                <option>Last day</option>
+                <option>Last week</option>
+                <option>Last month</option>
+                <option>All time</option>
               </select>
             </div>
           </li>
@@ -28,9 +34,9 @@
             <p class="home__sort" (click)="toggleMenu(2)">Sort</p>
 
             <div class="menu" *ngIf="toggledMenuId === 2">
-              <div class="menu-item" (click)="sortPosts($event)">New</div>
+              <div class="menu-item" (click)="sortPosts($event)">New first</div>
 
-              <div class="menu-item" (click)="sortPosts($event)">Old</div>
+              <div class="menu-item" (click)="sortPosts($event)">Old first</div>
             </div>
           </li>
 
@@ -38,14 +44,14 @@
             <p class="home__filter" (click)="toggleMenu(3)">Settings</p>
 
             <div class="menu" *ngIf="toggledMenuId === 3">
-              <select class="menu-item" [ngModel]="options.selectedPostDisplay" (ngModelChange)="onChange($event)">
-                <option>Posts display</option>
+              <select class="menu-item" [(ngModel)]="filters.selectedPostDisplay" (ngModelChange)="postDisplayChange()">
+                <option disabled>Posts display</option>
                 <option>Tiled</option>
                 <option>Inline</option>
               </select>
 
-              <select class="menu-item" [ngModel]="options.selectedTheme" (ngModelChange)="onChange($event)">
-                <option>Theme</option>
+              <select class="menu-item" [(ngModel)]="filters.selectedTheme">
+                <option disabled>Theme</option>
                 <option>Light</option>
                 <option>Dark</option>
               </select>
@@ -58,7 +64,10 @@
       <div class="home__posts" [class.home__posts--inline]="isDisplayInline">
           <article
             class="home__post"
-            *ngFor="let post of posts"
+            *ngFor="let post of posts |
+            filterBySolution:filters.filterByAnswer |
+            filterByTag: filters.filterByCategory |
+            filterByTime: filters.filterByTime"
             [class.home__post--inline]="isDisplayInline"
           >
               <a [routerLink]="'/posts/' + post.id">
@@ -73,10 +82,9 @@
                   <ul class="home__post-tags" [class.home__post-tags--inline]="isDisplayInline">
                       <li
                         class="home__post-tag"
-                        *ngFor="let tag of post.tags;
-                        let i = index"
-                        (click)="filterByTag(tag)"
+                        *ngFor="let tag of post.tags"
                         [class.home__post-tag--inline]="isDisplayInline"
+                        (click)="toggleTagFilter(tag)"
                       >
                           {{tag}}
                       </li>
@@ -103,10 +111,8 @@
       </div>
   </div>
 
-  <div class="home__footer">
-    <a routerLink="/create-post">
-      <img class="home__plus" src="../../../assets/png/plus.png" alt="plus">
-    </a>
-  </div>
+  <a routerLink="/create-post">
+    <img class="home__plus" src="../../../assets/png/plus.png" alt="plus">
+  </a>
 
 </section>

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import { UsersService } from 'src/app/shared/services/users.service';
-import {Observable, Subject, take, takeUntil} from 'rxjs';
+import {Observable, Subject, takeUntil} from 'rxjs';
 import {UserCredential} from "@firebase/auth-types";
 
 @Component({
@@ -43,8 +43,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       Validators.minLength(8),
       Validators.maxLength(18)
     ]]
-  })
-}
+  })}
 
   public onSubmit(): void {
     this.isSubmitted = true;
@@ -127,7 +126,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
     const control = this.form.controls[controlName];
 
     return control.invalid && control.touched;
-
   }
 
   public onFocus(): void {

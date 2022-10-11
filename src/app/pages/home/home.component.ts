@@ -16,15 +16,13 @@ import {TAGS} from "../../models/tags.const";
 export class HomeComponent implements OnInit, OnDestroy {
 
   public posts: Post[];
-  public allPosts: Post[];
   public categories = TAGS;
-  public timeFilters = ['Time period', 'Last day', 'Last week', 'Last month', 'All time'];
   public userEmail: string;
   public isAdmin = false;
-  public options = {
-    selectedByAnswer: 'By answer',
-    selectedByCategory: 'By category',
-    selectedByTime: 'Time period',
+  public filters = {
+    filterByAnswer: 'By answer',
+    filterByCategory: 'By category',
+    filterByTime: 'Time period',
     selectedPostDisplay: 'Posts display',
     selectedTheme: 'Theme'
   };
@@ -51,7 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   }
 
-  initializeHomePage(email: string): void {
+  private initializeHomePage(email: string): void {
     this.userService.getUserByEmail(email)
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
@@ -67,108 +65,62 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(posts => {
         this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
-        this.allPosts = this.posts;
+        this.posts.sort((a, b) => {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
       });
   }
 
-  approvePost(id: string) {
-    const post = this.posts.find(post => post.id);
-    post.isApproved = true;
-    this.postService.approvePost(id).subscribe();
+  public approvePost(id: string): void {
+    this.postService.approvePost(id)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        const post = this.posts.find(post => post.id);
+        post.isApproved = true;
+      });
   }
 
-  deletePost(id: string) {
+  public deletePost(id: string): void {
     this.postService.deletePost(id).subscribe(() => {
       this.posts = this.posts.filter(post => post.id !== id);
     });
   }
 
-  toggleMenu(id: number): void {
+  public toggleMenu(id: number): void {
     this.toggledMenuId = this.toggledMenuId === id ? null : id;
   }
 
-  clickedOutside(): void {
+  public clickedOutside(): void {
     this.toggledMenuId = null;
   }
 
-  public onChange(option: string): void {
-    this.toggledMenuId = null;
-
-    if (this.categories.includes(option)) {
-      this.filterByTag(option);
-      return;
-    }
-
-    if (this.timeFilters.includes(option)) {
-      this.filterByTime(option);
-      return;
-    }
-
-    switch (option) {
-      case 'Solved':
-        this.posts = this.allPosts.filter(post => post.isSolved);
-        break;
-      case 'Not solved':
-        this.posts = this.allPosts.filter(post => !post.isSolved);
-        break;
-      case 'Inline':
-        this.isDisplayInline = true;
-        break;
-      case 'Tiled':
-        this.isDisplayInline = false;
-        break;
-    }
-  }
-
-  public filterByTag(option: string) {
-    this.posts = this.allPosts.filter(post => post.tags.includes(option.toLowerCase()));
-  }
-
-  private filterByTime(option: string) {
-
-    switch (option) {
-      case 'Last day':
-        this.posts = this.allPosts.filter(post => {
-          const timeDifference = new Date().getTime() - new Date(post.date).getTime();
-          return timeDifference <= 8.64e+7;
-        })
-        break;
-      case 'Last week':
-        this.posts = this.allPosts.filter(post => {
-          const timeDifference = new Date().getTime() - new Date(post.date).getTime();
-          return timeDifference <= 6.048e+8;
-        })
-        break;
-      case 'Last month':
-        this.posts = this.allPosts.filter(post => {
-          const timeDifference = new Date().getTime() - new Date(post.date).getTime();
-          return timeDifference <= 2.628e+9;
-        })
-        break;
-      case 'All time':
-        this.posts = this.allPosts;
-        break;
-    }
-  }
-
-  public sortPosts(event: Event) {
+  public sortPosts(event: Event): void {
     this.toggledMenuId = null;
 
     const target = event.target as HTMLElement;
     const value = target.innerText;
 
     switch (value) {
-      case 'New':
-        this.posts = this.allPosts.sort((a, b) => {
+      case 'New first':
+        this.posts.sort((a, b) => {
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
         break;
-      case 'Old':
-        this.posts = this.allPosts.sort((a, b) => {
+      case 'Old first':
+        this.posts.sort((a, b) => {
           return new Date(a.date).getTime() - new Date(b.date).getTime();
         });
         break;
     }
+  }
+
+  public postDisplayChange(): void {
+    this.toggledMenuId = null;
+    this.isDisplayInline = this.filters.selectedPostDisplay === 'Inline';
+  }
+
+  public toggleTagFilter(tag: string): void {
+    this.filters.filterByCategory = this.categories.find(item => item.toLowerCase() === tag);
   }
 
   ngOnDestroy(): void {

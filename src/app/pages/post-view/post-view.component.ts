@@ -25,9 +25,8 @@ export class PostViewComponent implements OnInit, OnDestroy {
     isPostSolved: false,
   }
   public form: FormGroup;
-  private destroy = new Subject<boolean>();
   public isAdmin = false;
-
+  private destroy = new Subject<boolean>();
 
   constructor(
     private postService: PostService,
@@ -55,7 +54,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
       );
   }
 
-  private initForm() {
+  private initForm(): void {
     this.form = this.formBuilder.group({
       text: ['', [
         Validators.required,
@@ -65,7 +64,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
 
     if(this.form.invalid) {
       return;
@@ -84,12 +83,11 @@ export class PostViewComponent implements OnInit, OnDestroy {
         const comment = commentBody as Comment;
         comment.id = Object.values(id)[0];
         this.comments.push(comment);
+        this.form.reset();
       });
-
-    this.form.reset();
   }
 
-  private checkRole(author: string) {
+  private checkRole(author: string): void {
     this.authService.getAuthState()
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
@@ -97,6 +95,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
           this.postMeta.userEmail = user.email;
           this.postMeta.isAuthor = user.email === author;
           this.usersService.getUserByEmail(user.email)
+            .pipe(takeUntil(this.destroy))
             .subscribe(user => {
               this.isAdmin = user.isAdmin
             })
@@ -104,34 +103,35 @@ export class PostViewComponent implements OnInit, OnDestroy {
       })
   }
 
-  markAsSolution(id: string) {
+  public markAsSolution(id: string): void {
 
-    this.postService.markPostAsSolved(this.postMeta.postId).subscribe(value => {
-      console.log(value);
-    })
-
-    const comment = this.comments.find(item => item.id === id);
-    comment.isSolution = true;
+    this.postService.markPostAsSolved(this.postMeta.postId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe();
 
     this.postService.markCommentAsSolution(this.postMeta.postId, id)
       .pipe(takeUntil(this.destroy))
-      .subscribe((res) => {
-        console.log(res);
+      .subscribe(() => {
+        const comment = this.comments.find(item => item.id === id);
+        comment.isSolution = true;
         this.postMeta.isPostSolved = true;
       })
   }
 
-  approvePost(id: string) {
-    this.postService.approvePost(id).subscribe(() => {
-      this.router.navigate(['/home']);
-    })
+  public approvePost(id: string): void {
+    this.postService.approvePost(id)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.router.navigate(['/home']);
+      })
   }
 
-
-  deletePost(id: string) {
-    this.postService.deletePost(id).subscribe(() => {
-      this.router.navigate(['/home']);
-    })
+  public deletePost(id: string): void {
+    this.postService.deletePost(id)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.router.navigate(['/home']);
+      })
   }
 
   ngOnDestroy(): void {

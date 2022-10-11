@@ -24,6 +24,7 @@
 .home {
 
   position: relative;
+  padding-bottom: 30px;
 
   &__container {
     padding: 0;
@@ -86,7 +87,8 @@
     }
 
     &--inline {
-      width: 80%;
+      width: 60%;
+      height: 110px;
       position: relative;
     }
 
@@ -142,6 +144,8 @@
 
     &--inline {
       border: none;
+      margin: 0;
+      padding: 0;
     }
   }
 
@@ -223,7 +227,6 @@
       transform: scale(1.05);
     }
   }
-
 }
 
 .menu-container {

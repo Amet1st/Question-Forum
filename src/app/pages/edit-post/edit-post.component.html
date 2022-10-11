@@ -31,17 +31,19 @@
                 </label>
             </div>
 
-            <small class="error" *ngIf="form.get('text')?.errors?.required && form.get('text').touched">
+            <ng-container *ngIf="form.get('text')?.errors">
+              <small class="error" *ngIf="form.get('text').errors.required && form.get('text').touched">
                 Text is required!
-            </small>
+              </small>
 
-            <small class="error" *ngIf="form.get('text')?.errors?.minlength && form.get('text').touched">
-                Text must contain at least {{form.get('text')?.errors?.minlength.requiredLength}} characters!
-            </small>
+              <small class="error" *ngIf="form.get('text').errors.minlength && form.get('text').touched">
+                Text must contain at least {{form.get('text').errors.minlength.requiredLength}} characters!
+              </small>
 
-            <small class="error" *ngIf="form.get('text')?.errors?.maxlength && form.get('text').touched">
-                Text must contain no more than {{form.get('text')?.errors?.maxlength.requiredLength}} characters!
-            </small>
+              <small class="error" *ngIf="form.get('text').errors.maxlength && form.get('text').touched">
+                Text must contain no more than {{form.get('text').errors.maxlength.requiredLength}} characters!
+              </small>
+            </ng-container>
 
             <div class="add__group add__group--tags" formGroupName="tags">
                 <span class="add__label">
@@ -49,7 +51,11 @@
                     <ul class="add__checkbox">
                         <li *ngFor="let item of categories; let i = index">
                             <label class="add__checkbox-label">
-                                <input type="checkbox" [checked]="isChecked(item.toLocaleLowerCase())" (change)="onChecked($event)">
+                                <input type="checkbox"
+                                       [id]="item.toLowerCase()"
+                                       [checked]="isChecked(item.toLowerCase())"
+                                       (change)="onChecked($event)"
+                                >
                                 {{item}}
                             </label>
                         </li>

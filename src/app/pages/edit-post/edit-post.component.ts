@@ -1,12 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { Post } from 'src/app/models/interfaces/post.interface';
 import { TAGS } from 'src/app/models/tags.const';
 import { PostService } from 'src/app/shared/services/post.service';
-
-
 
 @Component({
   selector: 'app-edit-post',
@@ -17,12 +15,12 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
   public categories = TAGS;
   public form: FormGroup;
-  private destroy = new Subject<boolean>();
-  public isTagChecked = false;
+  public isTagChecked = true;
+  private tags: string[];
   private author: string;
   public post: Post;
   private postId: string;
-
+  private destroy = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,7 +33,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.postId = this.activatedRoute.snapshot.url[1].path;
 
     this.initForm();
-    this.isTagChecked = Boolean((Object.keys(this.form.get('tags').value)).length);
 
     this.postService.getPost(this.postId)
       .pipe(takeUntil(this.destroy))
@@ -43,10 +40,13 @@ export class EditPostComponent implements OnInit, OnDestroy {
         post => {
           this.author = post.author;
           this.post = post;
+          this.tags = post.tags;
           this.form.patchValue({
             title: post.title,
             text: post.text,
-            tags: post.tags
+          });
+          this.tags.forEach(tag => {
+            (<FormGroup>this.form.get('tags')).addControl(tag, new FormControl(true))
           })
         }
       );
@@ -66,13 +66,11 @@ export class EditPostComponent implements OnInit, OnDestroy {
         Validators.maxLength(200)
       ]],
 
-      tags: this.formBuilder.group({
-        frontend: true
-      })
+      tags: this.formBuilder.group({})
     })
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     if (this.form.invalid) {
       return;
     }
@@ -90,12 +88,12 @@ export class EditPostComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe(() => {
         this.form.reset();
-        this.router.navigate(['/home']);
+        this.router.navigate(['/posts/', this.postId]);
       });
 
   }
 
-  onChecked(event: Event) {
+  public onChecked(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
 
     if (checkbox.checked) {
@@ -105,10 +103,15 @@ export class EditPostComponent implements OnInit, OnDestroy {
     }
 
     this.isTagChecked = Boolean((Object.keys(this.form.get('tags').value)).length);
+
   }
 
   public isChecked(tag: string): boolean {
-    return Object.keys(this.form.get('tags').value).includes(tag);
+    if (this.tags) {
+      return this.tags.includes(tag);
+    }
+
+    return false;
   }
 
   ngOnDestroy(): void {

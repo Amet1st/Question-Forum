@@ -56,6 +56,18 @@
 
   }
 
+  &__theme {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: default;
+  }
+
+  &__theme-radio {
+    cursor: pointer;
+  }
+
   &__title {
       font-size: 30px;
       text-align: center;
@@ -167,19 +179,19 @@
   }
 
   &__post-tag {
-      cursor: pointer;
-      color: blue;
-      &:hover {
-          text-decoration: underline;
-      }
+    cursor: pointer;
+    color: blue;
+    &:hover {
+        text-decoration: underline;
+    }
 
-      @media screen and (max-width: 600px) {
-          font-size: 12px;
-      }
+    @media screen and (max-width: 600px) {
+        font-size: 12px;
+    }
 
-      @media screen and (max-width: 350px) {
-          font-size: 10px;
-      }
+    @media screen and (max-width: 350px) {
+        font-size: 10px;
+    }
   }
 
   &__post-moderation {
@@ -206,13 +218,6 @@
 
   &__moderation-caption {
     opacity: 0.5;
-  }
-
-  &__footer {
-    display: flex;
-    justify-content: end;
-    margin-top: 100px;
-    width: 100%;
   }
 
   &__plus {
@@ -253,6 +258,7 @@
   border: 2px solid black;
   background: #ad2929;
   color: white;
+  z-index: 2;
 
   &:hover {
     transform: scale(1.02);

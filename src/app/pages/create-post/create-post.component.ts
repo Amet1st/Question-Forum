@@ -76,7 +76,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     const formData = { ...this.form.value };
     formData.tags = Object.keys(formData.tags);
-    console.log(formData);
 
     const body: Post = {
       ...formData,
@@ -90,8 +89,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy))
       .subscribe((response) => {
         const id = Object.values(response)[0];
-        this.form.reset();
         this.router.navigate(['/posts/', id]);
+        this.form.reset();
       });
 
   }

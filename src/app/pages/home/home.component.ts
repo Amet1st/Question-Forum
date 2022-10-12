@@ -23,8 +23,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     filterByAnswer: 'By answer',
     filterByCategory: 'By category',
     filterByTime: 'Time period',
+    filterOther: 'Other',
     selectedPostDisplay: 'Posts display',
-    selectedTheme: 'Theme'
+    selectedTheme: 'Light'
   };
   public toggledMenuId: number;
   public isDisplayInline = false;
@@ -121,6 +122,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public toggleTagFilter(tag: string): void {
     this.filters.filterByCategory = this.categories.find(item => item.toLowerCase() === tag);
+  }
+
+  public log() {
+    console.log(this.filters.selectedTheme);
   }
 
   ngOnDestroy(): void {

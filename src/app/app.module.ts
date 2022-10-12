@@ -24,6 +24,8 @@ import { ClickOutsideDirective } from './shared/directives/click-outside.directi
 import { FilterByTagPipe } from './shared/pipes/filter-by-tag.pipe';
 import { FilterByTimePipe } from './shared/pipes/filter-by-time.pipe';
 import { FilterBySolutionPipe } from './shared/pipes/filter-by-solution.pipe';
+import { SwitchThemeDirective } from './shared/directives/switch-theme.directive';
+import { FilterByOtherPipe } from './shared/pipes/filter-by-other.pipe';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { FilterBySolutionPipe } from './shared/pipes/filter-by-solution.pipe';
     FilterByTagPipe,
     FilterByTimePipe,
     FilterBySolutionPipe,
+    SwitchThemeDirective,
+    FilterByOtherPipe,
   ],
     imports: [
         BrowserModule,

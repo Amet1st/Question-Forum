@@ -26,6 +26,7 @@ import { FilterByTimePipe } from './shared/pipes/filter-by-time.pipe';
 import { FilterBySolutionPipe } from './shared/pipes/filter-by-solution.pipe';
 import { SwitchThemeDirective } from './shared/directives/switch-theme.directive';
 import { FilterByOtherPipe } from './shared/pipes/filter-by-other.pipe';
+import { GetThemeDirective } from './shared/directives/get-theme.directive';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { FilterByOtherPipe } from './shared/pipes/filter-by-other.pipe';
     FilterBySolutionPipe,
     SwitchThemeDirective,
     FilterByOtherPipe,
+    GetThemeDirective,
   ],
     imports: [
         BrowserModule,

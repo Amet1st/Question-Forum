@@ -58,12 +58,26 @@
               <div class="menu-item home__theme">
                 <p>Theme</p>
                 <label class="home__theme-radio">
-                  <input [(ngModel)]="filters.selectedTheme" [appSwitchTheme]="filters.selectedTheme" type="radio" name="theme" value="light">
+                  <input
+                    [(ngModel)]="selectedTheme"
+                    [appSwitchTheme]="themeStream"
+                    (ngModelChange)="changeTheme()"
+                    type="radio"
+                    name="theme"
+                    value="Light"
+                  >
                   Light
                 </label>
 
                 <label class="home__theme-radio">
-                  <input [(ngModel)]="filters.selectedTheme" [appSwitchTheme]="filters.selectedTheme" type="radio" name="theme" value="dark">
+                  <input
+                    [(ngModel)]="selectedTheme"
+                    [appSwitchTheme]="themeStream"
+                    (ngModelChange)="changeTheme()"
+                    type="radio"
+                    name="theme"
+                    value="Dark"
+                  >
                   Dark
                 </label>
               </div>
@@ -71,7 +85,8 @@
           </li>
         </ul>
       </div>
-      <h2 class="home__title">Active questions</h2>
+
+      <h1 class="home__title" [class.home__title--white]="selectedTheme === 'Dark'">Active questions</h1>
 
       <div class="home__posts" [class.home__posts--inline]="isDisplayInline">
           <article
@@ -125,7 +140,7 @@
   </div>
 
   <a routerLink="/create-post">
-    <img class="home__plus" src="../../../assets/png/plus.png" alt="plus">
+    <img class="home__plus" src="../../../assets/png/plus.png" alt="plus" #plus>
   </a>
 
 </section>

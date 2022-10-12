@@ -1,21 +1,45 @@
-import {AfterViewInit, Directive, ElementRef, EventEmitter, Inject, Input, Output} from '@angular/core';
+import {Directive, Inject, Input, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from "@angular/common";
+import {Subject, takeUntil} from "rxjs";
 
 @Directive({
   selector: '[appSwitchTheme]'
 })
-export class SwitchThemeDirective implements AfterViewInit{
+export class SwitchThemeDirective implements OnInit, OnDestroy {
 
-  @Output() isDarkTheme = new EventEmitter<boolean>();
-  @Input('appSwitchTheme') theme: string;
+  @Input('appSwitchTheme') themeStream: Subject<string>;
+  private destroy = new Subject<boolean>();
 
   constructor(
-    private element: ElementRef,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    this.changeTheme(localStorage.getItem('theme'));
 
+    this.themeStream
+      .pipe(takeUntil(this.destroy))
+      .subscribe(theme => {
+        this.changeTheme(theme);
+      })
+  }
+
+  private changeTheme(theme: string) {
+    switch (theme) {
+      case 'Light':
+        localStorage.setItem('theme', theme);
+        document.body.style.background = '#eee';
+        break;
+      case 'Dark':
+        localStorage.setItem('theme', theme);
+        document.body.style.background = '#121212';
+        break;
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 
 }

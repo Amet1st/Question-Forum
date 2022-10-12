@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, takeUntil} from 'rxjs';
+import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
+import {Subject, takeUntil} from 'rxjs';
 import { Post } from 'src/app/models/interfaces/post.interface';
 import { PostService } from 'src/app/shared/services/post.service';
 import { AuthService } from "../../shared/services/auth.service";
@@ -13,7 +13,7 @@ import {TAGS} from "../../models/tags.const";
   styleUrls: ['./home.component.scss']
 })
 
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public posts: Post[];
   public categories = TAGS;
@@ -25,8 +25,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     filterByTime: 'Time period',
     filterOther: 'Other',
     selectedPostDisplay: 'Posts display',
-    selectedTheme: 'Light'
   };
+  public selectedTheme = 'Light';
+  public themeStream = new Subject<string>();
+  @ViewChild('plus') plus: ElementRef;
   public toggledMenuId: number;
   public isDisplayInline = false;
   private destroy = new Subject<boolean>();
@@ -45,6 +47,28 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (user) {
           this.userEmail = user.email;
           this.initializeHomePage(user.email);
+        }
+      })
+
+    if (localStorage.getItem('theme')) {
+      this.selectedTheme = localStorage.getItem('theme');
+    }
+
+  }
+
+  ngAfterViewInit(): void {
+
+    if (this.selectedTheme === 'Dark') {
+      this.plus.nativeElement.src = '../../../assets/png/plusWhite.png';
+    }
+
+    this.themeStream
+      .pipe(takeUntil(this.destroy))
+      .subscribe(theme => {
+        if (this.selectedTheme === 'Dark') {
+          this.plus.nativeElement.src = '../../../assets/png/plusWhite.png';
+        } else {
+          this.plus.nativeElement.src = '../../../assets/png/plus.png';
         }
       })
 
@@ -124,13 +148,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.filters.filterByCategory = this.categories.find(item => item.toLowerCase() === tag);
   }
 
-  public log() {
-    console.log(this.filters.selectedTheme);
+  public changeTheme(): void {
+    this.themeStream.next(this.selectedTheme);
   }
 
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
   }
-
 }

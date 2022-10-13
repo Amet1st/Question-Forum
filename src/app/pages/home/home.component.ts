@@ -54,6 +54,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedTheme = localStorage.getItem('theme');
     }
 
+    const display = localStorage.getItem('display');
+    this.isDisplayInline = display === 'Inline';
   }
 
   ngAfterViewInit(): void {
@@ -141,6 +143,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public postDisplayChange(): void {
     this.toggledMenuId = null;
+    localStorage.setItem('display', this.filters.selectedPostDisplay);
     this.isDisplayInline = this.filters.selectedPostDisplay === 'Inline';
   }
 

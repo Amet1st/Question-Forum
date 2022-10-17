@@ -15,6 +15,7 @@ import {TAGS} from "../../models/tags.const";
 
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  @ViewChild('plus') plus: ElementRef;
   public posts: Post[];
   public categories = TAGS;
   public userEmail: string;
@@ -24,13 +25,14 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     filterByCategory: 'By category',
     filterByTime: 'Time period',
     filterOther: 'Other',
-    selectedPostDisplay: 'Posts display',
+    selectedPostDisplay: 'Posts display'
   };
-  public selectedTheme = 'Light';
+  public options = {
+    selectedTheme: 'Light',
+    toggledMenuId: 0,
+    isDisplayInline: false
+  };
   public themeStream = new Subject<string>();
-  @ViewChild('plus') plus: ElementRef;
-  public toggledMenuId: number;
-  public isDisplayInline = false;
   private destroy = new Subject<boolean>();
 
   constructor(
@@ -51,29 +53,28 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       })
 
     if (localStorage.getItem('theme')) {
-      this.selectedTheme = localStorage.getItem('theme');
+      this.options.selectedTheme = localStorage.getItem('theme');
     }
 
     const display = localStorage.getItem('display');
-    this.isDisplayInline = display === 'Inline';
+    this.options.isDisplayInline = display === 'Inline';
   }
 
   ngAfterViewInit(): void {
 
-    if (this.selectedTheme === 'Dark') {
+    if (this.options.selectedTheme === 'Dark') {
       this.plus.nativeElement.src = '../../../assets/png/plusWhite.png';
     }
 
     this.themeStream
       .pipe(takeUntil(this.destroy))
-      .subscribe(theme => {
-        if (this.selectedTheme === 'Dark') {
+      .subscribe(() => {
+        if (this.options.selectedTheme === 'Dark') {
           this.plus.nativeElement.src = '../../../assets/png/plusWhite.png';
         } else {
           this.plus.nativeElement.src = '../../../assets/png/plus.png';
         }
       })
-
   }
 
   private initializeHomePage(email: string): void {
@@ -114,15 +115,15 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public toggleMenu(id: number): void {
-    this.toggledMenuId = this.toggledMenuId === id ? null : id;
+    this.options.toggledMenuId = this.options.toggledMenuId === id ? null : id;
   }
 
   public clickedOutside(): void {
-    this.toggledMenuId = null;
+    this.options.toggledMenuId = null;
   }
 
   public sortPosts(event: Event): void {
-    this.toggledMenuId = null;
+    this.options.toggledMenuId = null;
 
     const target = event.target as HTMLElement;
     const value = target.innerText;
@@ -142,9 +143,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public postDisplayChange(): void {
-    this.toggledMenuId = null;
+    this.options.toggledMenuId = null;
     localStorage.setItem('display', this.filters.selectedPostDisplay);
-    this.isDisplayInline = this.filters.selectedPostDisplay === 'Inline';
+    this.options.isDisplayInline = this.filters.selectedPostDisplay === 'Inline';
   }
 
   public toggleTagFilter(tag: string): void {
@@ -152,7 +153,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public changeTheme(): void {
-    this.themeStream.next(this.selectedTheme);
+    this.themeStream.next(this.options.selectedTheme);
   }
 
   ngOnDestroy(): void {

@@ -5,7 +5,7 @@
           <li class="menu-container">
             <p class="home__filter" (click)="toggleMenu(1)">Filter</p>
 
-            <div class="menu" *ngIf="toggledMenuId === 1">
+            <div class="menu" *ngIf="options.toggledMenuId === 1">
               <select class="menu-item" [(ngModel)]="filters.filterByAnswer">
                 <option disabled>By answer</option>
                 <option>Solved</option>
@@ -39,7 +39,7 @@
           <li class="menu-container">
             <p class="home__sort" (click)="toggleMenu(2)">Sort</p>
 
-            <div class="menu" *ngIf="toggledMenuId === 2">
+            <div class="menu" *ngIf="options.toggledMenuId === 2">
               <div class="menu-item" (click)="sortPosts($event)">New first</div>
 
               <div class="menu-item" (click)="sortPosts($event)">Old first</div>
@@ -49,7 +49,7 @@
           <li class="menu-container">
             <p class="home__filter" (click)="toggleMenu(3)">Settings</p>
 
-            <div class="menu" *ngIf="toggledMenuId === 3">
+            <div class="menu" *ngIf="options.toggledMenuId === 3">
               <select class="menu-item" [(ngModel)]="filters.selectedPostDisplay" (ngModelChange)="postDisplayChange()">
                 <option disabled>Posts display</option>
                 <option>Tiled</option>
@@ -60,7 +60,7 @@
                 <p>Theme</p>
                 <label class="home__theme-radio">
                   <input
-                    [(ngModel)]="selectedTheme"
+                    [(ngModel)]="options.selectedTheme"
                     [appSwitchTheme]="themeStream"
                     (ngModelChange)="changeTheme()"
                     type="radio"
@@ -72,7 +72,7 @@
 
                 <label class="home__theme-radio">
                   <input
-                    [(ngModel)]="selectedTheme"
+                    [(ngModel)]="options.selectedTheme"
                     [appSwitchTheme]="themeStream"
                     (ngModelChange)="changeTheme()"
                     type="radio"
@@ -87,9 +87,9 @@
         </ul>
       </div>
 
-      <h1 class="home__title" [class.home__title--white]="selectedTheme === 'Dark'">Active questions</h1>
+      <h1 class="home__title" [class.home__title--white]="options.selectedTheme === 'Dark'">Active questions</h1>
 
-      <div class="home__posts" [class.home__posts--inline]="isDisplayInline">
+      <div class="home__posts" [class.home__posts--inline]="options.isDisplayInline">
           <article
             class="home__post"
             *ngFor="let post of posts |
@@ -97,22 +97,22 @@
             filterByTag: filters.filterByCategory |
             filterByTime: filters.filterByTime |
             filterByOther: filters.filterOther:userEmail"
-            [class.home__post--inline]="isDisplayInline"
+            [class.home__post--inline]="options.isDisplayInline"
           >
               <a [routerLink]="'/posts/' + post.id">
                   <h3 class="home__post-title">{{post.title}}</h3>
               </a>
 
-              <div class="home__post-info" [class.home__post-info--inline]="isDisplayInline">
-                  <small class="home__post-date" [class.home__post-date--inline]="isDisplayInline">
+              <div class="home__post-info" [class.home__post-info--inline]="options.isDisplayInline">
+                  <small class="home__post-date" [class.home__post-date--inline]="options.isDisplayInline">
                     {{post.date | date: 'd.M.yyyy, h:mm a'}}
                   </small>
 
-                  <ul class="home__post-tags" [class.home__post-tags--inline]="isDisplayInline">
+                  <ul class="home__post-tags" [class.home__post-tags--inline]="options.isDisplayInline">
                       <li
                         class="home__post-tag"
                         *ngFor="let tag of post.tags"
-                        [class.home__post-tag--inline]="isDisplayInline"
+                        [class.home__post-tag--inline]="options.isDisplayInline"
                         (click)="toggleTagFilter(tag)"
                       >
                           {{tag}}
@@ -120,7 +120,10 @@
                   </ul>
               </div>
 
-              <div class="home__post-moderation" *ngIf="isAdmin" [class.home__post-moderation--inline]="isDisplayInline">
+              <div class="home__post-moderation"
+                   *ngIf="isAdmin"
+                   [class.home__post-moderation--inline]="options.isDisplayInline"
+              >
                 <button
                   class="home__post-approve"
                   type="button"

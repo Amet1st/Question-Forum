@@ -38,6 +38,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+
     this.postMeta.postId = this.activatedRoute.snapshot.url[1].path;
 
     this.initForm();
@@ -54,7 +55,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
       );
   }
 
-  private initForm(): void {
+  public initForm(): void {
     this.form = this.formBuilder.group({
       text: ['', [
         Validators.required,

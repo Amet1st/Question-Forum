@@ -41,20 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public goToProfile() {
     this.isMenuOpened = false;
-    this.getUser(this.userEmail);
-  }
-
-  private getUser(email: string) {
-    return this.usersService.getUserByEmail(email)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(
-        user => {
-          if (user) {
-            this.userId = user.id;
-            this.router.navigate(['/users/' + this.userId]);
-          }
-        }
-      );
+    this.router.navigate(['/profile']);
   }
 
   public toggleMenu(): void {

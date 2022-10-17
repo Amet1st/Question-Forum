@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/models/interfaces/user.interface';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import {Subject} from "rxjs";
+
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +12,7 @@ import {Subject} from "rxjs";
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
+  private userEmail: string;
   public user: User;
   public role: string;
   private destroy = new Subject<boolean>()
@@ -19,17 +20,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private userService: UsersService,
-    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.url[1].path;
 
-    this.userService.getUserById(id)
-      .pipe()
+    this.authService.getAuthState()
       .subscribe(user => {
-        this.user = user;
-        this.role = user?.isAdmin ? 'Admin' : 'User';
+        if (user) {
+          this.userEmail = user.email;
+          this.getUser(this.userEmail);
+        }
+      });
+  }
+
+  private getUser(email: string): void {
+    this.userService.getUserByEmail(email)
+      .subscribe(user => {
+        if (user) {
+          this.user = user;
+          this.role = this.user.isAdmin ? 'Admin' : 'User';
+        }
       });
   }
 

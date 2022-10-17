@@ -45,7 +45,7 @@ export class PostService {
         }))
   }
 
-  private getAllComments(comments: object): Comment[] {
+  public getAllComments(comments: object): Comment[] {
     if(!comments) {
       return [];
     }

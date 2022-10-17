@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [HomeGuard] },
   { path: 'create-post', component: CreatePostComponent, canActivate: [HomeGuard] },
   { path: 'posts/:id', component: PostViewComponent, canActivate: [HomeGuard] },
-  { path: 'users/:id', component: ProfileComponent, canActivate: [HomeGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [HomeGuard] },
   { path: 'edit-post/:id', component: EditPostComponent, canActivate: [HomeGuard] },
   { path: '**', component: HomeComponent, canActivate: [HomeGuard] }
 ];

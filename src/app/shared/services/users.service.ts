@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import { map } from 'rxjs';
 import { User } from 'src/app/models/interfaces/user.interface';
 import { environment } from 'src/environments/environment';
@@ -14,15 +14,16 @@ export class UsersService {
     private http: HttpClient
   ) { }
 
-  public createUserWithEmail(email: string) {
-    this.getUserByEmail(email).subscribe(result => {
-      if (!result) {
-        this.createUser(email).subscribe();
-      }
-    })
+  public createUserWithEmail(email: string): void {
+    this.getUserByEmail(email)
+      .subscribe(result => {
+        if (!result) {
+          this.createUser(email).subscribe();
+        }
+      });
   }
 
-  public createUser(email: string): Observable<Object> {
+  public createUser(email: string): Observable<object> {
     return this.http.post((environment.apiUrl + '/users.json'), {
       email,
       dateOfSignUp: new Date(),
@@ -47,13 +48,5 @@ export class UsersService {
           } else return null;
         })
       );
-  }
-
-  public getUserById(id: string): Observable<User> {
-    return this.http.get((environment.apiUrl) + '/users/' + id + '.json') as Observable<User>;
-  }
-
-  public editUser() {
-
   }
 }

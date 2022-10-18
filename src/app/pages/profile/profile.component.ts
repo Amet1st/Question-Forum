@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { User } from 'src/app/models/interfaces/user.interface';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UsersService } from 'src/app/shared/services/users.service';
-import {Subject} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 
 
 @Component({
@@ -19,12 +19,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private userService: UsersService,
+    private userService: UsersService
   ) { }
 
   ngOnInit(): void {
-
     this.authService.getAuthState()
+      .pipe(takeUntil(this.destroy))
       .subscribe(user => {
         if (user) {
           this.userEmail = user.email;
@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private getUser(email: string): void {
     this.userService.getUserByEmail(email)
+      .pipe(takeUntil(this.destroy))
       .subscribe(user => {
         if (user) {
           this.user = user;

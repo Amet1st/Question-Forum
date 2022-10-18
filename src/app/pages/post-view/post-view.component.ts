@@ -39,7 +39,11 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.postMeta.postId = this.activatedRoute.snapshot.url[1].path;
+    this.activatedRoute.params
+      .pipe(takeUntil(this.destroy))
+      .subscribe(params => {
+        this.postMeta.postId = params.id;
+      })
 
     this.initForm();
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { User } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { OnDestroy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -52,6 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isMenuOpened = false;
 
     this.authService.signOut()
+      .pipe(takeUntil(this.destroy))
       .subscribe(() => this.router.navigate(['/sign-in']))
   }
 

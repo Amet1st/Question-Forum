@@ -56,8 +56,8 @@ export class PostService {
         id,
         ...res[id]
       } as Comment;
-    })}
-
+    })
+  }
 
   public getAllPosts(): Observable<Post[]> {
     return this.http.get<Post[]>((environment.apiUrl + '/posts.json'))

@@ -109,9 +109,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public deletePost(id: string): void {
-    this.postService.deletePost(id).subscribe(() => {
-      this.posts = this.posts.filter(post => post.id !== id);
-    });
+    this.postService.deletePost(id)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(() => {
+        this.posts = this.posts.filter(post => post.id !== id);
+      });
   }
 
   public toggleMenu(id: number): void {

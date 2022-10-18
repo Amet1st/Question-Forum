@@ -13,12 +13,12 @@ import { PostService } from 'src/app/shared/services/post.service';
 })
 export class EditPostComponent implements OnInit, OnDestroy {
 
+  public post: Post;
   public categories = TAGS;
   public form: FormGroup;
   public isTagChecked = true;
   private tags: string[];
   private author: string;
-  public post: Post;
   private postId: string;
   private destroy = new Subject<boolean>();
 
@@ -40,7 +40,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
         post => {
           this.author = post.author;
           this.post = post;
-          this.tags = post.tags;
           this.form.patchValue({
             title: post.title,
             text: post.text,

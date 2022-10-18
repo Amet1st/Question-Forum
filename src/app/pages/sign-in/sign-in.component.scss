@@ -1,27 +1,10 @@
-@mixin auth-button($color) {
-  width: 200px;
-  height: 50px;
-  font-size: 25px;
-  cursor: pointer;
-  background-color: $color;
-  border-radius: 10px;
-
-  &:hover {
-      transition: all 0.3s;
-      color: white;
-  }
-
-  &[disabled] {
-      opacity: 0.5;
-      cursor: not-allowed;
-  }
-}
+@import "../../../assets/styles/colors";
+@import "../../../assets/styles/mixins";
 
 .auth {
-
     &__title {
-        font-size: 35px;
-        margin-bottom: 50px;
+      font-size: 35px;
+      margin-bottom: 50px;
     }
 
     &__form {
@@ -29,16 +12,16 @@
       flex-direction: column;
       gap: 20px;
       align-items: center;
-      background-color: rgb(216, 197, 216);
+      background-color: $formColor;
       padding: 30px;
       margin-top: 100px;
     }
 
     &__form-group {
-        width: 30%;
-        min-width: 260px;
-        display: flex;
-        justify-content: space-between;
+      width: 30%;
+      min-width: 260px;
+      display: flex;
+      justify-content: space-between;
     }
 
     &__label {
@@ -46,44 +29,44 @@
     }
 
     &__input {
-        width: 60%;
+      width: 60%;
     }
 
     &__icons {
-        display: flex;
-        gap: 20px;
+      display: flex;
+      gap: 20px;
 
-        & img {
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            &:hover {
-                transform: scale(1.05);
-            }
-        }
+      & img {
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+          &:hover {
+              transform: scale(1.05);
+          }
+      }
     }
 
     &__sign-in {
-        @include auth-button(#08c7c7);
+      @include auth-button($signInColor);
     }
     &__sign-up {
-        @include auth-button(green);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      @include auth-button($signUpColor);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     &__buttons {
-        display: flex;
-        gap: 20px;
+      display: flex;
+      gap: 20px;
     }
 
     &__media-label {
-        font-size: 16px;
+      font-size: 16px;
     }
 
     &__not-have {
-        font-size: 16px;
+      font-size: 16px;
     }
 }
 

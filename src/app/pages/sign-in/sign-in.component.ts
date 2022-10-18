@@ -25,7 +25,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-      this.initForm();
+    this.initForm();
   }
 
   private initForm(): void {
@@ -75,7 +75,6 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   public handleSocialAuth(provider: Observable<UserCredential>): void {
-
     this.form.markAsUntouched();
 
     provider

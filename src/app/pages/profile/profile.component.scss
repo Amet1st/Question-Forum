@@ -1,12 +1,15 @@
-.profile {
+@import "../../../assets/styles/colors";
+@import "../../../assets/styles/mixins";
 
+.profile {
     &__card {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 15px;
-      background-color: rgb(216, 197, 216);
+      background-color: $formColor;
       margin-top: 100px;
+      border-radius: 10px;
     }
 
     &__main {

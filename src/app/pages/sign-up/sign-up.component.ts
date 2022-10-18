@@ -71,7 +71,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
    public handleSocialAuth(provider: Observable<UserCredential>): void {
-
     this.form.markAsUntouched();
 
     provider

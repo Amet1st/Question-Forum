@@ -1,5 +1,7 @@
-.add {
+@import "../../../assets/styles/colors";
+@import "../../../assets/styles/mixins";
 
+.add {
     &__container {
       background-color: rgb(216, 197, 216);
       padding: 30px 20px;

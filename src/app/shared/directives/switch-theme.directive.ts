@@ -24,7 +24,7 @@ export class SwitchThemeDirective implements OnInit, OnDestroy {
       })
   }
 
-  private changeTheme(theme: string) {
+  private changeTheme(theme: string): void {
     switch (theme) {
       case 'Light':
         localStorage.setItem('theme', theme);

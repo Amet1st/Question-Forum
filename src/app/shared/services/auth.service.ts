@@ -5,8 +5,6 @@ import { AuthProvider, User as FirebaseUser} from 'firebase/auth';
 import { Observable, from } from 'rxjs';
 import { UsersService } from './users.service';
 import {UserCredential} from '@firebase/auth-types';
-import {Router} from "@angular/router";
-
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +17,6 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private ngFireAuth: AngularFireAuth,
-    private router: Router
   ) {}
 
   public signIn(email: string, password: string): Observable<UserCredential> {

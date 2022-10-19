@@ -24,6 +24,7 @@ import { FilterBySolutionPipe } from './shared/pipes/filter-by-solution.pipe';
 import { SwitchThemeDirective } from './shared/directives/switch-theme.directive';
 import { FilterByOtherPipe } from './shared/pipes/filter-by-other.pipe';
 import { GetThemeDirective } from './shared/directives/get-theme.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -44,15 +45,16 @@ import { GetThemeDirective } from './shared/directives/get-theme.directive';
     FilterByOtherPipe,
     GetThemeDirective,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFireAuthModule,
-        HttpClientModule,
-        FormsModule
-    ],
+  imports: [
+      BrowserModule,
+      AppRoutingModule,
+      ReactiveFormsModule,
+      AngularFireModule.initializeApp(environment.firebase),
+      AngularFireAuthModule,
+      HttpClientModule,
+      FormsModule,
+      BrowserAnimationsModule
+  ],
   providers: [
     AuthService,
     AuthGuard

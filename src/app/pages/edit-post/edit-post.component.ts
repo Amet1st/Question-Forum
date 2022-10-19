@@ -40,6 +40,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
         post => {
           this.author = post.author;
           this.post = post;
+          this.tags = post.tags;
           this.form.patchValue({
             title: post.title,
             text: post.text,

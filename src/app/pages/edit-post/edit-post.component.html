@@ -1,73 +1,73 @@
-<section class="add">
-    <div class="container add__container">
-        <h2 class="add__title">Edit question</h2>
+<section class="edit">
+    <div class="container edit__container">
+        <h2 class="edit__title">Edit question</h2>
 
-        <form class="add__form" [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="add__group">
-                <label class="add__label" for="title">
-                    Title:
-                    <input id="title" type="text" formControlName="title">
-                </label>
+        <form class="edit__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="edit__group">
+            <label class="edit__label" for="title">
+                Title:
+                <input id="title" type="text" formControlName="title">
+            </label>
+          </div>
 
-            </div>
-
-            <small class="error" *ngIf="form.get('title')?.errors?.required && form.get('title').touched">
-                Title is required!
+          <ng-container *ngIf="form.get('title')?.errors">
+            <small class="error" *ngIf="form.get('title').errors.required && form.get('title').touched">
+              Title is required!
             </small>
 
-            <small class="error" *ngIf="form.get('title')?.errors?.minlength && form.get('title').touched">
-                Title must contain at least {{form.get('title')?.errors?.minlength.requiredLength}} characters!
+            <small class="error" *ngIf="form.get('title').errors.minlength && form.get('title').touched">
+              Title must contain at least {{form.get('title').errors.minlength.requiredLength}} characters!
             </small>
 
-            <small class="error" *ngIf="form.get('title')?.errors?.maxlength && form.get('title').touched">
-                Title must contain no more than {{form.get('title')?.errors?.maxlength.requiredLength}} characters!
+            <small class="error" *ngIf="form.get('title').errors.maxlength && form.get('title').touched">
+              Title must contain no more than {{form.get('title').errors.maxlength.requiredLength}} characters!
+            </small>
+          </ng-container>
+
+          <div class="edit__group">
+            <label class="edit__label" for="text">
+                Text:
+                <textarea name="text" id="text" formControlName="text"></textarea>
+            </label>
+          </div>
+
+          <ng-container *ngIf="form.get('text')?.errors">
+            <small class="error" *ngIf="form.get('text').errors.required && form.get('text').touched">
+              Text is required!
             </small>
 
+            <small class="error" *ngIf="form.get('text').errors.minlength && form.get('text').touched">
+              Text must contain at least {{form.get('text').errors.minlength.requiredLength}} characters!
+            </small>
 
-            <div class="add__group">
-                <label class="add__label" for="text">
-                    Text:
-                    <textarea name="text" id="text" formControlName="text"></textarea>
-                </label>
-            </div>
+            <small class="error" *ngIf="form.get('text').errors.maxlength && form.get('text').touched">
+              Text must contain no more than {{form.get('text').errors.maxlength.requiredLength}} characters!
+            </small>
+          </ng-container>
 
-            <ng-container *ngIf="form.get('text')?.errors">
-              <small class="error" *ngIf="form.get('text').errors.required && form.get('text').touched">
-                Text is required!
-              </small>
+          <div class="edit__group edit__group--tags" formGroupName="tags">
+            <span class="edit__label">
+              Tags:
+              <ul class="edit__checkbox">
+                <li *ngFor="let item of categories; let i = index">
+                  <label class="edit__checkbox-label">
+                    <input type="checkbox"
+                     [id]="item.toLowerCase()"
+                     [checked]="isChecked(item.toLowerCase())"
+                     (change)="onChecked($event)"
+                    >
+                    {{item}}
+                  </label>
+                </li>
+              </ul>
+            </span>
+          </div>
 
-              <small class="error" *ngIf="form.get('text').errors.minlength && form.get('text').touched">
-                Text must contain at least {{form.get('text').errors.minlength.requiredLength}} characters!
-              </small>
+          <div class="edit__group edit__group--buttons">
+            <button class="edit__button edit__button--ok" [disabled]="form.invalid || !isTagChecked">Ok</button>
 
-              <small class="error" *ngIf="form.get('text').errors.maxlength && form.get('text').touched">
-                Text must contain no more than {{form.get('text').errors.maxlength.requiredLength}} characters!
-              </small>
-            </ng-container>
-
-            <div class="add__group add__group--tags" formGroupName="tags">
-                <span class="add__label">
-                    Tags:
-                    <ul class="add__checkbox">
-                        <li *ngFor="let item of categories; let i = index">
-                            <label class="add__checkbox-label">
-                                <input type="checkbox"
-                                       [id]="item.toLowerCase()"
-                                       [checked]="isChecked(item.toLowerCase())"
-                                       (change)="onChecked($event)"
-                                >
-                                {{item}}
-                            </label>
-                        </li>
-                    </ul>
-                </span>
-            </div>
-
-            <div class="add__group add__group--buttons">
-                <button class="add__button add__button--ok" [disabled]="form.invalid || !isTagChecked">Ok</button>
-
-                <a class="add__button add__button--cancel" routerLink="/home">Cancel</a>
-            </div>
+            <a class="edit__button edit__button--cancel" routerLink="/home">Cancel</a>
+          </div>
         </form>
     </div>
 </section>

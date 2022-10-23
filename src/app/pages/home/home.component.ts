@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedPostDisplay: 'Posts display'
   };
   public options = {
+    selectedSort: 'New first',
     selectedTheme: 'Light',
     toggledMenuId: 0,
     isDisplayInline: false
@@ -126,22 +127,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public sortPosts(event: Event): void {
     this.options.toggledMenuId = null;
-
     const target = event.target as HTMLElement;
-    const value = target.innerText;
-
-    switch (value) {
-      case 'New first':
-        this.posts.sort((a, b) => {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        });
-        break;
-      case 'Old first':
-        this.posts.sort((a, b) => {
-          return new Date(a.date).getTime() - new Date(b.date).getTime();
-        });
-        break;
-    }
+    this.options.selectedSort = target.innerText;
   }
 
   public postDisplayChange(): void {

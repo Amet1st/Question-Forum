@@ -96,7 +96,8 @@
             filterBySolution:filters.filterByAnswer |
             filterByTag: filters.filterByCategory |
             filterByTime: filters.filterByTime |
-            filterByOther: filters.filterOther:userEmail"
+            filterByOther: filters.filterOther:userEmail |
+            sortPosts: options.selectedSort"
             [class.home__post--inline]="options.isDisplayInline"
           >
               <a [routerLink]="'/posts/' + post.id">

@@ -25,6 +25,7 @@ import { SwitchThemeDirective } from './shared/directives/switch-theme.directive
 import { FilterByOtherPipe } from './shared/pipes/filter-by-other.pipe';
 import { GetThemeDirective } from './shared/directives/get-theme.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SortPostsPipe } from './shared/pipes/sort-posts.pipe';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     SwitchThemeDirective,
     FilterByOtherPipe,
     GetThemeDirective,
+    SortPostsPipe,
   ],
   imports: [
       BrowserModule,

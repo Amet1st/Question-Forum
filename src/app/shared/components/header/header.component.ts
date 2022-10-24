@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { OnDestroy } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { UsersService } from '../../services/users.service';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
+import {OnDestroy} from '@angular/core';
+import {Subject, takeUntil} from 'rxjs';
+import {UsersService} from '../../services/users.service';
+import {SettingsService} from "../../services/settings.service";
 
 @Component({
   selector: 'app-header',
@@ -21,21 +22,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
-    private router: Router
+    private router: Router,
+    private settingsService: SettingsService
   ) {
   }
 
   ngOnInit(): void {
-
-    this.authService.getAuthState()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(user => {
-          this.isLoggedIn = !!user;
-          if (user) {
-            this.userEmail = user.email;
-          }
-      });
-
+    this.authService.getAuthState().subscribe(user => {
+      if (user) {
+        this.userEmail = user.email;
+        this.isLoggedIn = !!user;
+      }
+    })
   }
 
   public goToProfile() {

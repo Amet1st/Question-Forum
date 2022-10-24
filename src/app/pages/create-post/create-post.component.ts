@@ -17,7 +17,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   public categories = TAGS;
   public form: FormGroup;
   public isTagChecked = false;
-  private author: string;
   private destroy = new Subject<boolean>();
 
   constructor(
@@ -29,14 +28,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
-
-    this.authService.getAuthState()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(user => {
-        if (user) {
-          this.author = user.email;
-        }
-      });
   }
 
   private initForm(): void {
@@ -79,7 +70,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     const body: Post = {
       ...formData,
-      author: this.author,
+      author: this.authService.currentUser.email,
       date: new Date(),
       isApproved: false,
       isSolved: false

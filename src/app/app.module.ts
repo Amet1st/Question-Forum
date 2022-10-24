@@ -21,9 +21,7 @@ import { ClickOutsideDirective } from './shared/directives/click-outside.directi
 import { FilterByTagPipe } from './shared/pipes/filter-by-tag.pipe';
 import { FilterByTimePipe } from './shared/pipes/filter-by-time.pipe';
 import { FilterBySolutionPipe } from './shared/pipes/filter-by-solution.pipe';
-import { SwitchThemeDirective } from './shared/directives/switch-theme.directive';
 import { FilterByOtherPipe } from './shared/pipes/filter-by-other.pipe';
-import { GetThemeDirective } from './shared/directives/get-theme.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SortPostsPipe } from './shared/pipes/sort-posts.pipe';
 
@@ -42,9 +40,7 @@ import { SortPostsPipe } from './shared/pipes/sort-posts.pipe';
     FilterByTagPipe,
     FilterByTimePipe,
     FilterBySolutionPipe,
-    SwitchThemeDirective,
     FilterByOtherPipe,
-    GetThemeDirective,
     SortPostsPipe,
   ],
   imports: [

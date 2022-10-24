@@ -9,6 +9,7 @@ describe('HomeComponent', () => {
     component = new HomeComponent(
       new PostService(null),
       null,
+      null,
       null);
   });
 

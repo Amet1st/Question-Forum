@@ -18,9 +18,7 @@ export class ClickOutsideDirective implements AfterViewInit, OnDestroy{
   ngAfterViewInit() {
     fromEvent(this.document, 'click')
       .pipe(
-        filter(event => {
-          return !this.isInside(event.target as HTMLElement)
-        }),
+        filter(event => !this.isInside(event.target as HTMLElement)),
         takeUntil(this.destroy)
       )
       .subscribe(() => {

@@ -1,6 +1,6 @@
 <section class="question">
     <div class="container question__container">
-        <article class="question__post" *ngIf="post">
+        <article class="question__post" *ngIf="post" [@appearance]="">
             <div class="question__info">
               <small class="question__date">{{post.date | date}}</small>
 
@@ -81,7 +81,7 @@
 
             <ul class="question__comments" *ngIf="comments?.length">
                 <li *ngFor="let comment of comments">
-                    <article class="question__comment">
+                    <article class="question__comment" [@appearance]="">
                         <div class="question__comment-author">
                             <img src="../../../assets/png/user.png" alt="user avatar">
                             <p class="question__comment-email">{{comment.author}}</p>

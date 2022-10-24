@@ -61,7 +61,6 @@
                 <label class="home__theme-radio">
                   <input
                     [(ngModel)]="options.selectedTheme"
-                    [appSwitchTheme]="themeStream"
                     (ngModelChange)="changeTheme()"
                     type="radio"
                     name="theme"
@@ -73,7 +72,6 @@
                 <label class="home__theme-radio">
                   <input
                     [(ngModel)]="options.selectedTheme"
-                    [appSwitchTheme]="themeStream"
                     (ngModelChange)="changeTheme()"
                     type="radio"
                     name="theme"
@@ -99,6 +97,7 @@
             filterByOther: filters.filterOther:userEmail |
             sortPosts: options.selectedSort"
             [class.home__post--inline]="options.isDisplayInline"
+            [@appearance]=""
           >
               <a [routerLink]="'/posts/' + post.id">
                   <h3 class="home__post-title">{{post.title}}</h3>
@@ -145,7 +144,13 @@
   </div>
 
   <a routerLink="/create-post">
-    <img class="home__plus" src="../../../assets/png/plus.png" alt="plus" #plus>
+    <img
+      [class.home__plus--white]="options.selectedTheme === 'Dark'"
+      class="home__plus"
+      src="../../../assets/png/plus.svg"
+      alt="plus"
+      #plus
+    >
   </a>
 
 </section>

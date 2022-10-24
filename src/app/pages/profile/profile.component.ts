@@ -23,14 +23,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.authService.getAuthState()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(user => {
-        if (user) {
-          this.userEmail = user.email;
-          this.getUser(this.userEmail);
-        }
-      });
+    this.userEmail = this.authService.currentUser.email;
+    this.getUser(this.authService.currentUser.email);
   }
 
   private getUser(email: string): void {

@@ -7,11 +7,13 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { PostService } from 'src/app/shared/services/post.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 
 @Component({
   selector: 'app-post-view',
   templateUrl: './post-view.component.html',
-  styleUrls: ['./post-view.component.scss']
+  styleUrls: ['./post-view.component.scss'],
+  animations: [AppearanceAnimation]
 })
 export class PostViewComponent implements OnInit, OnDestroy {
 
@@ -39,11 +41,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.activatedRoute.params
-      .pipe(takeUntil(this.destroy))
-      .subscribe(params => {
-        this.postMeta.postId = params.id;
-      })
+    this.postMeta.postId = this.activatedRoute.snapshot.params.id;
 
     this.initForm();
 
@@ -93,19 +91,13 @@ export class PostViewComponent implements OnInit, OnDestroy {
   }
 
   private checkRole(author: string): void {
-    this.authService.getAuthState()
+    this.postMeta.userEmail = this.authService.currentUser.email;
+    this.postMeta.isAuthor = this.authService.currentUser.email === author;
+    this.usersService.getUserByEmail(this.authService.currentUser.email)
       .pipe(takeUntil(this.destroy))
       .subscribe(user => {
-        if(user) {
-          this.postMeta.userEmail = user.email;
-          this.postMeta.isAuthor = user.email === author;
-          this.usersService.getUserByEmail(user.email)
-            .pipe(takeUntil(this.destroy))
-            .subscribe(user => {
-              this.isAdmin = user.isAdmin
-            })
-        }
-      })
+        this.isAdmin = user.isAdmin;
+      });
   }
 
   public markAsSolution(id: string): void {

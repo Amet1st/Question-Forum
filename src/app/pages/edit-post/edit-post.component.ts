@@ -5,6 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Post } from 'src/app/models/interfaces/post.interface';
 import { TAGS } from 'src/app/models/tags.const';
 import { PostService } from 'src/app/shared/services/post.service';
+import {AuthService} from "../../shared/services/auth.service";
 
 @Component({
   selector: 'app-edit-post',
@@ -26,11 +27,12 @@ export class EditPostComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private postService: PostService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.postId = this.activatedRoute.snapshot.url[1].path;
+    this.postId = this.activatedRoute.snapshot.params.id;
 
     this.initForm();
 
@@ -79,7 +81,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     formData.tags = Object.keys(formData.tags);
 
     const body = {
-      author: this.author,
+      author: this.authService.currentUser.email,
       date: new Date(),
       ...formData
     }

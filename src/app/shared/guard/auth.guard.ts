@@ -16,11 +16,12 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    
+
     return this.authService.getAuthState()
       .pipe(
         map(user => {
           if (user && user.email) {
+            this.authService.currentUser = user;
             this.router.navigate(['/home']);
             return false;
           } else {
@@ -29,5 +30,5 @@ export class AuthGuard implements CanActivate {
         })
       );
   }
-  
+
 }

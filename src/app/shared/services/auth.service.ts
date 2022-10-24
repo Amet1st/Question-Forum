@@ -12,7 +12,7 @@ import {UserCredential} from '@firebase/auth-types';
 
 export class AuthService {
 
-  public currentUser: FirebaseUser;
+  private _user: FirebaseUser;
 
   constructor(
     private usersService: UsersService,
@@ -48,11 +48,24 @@ export class AuthService {
   }
 
   public signOut(): Observable<void> {
+    this.currentUser = null;
     return from(this.ngFireAuth.signOut());
   }
 
   public getAuthState(): Observable<FirebaseUser> {
     return this.ngFireAuth.authState;
+  }
+
+  get currentUser(): FirebaseUser {
+    if (this._user) {
+      return this._user;
+    }
+
+    return null;
+  }
+
+  set currentUser(user: FirebaseUser) {
+    this._user = user;
   }
 
 }

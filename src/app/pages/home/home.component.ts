@@ -1,21 +1,22 @@
-import {Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import { Post } from 'src/app/models/interfaces/post.interface';
 import { PostService } from 'src/app/shared/services/post.service';
 import { AuthService } from "../../shared/services/auth.service";
 import {UsersService} from "../../shared/services/users.service";
 import {TAGS} from "../../models/tags.const";
-
+import {AppearanceAnimation} from "../../models/animations/appearence.animation";
+import {SettingsService} from "../../shared/services/settings.service";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [AppearanceAnimation]
 })
 
-export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  @ViewChild('plus') plus: ElementRef;
   public posts: Post[];
   public categories = TAGS;
   public userEmail: string;
@@ -33,49 +34,22 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     toggledMenuId: 0,
     isDisplayInline: false
   };
-  public themeStream = new Subject<string>();
   private destroy = new Subject<boolean>();
 
   constructor(
     private postService: PostService,
     private authService: AuthService,
-    private userService: UsersService
+    private userService: UsersService,
+    private settingsService: SettingsService
   ) { }
 
   ngOnInit(): void {
 
-    this.authService.getAuthState()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(user => {
-        if (user) {
-          this.userEmail = user.email;
-          this.initializeHomePage(user.email);
-        }
-      })
+    this.initializeHomePage(this.authService.currentUser.email);
 
-    if (localStorage.getItem('theme')) {
-      this.options.selectedTheme = localStorage.getItem('theme');
-    }
-
+    this.options.selectedTheme = this.settingsService.theme;
     const display = localStorage.getItem('display');
     this.options.isDisplayInline = display === 'Inline';
-  }
-
-  ngAfterViewInit(): void {
-
-    if (this.options.selectedTheme === 'Dark') {
-      this.plus.nativeElement.src = '../../../assets/png/plusWhite.png';
-    }
-
-    this.themeStream
-      .pipe(takeUntil(this.destroy))
-      .subscribe(() => {
-        if (this.options.selectedTheme === 'Dark') {
-          this.plus.nativeElement.src = '../../../assets/png/plusWhite.png';
-        } else {
-          this.plus.nativeElement.src = '../../../assets/png/plus.png';
-        }
-      })
   }
 
   private initializeHomePage(email: string): void {
@@ -94,9 +68,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.destroy))
       .subscribe(posts => {
         this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
-        this.posts.sort((a, b) => {
-          return new Date(b.date).getTime() - new Date(a.date).getTime();
-        });
       });
   }
 
@@ -142,7 +113,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public changeTheme(): void {
-    this.themeStream.next(this.options.selectedTheme);
+    this.settingsService.themeStream.next(this.options.selectedTheme);
   }
 
   ngOnDestroy(): void {

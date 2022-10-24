@@ -46,10 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.initializeHomePage(this.authService.currentUser.email);
-
-    this.options.selectedTheme = this.settingsService.theme;
-    const display = localStorage.getItem('display');
-    this.options.isDisplayInline = display === 'Inline';
+    this.initSettings();
   }
 
   private initializeHomePage(email: string): void {
@@ -61,6 +58,12 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.getAllPosts(email);
         }
       });
+  }
+
+  private initSettings(): void {
+    this.options.selectedTheme = this.settingsService.theme;
+    const display = this.settingsService.display;
+    this.options.isDisplayInline = display === 'Inline';
   }
 
   private getAllPosts(email: string): void {
@@ -104,7 +107,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public postDisplayChange(): void {
     this.options.toggledMenuId = null;
-    localStorage.setItem('display', this.filters.selectedPostDisplay);
+    this.settingsService.display = this.filters.selectedPostDisplay;
     this.options.isDisplayInline = this.filters.selectedPostDisplay === 'Inline';
   }
 

@@ -21,9 +21,17 @@ export class SettingsService {
     return localStorage.getItem('theme');
   }
 
-  set theme(theme:string) {
+  set theme(theme: string) {
     localStorage.setItem('theme', theme);
     this.changeTheme(theme);
+  }
+
+  get display(): string {
+    return localStorage.getItem('display');
+  }
+
+  set display(display: string) {
+    localStorage.setItem('display', display);
   }
 
   private changeTheme(theme: string): void {

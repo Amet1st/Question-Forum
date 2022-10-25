@@ -199,11 +199,11 @@
   }
 
   &__post-approve {
-    @include button(green, 100px, 30px);
+    @include button(#2ECC40, 100px, 30px);
   }
 
   &__post-delete {
-    @include button(red, 100px, 30px);
+    @include button(#FF4136, 100px, 30px);
   }
 
   &__moderation-caption {

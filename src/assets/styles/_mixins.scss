@@ -58,9 +58,15 @@
   height: $height;
   border: 2px solid black;
   border-radius: 10px;
+  color: rgba(0, 0, 0);
   background-color: $color;
   font-size: 16px;
   cursor: pointer;
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   &:hover {
     transform: scale(1.03);

@@ -85,7 +85,12 @@
         </ul>
       </div>
 
-      <h1 class="home__title" [class.home__title--white]="options.selectedTheme === 'Dark'">Active questions</h1>
+      <h1
+        class="home__title"
+        [class.home__title--white]="options.selectedTheme === 'Dark'"
+      >
+        Recent Posts
+      </h1>
 
       <div class="home__posts" [class.home__posts--inline]="options.isDisplayInline">
           <article

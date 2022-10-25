@@ -2,7 +2,6 @@
 @import "../../../assets/styles/mixins";
 
 .home {
-
   position: relative;
   padding-bottom: 30px;
 
@@ -111,7 +110,7 @@
         font-size: 20px;
     }
 
-    @media screen and (max-width: 350px) {
+    @media screen and (max-width: 400px) {
         font-size: 12px;
     }
   }
@@ -225,6 +224,10 @@
 
     &:hover {
       transform: scale(1.05);
+    }
+
+    @media screen and (max-width: 700px) {
+      display: none;
     }
   }
 }

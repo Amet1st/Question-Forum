@@ -6,11 +6,13 @@ import { PostService } from 'src/app/shared/services/post.service';
 import { TAGS } from 'src/app/models/tags.const';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import {Post} from "../../models/interfaces/post.interface";
+import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
-  styleUrls: ['./create-post.component.scss']
+  styleUrls: ['./create-post.component.scss'],
+  animations: [AppearanceAnimation]
 })
 export class CreatePostComponent implements OnInit, OnDestroy {
 

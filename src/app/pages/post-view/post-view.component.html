@@ -46,7 +46,9 @@
                       class="question__edit"
                       [routerLink]="'/edit-post/' + post.id"
                       *ngIf="postMeta.isAuthor && !post.isApproved"
-                    >Edit</a>
+                    >
+                      Edit
+                    </a>
 
                     <a class="question__back" routerLink="/home">Back</a>
                 </div>
@@ -74,7 +76,7 @@
                 Text must contain no more than {{form.get('text')?.errors?.maxlength.requiredLength}} characters!
               </small>
 
-                <button class="question__submit-comment" type="submit">Submit comment</button>
+              <button class="question__submit-comment" type="submit">Submit comment</button>
             </form>
 
             <ul class="question__comments" *ngIf="comments?.length">
@@ -82,13 +84,14 @@
                     <article
                       class="question__comment"
                       [class.question__comment--white]="theme === 'Dark'"
-                      [@appearance]
+                      [@appearance]=""
                     >
                       <div class="question__comment-header">
                         <div class="question__comment-author">
                           <img
                             [class.white-svg]="theme === 'Dark'"
-                            src="../../../assets/svg/user.svg" alt="user avatar">
+                            src="../../../assets/svg/user.svg" alt="user avatar"
+                          >
 
                           <p class="question__comment-email">{{comment.author}}</p>
                         </div>
@@ -114,10 +117,6 @@
                         <p class="question__comment-text">
                           {{comment.text}}
                         </p>
-                      </div>
-
-                      <div class="question__comment-footer">
-
                       </div>
                     </article>
                 </li>

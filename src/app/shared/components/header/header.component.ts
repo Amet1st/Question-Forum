@@ -38,10 +38,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
 
     this.authService.getAuthState().subscribe(user => {
-      if (user) {
-        this.userEmail = user.email;
+        this.userEmail = user?.email;
         this.isLoggedIn = !!user;
-      }
+
     })
   }
 

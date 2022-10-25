@@ -2,66 +2,59 @@
 @import "../../../assets/styles/mixins";
 
 .auth {
+  &__title {
+    font-size: 35px;
+    margin-bottom: 50px;
+  }
 
-    &__title {
-        font-size: 35px;
-        margin-bottom: 50px;
+  &__form {
+    @include auth-form;
+  }
+
+  &__form-group {
+    width: 30%;
+    min-width: 280px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__label {
+    font-size: 25px;
+  }
+
+  &__input {
+    width: 60%;
+  }
+
+  &__sign-up {
+    @include auth-button($signUpColor);
+  }
+
+  &__sign-in {
+    @include auth-button($signInColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  &__already {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  &__icons {
+    display: flex;
+    gap: 20px;
+
+    & img {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.05);
+      }
     }
-
-    &__form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      background-color: $formColor;
-      padding: 30px;
-      margin-top: 100px;
-    }
-
-    &__form-group {
-        width: 30%;
-        min-width: 260px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    &__label {
-        font-size: 25px;
-    }
-
-    &__input {
-        width: 60%;
-    }
-
-    &__sign-up {
-        @include auth-button($signUpColor);
-    }
-
-    &__sign-in {
-        @include auth-button($signInColor);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 0;
-    }
-
-    &__already {
-        font-size: 16px;
-        margin: 0;
-    }
-
-    &__icons {
-        display: flex;
-        gap: 20px;
-
-        & img {
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-
-            &:hover {
-                transform: scale(1.05);
-            }
-        }
-    }
+  }
 }

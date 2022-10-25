@@ -63,6 +63,12 @@
     flex-wrap: wrap;
     gap: 15px;
     padding: 15px;
+
+    &--inline {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   &__post {
@@ -85,7 +91,7 @@
 
     &--inline {
       width: 60%;
-      height: 110px;
+      min-height: 120px;
       position: relative;
     }
 
@@ -251,6 +257,7 @@
 
   &:hover {
     transform: scale(1.02);
+    transition: 0.3s linear all;
   }
 }
 

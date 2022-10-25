@@ -9,9 +9,11 @@ describe('PostViewComponent', () => {
       null,
       null,
       null,
+      null,
       new FormBuilder(),
       null,
-      null);
+      null,
+      );
   });
 
   it('should create text field', () => {

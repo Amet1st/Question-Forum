@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public userEmail: string;
   public userId: string;
   public isMenuOpened = false;
+  public theme = 'Light';
   private destroy = new Subject<boolean>();
 
   constructor(
@@ -28,6 +29,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.theme = this.settingsService.theme;
+
+    this.settingsService.themeStream
+      .pipe(takeUntil(this.destroy))
+      .subscribe(theme => {
+        this.theme = theme;
+      });
+
     this.authService.getAuthState().subscribe(user => {
       if (user) {
         this.userEmail = user.email;

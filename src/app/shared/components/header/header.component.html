@@ -1,6 +1,10 @@
 <header class="header container header__container">
     <a routerLink="/home" routerLinkActive="header__home">
-        <img class="header__logo" src="../../../../assets/png/logo.png" alt="logo">
+        <img
+          class="header__logo"
+          [class.header__logo--white]="theme === 'Dark'"
+          src="../../../../assets/png/logo.png"
+          alt="logo">
     </a>
 
     <nav class="header__content">
@@ -15,7 +19,11 @@
                 routerLinkActive="active-add"
             >Add question</a>
             <a (click)="goToProfile()">
-                <img class="header__user-logo" src="../../../../assets/png/user.png" alt="user">
+                <img
+                  class="header__user-logo"
+                  src="../../../../assets/svg/user.svg"
+                  alt="user"
+                >
             </a>
 
             <div class="menu-container" (clickOutside)="clickOutside()">

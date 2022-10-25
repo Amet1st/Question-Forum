@@ -94,19 +94,20 @@
             filterBySolution:filters.filterByAnswer |
             filterByTag: filters.filterByCategory |
             filterByTime: filters.filterByTime |
-            filterByOther: filters.filterOther:userEmail |
+            filterByOther: filters.filterOther |
             sortPosts: options.selectedSort"
             [class.home__post--inline]="options.isDisplayInline"
             [@appearance]=""
+            [@width]="options.selectedDisplay"
           >
               <a [routerLink]="'/posts/' + post.id">
                   <h3 class="home__post-title">{{post.title}}</h3>
               </a>
 
               <div class="home__post-info" [class.home__post-info--inline]="options.isDisplayInline">
-                  <small class="home__post-date" [class.home__post-date--inline]="options.isDisplayInline">
+                  <i class="home__post-date" [class.home__post-date--inline]="options.isDisplayInline">
                     {{post.date | date: 'd.M.yyyy, h:mm a'}}
-                  </small>
+                  </i>
 
                   <ul class="home__post-tags" [class.home__post-tags--inline]="options.isDisplayInline">
                       <li
@@ -147,7 +148,7 @@
     <img
       [class.home__plus--white]="options.selectedTheme === 'Dark'"
       class="home__plus"
-      src="../../../assets/png/plus.svg"
+      src="../../../assets/svg/plus.svg"
       alt="plus"
     >
   </a>

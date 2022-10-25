@@ -1,9 +1,9 @@
 <section class="auth">
-    <div class="container auth__container">
+    <div class="container auth__container" [@appearance]="">
         <form class="auth__form" [formGroup]="form" (ngSubmit)="onSubmit()">
             <h2 class="auth__title">Sign In</h2>
             <div class="auth__form-group">
-                <label class="auth__label" for="user">Email</label>
+                <label class="auth__label" for="user">Email:</label>
 
                 <input class="auth__input" id="user" type="text" formControlName="email" (focus)="onFocus()">
             </div>
@@ -13,7 +13,7 @@
             </small>
 
             <div class="auth__form-group">
-                <label class="auth__label" for="password">Password</label>
+                <label class="auth__label" for="password">Password:</label>
 
                 <input class="auth__input" id="password" type="password" formControlName="password" (focus)="onFocus()">
             </div>

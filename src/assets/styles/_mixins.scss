@@ -1,9 +1,42 @@
+@mixin auth-form() {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  padding: 30px;
+  margin: 100px auto;
+  max-width: 500px;
+  width: 100%;
+  background: url("../../assets/gif/background.gif");
+  background-size: cover;
+  border-radius: 10px;
+}
+
+@mixin auth-link($color) {
+  display: inline-block;
+  font-size: 25px;
+  border: 2px solid black;
+  background-color: $color;
+  padding: 5px;
+  border-radius: 10px;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: 14px;
+  }
+}
+
 @mixin auth-button($color) {
   width: 200px;
   height: 50px;
   font-size: 25px;
   cursor: pointer;
   background-color: $color;
+  color: rgba(0, 0, 0, 0.8);
+  border: 1px solid black;
   border-radius: 10px;
 
   &:hover {

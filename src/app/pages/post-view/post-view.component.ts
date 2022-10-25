@@ -8,6 +8,7 @@ import { PostService } from 'src/app/shared/services/post.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {AppearanceAnimation} from "../../models/animations/appearence.animation";
+import {SettingsService} from "../../shared/services/settings.service";
 
 @Component({
   selector: 'app-post-view',
@@ -26,6 +27,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
     isAuthor: false,
     isPostSolved: false,
   }
+  public theme = 'Light'
   public form: FormGroup;
   public isAdmin = false;
   private destroy = new Subject<boolean>();
@@ -34,6 +36,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
     private postService: PostService,
     private usersService: UsersService,
     private authService: AuthService,
+    private settingsService: SettingsService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -42,9 +45,13 @@ export class PostViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.postMeta.postId = this.activatedRoute.snapshot.params.id;
+    this.theme = this.settingsService.theme;
 
     this.initForm();
+    this.getPost();
+  }
 
+  private getPost(): void {
     this.postService.getPost(this.postMeta.postId)
       .pipe(takeUntil(this.destroy))
       .subscribe(
@@ -60,8 +67,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
   public initForm(): void {
     this.form = this.formBuilder.group({
       text: ['', [
-        Validators.required,
-        Validators.minLength(10),
         Validators.maxLength(500)
         ]]
     });
@@ -69,7 +74,8 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
 
-    if(this.form.invalid) {
+    if(this.form.invalid || !this.form.get('text').value.toString().trim()) {
+      this.form.reset();
       return;
     }
 

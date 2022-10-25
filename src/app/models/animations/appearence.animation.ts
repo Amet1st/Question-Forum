@@ -18,4 +18,4 @@ export const AppearanceAnimation = trigger('appearance', [
       transform: 'scale(0.5)'
     }))
   ])
-])
+]);

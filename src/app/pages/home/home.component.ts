@@ -7,12 +7,16 @@ import {UsersService} from "../../shared/services/users.service";
 import {TAGS} from "../../models/tags.const";
 import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 import {SettingsService} from "../../shared/services/settings.service";
+import {WidthAnimation} from "../../models/animations/width.animation";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: [AppearanceAnimation]
+  animations: [
+    AppearanceAnimation,
+    WidthAnimation
+  ]
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
@@ -31,6 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public options = {
     selectedSort: 'New first',
     selectedTheme: 'Light',
+    selectedDisplay: 'Tiled',
     toggledMenuId: 0,
     isDisplayInline: false
   };
@@ -63,6 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private initSettings(): void {
     this.options.selectedTheme = this.settingsService.theme;
     const display = this.settingsService.display;
+    this.options.selectedDisplay = display;
     this.options.isDisplayInline = display === 'Inline';
   }
 
@@ -108,6 +114,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public postDisplayChange(): void {
     this.options.toggledMenuId = null;
     this.settingsService.display = this.filters.selectedPostDisplay;
+    this.options.selectedDisplay = this.settingsService.display;
     this.options.isDisplayInline = this.filters.selectedPostDisplay === 'Inline';
   }
 

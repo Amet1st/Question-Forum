@@ -4,11 +4,13 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { Router } from '@angular/router';
 import {Observable, Subject, takeUntil} from 'rxjs';
 import {UserCredential} from "@firebase/auth-types";
+import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrls: ['./sign-in.component.scss'],
+  animations: [AppearanceAnimation]
 })
 
 export class SignInComponent implements OnInit, OnDestroy {

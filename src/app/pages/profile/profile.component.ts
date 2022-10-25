@@ -3,12 +3,14 @@ import { User } from 'src/app/models/interfaces/user.interface';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 import {Subject, takeUntil} from "rxjs";
+import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  animations: [AppearanceAnimation]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 

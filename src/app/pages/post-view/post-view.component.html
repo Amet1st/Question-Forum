@@ -7,7 +7,6 @@
               <small class="question__author">
                   {{post.author}}
               </small>
-
             </div>
 
             <h2 class="question__title">{{post.title}}</h2>
@@ -18,9 +17,9 @@
 
             <div class="question__info">
                 <ul class="question__tags">
-                    <li class="question__tag" *ngFor="let tag of post.tags">
-                        <a class="question__tag-link">{{tag}}</a>
-                    </li>
+                  <li class="question__tag" *ngFor="let tag of post.tags">
+                    <a class="question__tag-link">{{tag}}</a>
+                  </li>
                 </ul>
 
                 <div class="question__buttons">
@@ -30,14 +29,18 @@
                       type="button"
                       (click)="approvePost(post.id)"
                       *ngIf="!post.isApproved && isAdmin"
-                    >Approve</button>
+                    >
+                      Approve
+                    </button>
 
                     <button
                       class="question__post-delete"
                       type="button"
                       (click)="deletePost(post.id)"
                       *ngIf="isAdmin"
-                    >Delete</button>
+                    >
+                      Delete
+                    </button>
                   </div>
                     <a
                       class="question__edit"
@@ -51,26 +54,21 @@
         </article>
 
         <div class="question__media" *ngIf="post?.isApproved">
-            <h2 class="question__media-title">Comments / Answers</h2>
+            <h2
+              class="question__media-title"
+              [class.question__media-title--white]="theme === 'Dark'"
+            >
+              Comments / Answers
+            </h2>
 
             <form class="question__form" [formGroup]="form" (ngSubmit)="onSubmit()">
-                <label>
-                    Add comment
-                    <textarea
-                        class="question__comment-input"
-                        type="text"
-                        placeholder="Your text..."
-                        formControlName="text"
-                    ></textarea>
-                </label>
-
-              <small class="error" *ngIf="form.get('text')?.errors?.required && form.get('text').touched">
-                Text is required!
-              </small>
-
-              <small class="error" *ngIf="form.get('text')?.errors?.minlength && form.get('text').touched">
-                Text must contain at least {{form.get('text')?.errors?.minlength.requiredLength}} characters!
-              </small>
+              <input
+                  class="question__comment-input"
+                  [class.question__comment-input--white]="theme === 'Dark'"
+                  type="text"
+                  placeholder="Your comment..."
+                  formControlName="text"
+              >
 
               <small class="error" *ngIf="form.get('text')?.errors?.maxlength && form.get('text').touched">
                 Text must contain no more than {{form.get('text')?.errors?.maxlength.requiredLength}} characters!
@@ -81,28 +79,46 @@
 
             <ul class="question__comments" *ngIf="comments?.length">
                 <li *ngFor="let comment of comments">
-                    <article class="question__comment" [@appearance]="">
+                    <article
+                      class="question__comment"
+                      [class.question__comment--white]="theme === 'Dark'"
+                      [@appearance]
+                    >
+                      <div class="question__comment-header">
                         <div class="question__comment-author">
-                            <img src="../../../assets/png/user.png" alt="user avatar">
+                          <img
+                            [class.white-svg]="theme === 'Dark'"
+                            src="../../../assets/svg/user.svg" alt="user avatar">
 
-                            <p class="question__comment-email">{{comment.author}}</p>
+                          <p class="question__comment-email">{{comment.author}}</p>
                         </div>
 
+                        <div class="question__comment-info">
+                          <span class="question__comment-date">
+                            <i>{{comment.date | date: 'd/M/yyyy, h:mm a'}}</i>
+                          </span>
+
+                          <small class="question__solution" *ngIf="comment.isSolution">&#10003; Solution</small>
+
+                          <button
+                            class="question__mark"
+                            type="button"
+                            *ngIf="postMeta.isAuthor && !postMeta.isPostSolved"
+                            (click)="markAsSolution(comment.id)"
+                          >Mark as solution
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="question__comment-body">
                         <p class="question__comment-text">
-                            {{comment.text}}
+                          {{comment.text}}
                         </p>
+                      </div>
 
-                        <button
-                          class="question__mark"
-                          type="button"
-                          *ngIf="postMeta.isAuthor && !postMeta.isPostSolved"
-                          (click)="markAsSolution(comment.id)"
-                        >Mark as solution</button>
+                      <div class="question__comment-footer">
 
-                        <span class="question__comment-date">
-                          <i>{{comment.date | date: 'd/M/yyyy, h:mm a'}}</i>
-                        </span>
-                        <small class="question__solution" *ngIf="comment.isSolution">&#10003; Solution</small>
+                      </div>
                     </article>
                 </li>
             </ul>

@@ -5,11 +5,13 @@ import { Router } from '@angular/router';
 import { UsersService } from 'src/app/shared/services/users.service';
 import {Observable, Subject, takeUntil} from 'rxjs';
 import {UserCredential} from "@firebase/auth-types";
+import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
+  animations: [AppearanceAnimation]
 })
 
 export class SignUpComponent implements OnInit, OnDestroy {

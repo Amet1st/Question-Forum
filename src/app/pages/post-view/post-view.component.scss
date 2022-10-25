@@ -135,22 +135,26 @@
   }
 
   &__comment {
+    position: relative;
     display: flex;
-    flex: 1 1 auto;
-    justify-content: space-between;
     align-items: center;
-    padding: 5px;
-    gap: 10px;
+    gap: 20px;
     background-color: white;
     border-radius: 10px;
   }
 
   &__comment-text {
     justify-self: flex-start;
+    width: 70%;
+    word-break: break-all;
+    white-space: normal;
   }
 
   &__comment-date {
-    font-size: 12px;
+    font-size: 10px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
   }
 
   &__comment-email {
@@ -166,11 +170,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 5px;
+    border-right: 2px solid black;
+    min-width: 200px;
 
     & img {
       width: 40px;
       height: 40px;
       cursor: pointer;
+      border: 2px dashed black;
+      border-radius: 10px;
 
       &:hover {
         transform: scale(1.05);
@@ -180,16 +189,19 @@
 
   &__mark {
     @include button(#0b910b, 120px, 30px);
+    font-size: 12px;
     padding: 5px;
-    cursor: pointer;
+    margin: 15px 5px 0 0;
     @media screen and (max-width: 600px) {
       font-size: 8px;
     }
   }
 
   &__solution {
-    margin-right: 20px;
-    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    font-size: 16px;
     font-weight: bold;
   }
 }

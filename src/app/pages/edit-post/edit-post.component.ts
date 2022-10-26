@@ -67,7 +67,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       text: ['', [
         Validators.required,
         Validators.minLength(10),
-        Validators.maxLength(200)
+        Validators.maxLength(500)
       ]],
 
       tags: this.formBuilder.group({})

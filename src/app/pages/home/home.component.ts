@@ -43,13 +43,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private postService: PostService,
-    private authService: AuthService,
+    public authService: AuthService,
     private userService: UsersService,
     private settingsService: SettingsService
   ) { }
 
   ngOnInit(): void {
-
+    this.userEmail = this.authService.currentUser.email;
     this.initializeHomePage(this.authService.currentUser.email);
     this.initSettings();
   }
@@ -76,6 +76,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.postService.getAllPosts()
       .pipe(takeUntil(this.destroy))
       .subscribe(posts => {
+        posts.forEach(post => console.log(post.author));
         this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
       });
   }

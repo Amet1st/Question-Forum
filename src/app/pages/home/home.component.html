@@ -1,152 +1,154 @@
 <section class="home">
   <div class="container home__container">
-      <div class="home__header">
-        <ul class="home__options" (clickOutside)="clickedOutside()">
-          <li class="menu-container">
-            <p class="home__filter" (click)="toggleMenu(1)">Filter</p>
+    <div class="home__header">
+      <ul class="home__options" (clickOutside)="clickedOutside()">
+        <li class="menu-container">
+          <p class="home__filter" (click)="toggleMenu(1)">Filter</p>
 
-            <div class="menu" *ngIf="options.toggledMenuId === 1">
-              <select class="menu-item" [(ngModel)]="filters.filterByAnswer">
-                <option disabled>By answer</option>
-                <option>Solved</option>
-                <option>Not solved</option>
-                <option>All</option>
-              </select>
+          <div class="menu" *ngIf="options.toggledMenuId === 1">
+            <select class="menu-item" [(ngModel)]="filters.filterByAnswer">
+              <option disabled>By answer</option>
+              <option>Solved</option>
+              <option>Not solved</option>
+              <option>All</option>
+            </select>
 
-              <select class="menu-item" [(ngModel)]="filters.filterByCategory">
-                <option disabled>By category</option>
-                <option *ngFor="let category of categories">{{category}}</option>
-                <option>All</option>
-              </select>
+            <select class="menu-item" [(ngModel)]="filters.filterByCategory">
+              <option disabled>By category</option>
+              <option *ngFor="let category of categories">{{category}}</option>
+              <option>All</option>
+            </select>
 
-              <select class="menu-item" [(ngModel)]="filters.filterByTime">
-                <option disabled>Time period</option>
-                <option>Last day</option>
-                <option>Last week</option>
-                <option>Last month</option>
-                <option>All time</option>
-              </select>
+            <select class="menu-item" [(ngModel)]="filters.filterByTime">
+              <option disabled>Time period</option>
+              <option>Last day</option>
+              <option>Last week</option>
+              <option>Last month</option>
+              <option>All time</option>
+            </select>
 
-              <select class="menu-item" [(ngModel)]="filters.filterOther">
-                <option disabled>Other</option>
-                <option>My questions</option>
-                <option *ngIf="isAdmin">On moderation</option>
-                <option>All</option>
-              </select>
+            <select class="menu-item" [(ngModel)]="filters.filterOther">
+              <option disabled>Other</option>
+              <option>My questions</option>
+              <option *ngIf="isAdmin">On moderation</option>
+              <option>All</option>
+            </select>
+          </div>
+        </li>
+
+        <li class="menu-container">
+          <p class="home__sort" (click)="toggleMenu(2)">Sort</p>
+
+          <div class="menu" *ngIf="options.toggledMenuId === 2">
+            <div class="menu-item" (click)="sortPosts($event)">New first</div>
+
+            <div class="menu-item" (click)="sortPosts($event)">Old first</div>
+          </div>
+        </li>
+
+        <li class="menu-container">
+          <p class="home__filter" (click)="toggleMenu(3)">Settings</p>
+
+          <div class="menu" *ngIf="options.toggledMenuId === 3">
+            <select class="menu-item" [(ngModel)]="filters.selectedPostDisplay" (ngModelChange)="postDisplayChange()">
+              <option disabled>Posts display</option>
+              <option>Tiled</option>
+              <option>Inline</option>
+            </select>
+
+            <div class="menu-item home__theme">
+              <p>Theme</p>
+              <label class="home__theme-radio">
+                <input
+                  [(ngModel)]="options.selectedTheme"
+                  (ngModelChange)="changeTheme()"
+                  type="radio"
+                  name="theme"
+                  value="Light"
+                >
+                Light
+              </label>
+
+              <label class="home__theme-radio">
+                <input
+                  [(ngModel)]="options.selectedTheme"
+                  (ngModelChange)="changeTheme()"
+                  type="radio"
+                  name="theme"
+                  value="Dark"
+                >
+                Dark
+              </label>
             </div>
-          </li>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-          <li class="menu-container">
-            <p class="home__sort" (click)="toggleMenu(2)">Sort</p>
+    <h1
+      class="home__title"
+      [class.home__title--white]="options.selectedTheme === 'Dark'"
+    >
+      Recent Posts
+    </h1>
 
-            <div class="menu" *ngIf="options.toggledMenuId === 2">
-              <div class="menu-item" (click)="sortPosts($event)">New first</div>
-
-              <div class="menu-item" (click)="sortPosts($event)">Old first</div>
-            </div>
-          </li>
-
-          <li class="menu-container">
-            <p class="home__filter" (click)="toggleMenu(3)">Settings</p>
-
-            <div class="menu" *ngIf="options.toggledMenuId === 3">
-              <select class="menu-item" [(ngModel)]="filters.selectedPostDisplay" (ngModelChange)="postDisplayChange()">
-                <option disabled>Posts display</option>
-                <option>Tiled</option>
-                <option>Inline</option>
-              </select>
-
-              <div class="menu-item home__theme">
-                <p>Theme</p>
-                <label class="home__theme-radio">
-                  <input
-                    [(ngModel)]="options.selectedTheme"
-                    (ngModelChange)="changeTheme()"
-                    type="radio"
-                    name="theme"
-                    value="Light"
-                  >
-                  Light
-                </label>
-
-                <label class="home__theme-radio">
-                  <input
-                    [(ngModel)]="options.selectedTheme"
-                    (ngModelChange)="changeTheme()"
-                    type="radio"
-                    name="theme"
-                    value="Dark"
-                  >
-                  Dark
-                </label>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <h1
-        class="home__title"
-        [class.home__title--white]="options.selectedTheme === 'Dark'"
-      >
-        Recent Posts
-      </h1>
-
-      <div class="home__posts" [class.home__posts--inline]="options.isDisplayInline">
-          <article
-            class="home__post"
-            *ngFor="let post of posts |
+    <div class="home__posts" [class.home__posts--inline]="options.isDisplayInline">
+      <article
+        class="home__post"
+        *ngFor="let post of posts |
             filterBySolution:filters.filterByAnswer |
             filterByTag: filters.filterByCategory |
             filterByTime: filters.filterByTime |
             filterByOther: filters.filterOther |
             sortPosts: options.selectedSort"
-            [class.home__post--inline]="options.isDisplayInline"
-            [@appearance]=""
-            [@width]="options.selectedDisplay"
+        [class.home__post--inline]="options.isDisplayInline"
+        [@appearance]=""
+        [@width]="options.selectedDisplay"
+      >
+        <a [routerLink]="'/posts/' + post.id">
+          <h3 class="home__post-title">{{post.title}}</h3>
+        </a>
+
+        <div class="home__post-info" [class.home__post-info--inline]="options.isDisplayInline">
+          <i class="home__post-date" [class.home__post-date--inline]="options.isDisplayInline">
+            {{post.date | date: 'd.M.yyyy, h:mm a'}}
+          </i>
+
+          <ul class="home__post-tags" [class.home__post-tags--inline]="options.isDisplayInline">
+            <li
+              class="home__post-tag"
+              *ngFor="let tag of post.tags"
+              [class.home__post-tag--inline]="options.isDisplayInline"
+              (click)="toggleTagFilter(tag)"
+            >
+              {{tag}}
+            </li>
+          </ul>
+        </div>
+
+        <div class="home__post-moderation"
+             *ngIf="isAdmin"
+             [class.home__post-moderation--inline]="options.isDisplayInline"
+        >
+          <button
+            class="home__post-approve"
+            type="button"
+            (click)="approvePost(post.id)"
+            *ngIf="!post.isApproved"
           >
-              <a [routerLink]="'/posts/' + post.id">
-                  <h3 class="home__post-title">{{post.title}}</h3>
-              </a>
+            Approve
+          </button>
 
-              <div class="home__post-info" [class.home__post-info--inline]="options.isDisplayInline">
-                  <i class="home__post-date" [class.home__post-date--inline]="options.isDisplayInline">
-                    {{post.date | date: 'd.M.yyyy, h:mm a'}}
-                  </i>
+          <button class="home__post-delete" type="button" (click)="deletePost(post.id)">
+            Delete
+          </button>
+        </div>
 
-                  <ul class="home__post-tags" [class.home__post-tags--inline]="options.isDisplayInline">
-                      <li
-                        class="home__post-tag"
-                        *ngFor="let tag of post.tags"
-                        [class.home__post-tag--inline]="options.isDisplayInline"
-                        (click)="toggleTagFilter(tag)"
-                      >
-                          {{tag}}
-                      </li>
-                  </ul>
-              </div>
-
-              <div class="home__post-moderation"
-                   *ngIf="isAdmin"
-                   [class.home__post-moderation--inline]="options.isDisplayInline"
-              >
-                <button
-                  class="home__post-approve"
-                  type="button"
-                  (click)="approvePost(post.id)"
-                  *ngIf="!post.isApproved"
-                >Approve</button>
-
-                <button class="home__post-delete" type="button" (click)="deletePost(post.id)">
-                  Delete
-                </button>
-              </div>
-
-              <p class="home__moderation-caption" *ngIf="(post.author === userEmail) && !isAdmin">
-                <i>Post on moderation</i>
-              </p>
-          </article>
-      </div>
+        <p class="home__moderation-caption" *ngIf="(post.author === userEmail) && !isAdmin && !post.isApproved">
+          <i>Post on moderation</i>
+        </p>
+      </article>
+    </div>
   </div>
 
   <a routerLink="/create-post">

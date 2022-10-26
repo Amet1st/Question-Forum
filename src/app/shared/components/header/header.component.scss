@@ -46,6 +46,12 @@
 
   &__add {
     @include button(#FFDC00, 120px, 35px);
+
+    @media screen and (max-width: 350px) {
+      width: 60px;
+      height: 20px;
+      font-size: 8px;
+    }
   }
 
   &__user-logo {

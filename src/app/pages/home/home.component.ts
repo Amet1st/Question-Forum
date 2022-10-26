@@ -76,7 +76,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.postService.getAllPosts()
       .pipe(takeUntil(this.destroy))
       .subscribe(posts => {
-        posts.forEach(post => console.log(post.author));
         this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
       });
   }

@@ -13,10 +13,7 @@ import {WidthAnimation} from "../../models/animations/width.animation";
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: [
-    AppearanceAnimation,
-    WidthAnimation
-  ]
+  animations: [AppearanceAnimation, WidthAnimation]
 })
 
 export class HomeComponent implements OnInit, OnDestroy {

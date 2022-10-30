@@ -1,8 +1,8 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
-import { Post } from 'src/app/models/interfaces/post.interface';
-import { PostService } from 'src/app/shared/services/post.service';
-import { AuthService } from "../../shared/services/auth.service";
+import {Post} from 'src/app/models/interfaces/post.interface';
+import {PostService} from 'src/app/shared/services/post.service';
+import {AuthService} from "../../shared/services/auth.service";
 import {UsersService} from "../../shared/services/users.service";
 import {TAGS} from "../../models/tags.const";
 import {AppearanceAnimation} from "../../models/animations/appearence.animation";
@@ -49,32 +49,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userEmail = this.authService.currentUser.email;
     this.initializeHomePage(this.authService.currentUser.email);
     this.initSettings();
-  }
-
-  private initializeHomePage(email: string): void {
-    this.userService.getUserByEmail(email)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(user => {
-        if (user) {
-          this.isAdmin = user.isAdmin;
-          this.getAllPosts(email);
-        }
-      });
-  }
-
-  private initSettings(): void {
-    this.options.selectedTheme = this.settingsService.theme;
-    const display = this.settingsService.display;
-    this.options.selectedDisplay = display;
-    this.options.isDisplayInline = display === 'Inline';
-  }
-
-  private getAllPosts(email: string): void {
-    this.postService.getAllPosts()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(posts => {
-        this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
-      });
   }
 
   public approvePost(id: string): void {
@@ -126,5 +100,31 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
+  }
+
+  private initializeHomePage(email: string): void {
+    this.userService.getUserByEmail(email)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(user => {
+        if (user) {
+          this.isAdmin = user.isAdmin;
+          this.getAllPosts(email);
+        }
+      });
+  }
+
+  private initSettings(): void {
+    this.options.selectedTheme = this.settingsService.theme;
+    const display = this.settingsService.display;
+    this.options.selectedDisplay = display;
+    this.options.isDisplayInline = display === 'Inline';
+  }
+
+  private getAllPosts(email: string): void {
+    this.postService.getAllPosts()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(posts => {
+        this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
+      });
   }
 }

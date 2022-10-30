@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map, Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
 import {Post} from 'src/app/models/interfaces/post.interface';
-import { Comment } from 'src/app/models/interfaces/comment.inteface';
+import {Comment} from 'src/app/models/interfaces/comment.inteface';
 
 @Injectable({
   providedIn: 'root'

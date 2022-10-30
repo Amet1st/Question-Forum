@@ -26,12 +26,12 @@ export class ClickOutsideDirective implements AfterViewInit, OnDestroy{
       })
   }
 
-  private isInside(elementToCheck: HTMLElement): boolean {
-    return elementToCheck === this.element.nativeElement || this.element.nativeElement.contains(elementToCheck);
-  }
-
   ngOnDestroy() {
     this.destroy.next(true);
     this.destroy.complete();
+  }
+
+  private isInside(elementToCheck: HTMLElement): boolean {
+    return elementToCheck === this.element.nativeElement || this.element.nativeElement.contains(elementToCheck);
   }
 }

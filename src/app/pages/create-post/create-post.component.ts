@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { PostService } from 'src/app/shared/services/post.service';
-import { TAGS } from 'src/app/models/tags.const';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {Subject, takeUntil} from 'rxjs';
+import {PostService} from 'src/app/shared/services/post.service';
+import {TAGS} from 'src/app/models/tags.const';
+import {AuthService} from 'src/app/shared/services/auth.service';
 import {Post} from "../../models/interfaces/post.interface";
 import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 
@@ -30,24 +30,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
-  }
-
-  private initForm(): void {
-    this.form = this.formBuilder.group({
-      title: ['', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(50)
-      ]],
-
-      text: ['', [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(500)
-      ]],
-
-      tags: this.formBuilder.group({})
-    })
   }
 
   public onChecked(event: Event): void {
@@ -91,5 +73,23 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
+  }
+
+  private initForm(): void {
+    this.form = this.formBuilder.group({
+      title: ['', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(50)
+      ]],
+
+      text: ['', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(500)
+      ]],
+
+      tags: this.formBuilder.group({})
+    })
   }
 }

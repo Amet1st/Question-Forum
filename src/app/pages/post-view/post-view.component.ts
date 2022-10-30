@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { Post } from 'src/app/models/interfaces/post.interface';
-import { Comment } from 'src/app/models/interfaces/comment.inteface';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { PostService } from 'src/app/shared/services/post.service';
-import { UsersService } from 'src/app/shared/services/users.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {Subject, takeUntil} from 'rxjs';
+import {Post} from 'src/app/models/interfaces/post.interface';
+import {Comment} from 'src/app/models/interfaces/comment.inteface';
+import {AuthService} from 'src/app/shared/services/auth.service';
+import {PostService} from 'src/app/shared/services/post.service';
+import {UsersService} from 'src/app/shared/services/users.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 import {SettingsService} from "../../shared/services/settings.service";
 
@@ -51,19 +51,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
     this.getPost();
   }
 
-  private getPost(): void {
-    this.postService.getPost(this.postMeta.postId)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(
-        post => {
-          this.post = post;
-          this.comments = post.comments;
-          this.postMeta.isPostSolved = !this.comments.every(item => !item.isSolution);
-          this.checkRole(post.author);
-        }
-      );
-  }
-
   public initForm(): void {
     this.form = this.formBuilder.group({
       text: ['', [
@@ -93,16 +80,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
         comment.id = Object.values(id)[0];
         this.comments.push(comment);
         this.form.reset();
-      });
-  }
-
-  private checkRole(author: string): void {
-    this.postMeta.userEmail = this.authService.currentUser.email;
-    this.postMeta.isAuthor = this.authService.currentUser.email === author;
-    this.usersService.getUserByEmail(this.authService.currentUser.email)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(user => {
-        this.isAdmin = user.isAdmin;
       });
   }
 
@@ -140,6 +117,29 @@ export class PostViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
+  }
+
+  private getPost(): void {
+    this.postService.getPost(this.postMeta.postId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        post => {
+          this.post = post;
+          this.comments = post.comments;
+          this.postMeta.isPostSolved = !this.comments.every(item => !item.isSolution);
+          this.checkRole(post.author);
+        }
+      );
+  }
+
+  private checkRole(author: string): void {
+    this.postMeta.userEmail = this.authService.currentUser.email;
+    this.postMeta.isAuthor = this.authService.currentUser.email === author;
+    this.usersService.getUserByEmail(this.authService.currentUser.email)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(user => {
+        this.isAdmin = user.isAdmin;
+      });
   }
 
 }

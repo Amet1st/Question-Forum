@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {OnDestroy} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {UsersService} from '../../services/users.service';
 import {SettingsService} from "../../services/settings.service";

@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { Post } from 'src/app/models/interfaces/post.interface';
-import { TAGS } from 'src/app/models/tags.const';
-import { PostService } from 'src/app/shared/services/post.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subject, takeUntil} from 'rxjs';
+import {Post} from 'src/app/models/interfaces/post.interface';
+import {TAGS} from 'src/app/models/tags.const';
+import {PostService} from 'src/app/shared/services/post.service';
 import {AuthService} from "../../shared/services/auth.service";
 import {AppearanceAnimation} from "../../models/animations/appearence.animation";
 
@@ -56,24 +56,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
       );
   }
 
-  private initForm(): void {
-    this.form = this.formBuilder.group({
-      title: ['', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(50)
-      ]],
-
-      text: ['', [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(500)
-      ]],
-
-      tags: this.formBuilder.group({})
-    })
-  }
-
   public onSubmit(): void {
     if (this.form.invalid) {
       return;
@@ -121,6 +103,24 @@ export class EditPostComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
+  }
+
+  private initForm(): void {
+    this.form = this.formBuilder.group({
+      title: ['', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(50)
+      ]],
+
+      text: ['', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(500)
+      ]],
+
+      tags: this.formBuilder.group({})
+    })
   }
 
 }

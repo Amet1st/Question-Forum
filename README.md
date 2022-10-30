@@ -1,6 +1,6 @@
 # QuestionForum
 
-<a href="https://question-forum-ee329.web.app/">Live Demo</a>
+<a href="https://question-forum-ee329.web.app/" align="center">Live Demo</a>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
 

@@ -1,25 +1,25 @@
 <section class="add">
-  <div class="container add__container" [@appearance]="">
+  <div [@appearance]="" class="container add__container">
     <h2 class="add__title">Add question</h2>
 
-    <form class="add__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" class="add__form">
       <div class="add__group">
         <label class="add__label" for="title">
-            Title:
-            <input id="title" type="text" formControlName="title">
+          Title:
+          <input formControlName="title" id="title" type="text">
         </label>
       </div>
 
       <ng-container *ngIf="form.get('title')?.errors">
-        <small class="error" *ngIf="form.get('title').errors.required && form.get('title').touched">
+        <small *ngIf="form.get('title').errors.required && form.get('title').touched" class="error">
           Title is required!
         </small>
 
-        <small class="error" *ngIf="form.get('title').errors.minlength && form.get('title').touched">
+        <small *ngIf="form.get('title').errors.minlength && form.get('title').touched" class="error">
           Title must contain at least {{form.get('title').errors.minlength.requiredLength}} characters!
         </small>
 
-        <small class="error" *ngIf="form.get('title').errors.maxlength && form.get('title').touched">
+        <small *ngIf="form.get('title').errors.maxlength && form.get('title').touched" class="error">
           Title must contain no more than {{form.get('title').errors.maxlength.requiredLength}} characters!
         </small>
       </ng-container>
@@ -27,20 +27,20 @@
       <div class="add__group">
         <label class="add__label" for="text">
           Text:
-          <textarea name="text" id="text" formControlName="text"></textarea>
+          <textarea formControlName="text" id="text" name="text"></textarea>
         </label>
       </div>
 
       <ng-container *ngIf="form.get('text').errors">
-        <small class="error" *ngIf="form.get('text').errors.required && form.get('text').touched">
+        <small *ngIf="form.get('text').errors.required && form.get('text').touched" class="error">
           Text is required!
         </small>
 
-        <small class="error" *ngIf="form.get('text').errors.minlength && form.get('text').touched">
+        <small *ngIf="form.get('text').errors.minlength && form.get('text').touched" class="error">
           Text must contain at least {{form.get('text').errors.minlength.requiredLength}} characters!
         </small>
 
-        <small class="error" *ngIf="form.get('text').errors.maxlength && form.get('text').touched">
+        <small *ngIf="form.get('text').errors.maxlength && form.get('text').touched" class="error">
           Text must contain no more than {{form.get('text').errors.maxlength.requiredLength}} characters!
         </small>
       </ng-container>
@@ -51,7 +51,7 @@
           <ul class="add__checkbox">
             <li *ngFor="let item of categories; let i = index">
               <label class="add__checkbox-label">
-                <input type="checkbox" [id]="item.toLowerCase()" (change)="onChecked($event)">
+                <input (change)="onChecked($event)" [id]="item.toLowerCase()" type="checkbox">
                 {{item}}
               </label>
             </li>
@@ -60,7 +60,7 @@
       </div>
 
       <div class="add__group add__group--buttons">
-        <button class="add__button add__button--ok" [disabled]="form.invalid || !isTagChecked">Ok</button>
+        <button [disabled]="form.invalid || !isTagChecked" class="add__button add__button--ok">Ok</button>
 
         <a class="add__button add__button--cancel" routerLink="/home">Cancel</a>
       </div>

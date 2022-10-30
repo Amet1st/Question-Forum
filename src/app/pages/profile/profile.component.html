@@ -1,19 +1,24 @@
 <section class="profile">
     <div class="container profile__container">
-        <div class="profile__card" [@appearance]="">
-            <div class="profile__main">
-                <img class="profile__avatar" src="../../../assets/png/user.png" alt="profile avatar">
-                <div class="profile__info">
-                    <h2>Forum member</h2>
-                    <p class="profile__email">Email: <i>{{user?.email}}</i></p>
-                    <p class="profile__role">Role: {{role}}</p>
-                    <p class="profile__date">Date of join: <i>{{user?.dateOfSignUp | date}}</i></p>
-                </div>
-            </div>
+      <div [@appearance]="" class="profile__card">
+        <div class="profile__main">
+          <img alt="profile avatar" class="profile__avatar" src="../../../assets/png/user.png">
 
-            <div class="profile__buttons">
-                <a class="profile__link" routerLink="/home">Home</a>
-            </div>
+          <div class="profile__info">
+            <h2>Forum member</h2>
+
+            <p class="profile__email">Email: <i>{{user?.email}}</i></p>
+
+            <p class="profile__role">Role: {{role}}</p>
+
+            <p class="profile__date">Date of join: <i>{{user?.dateOfSignUp | date}}</i></p>
+          </div>
+
         </div>
+
+        <div class="profile__buttons">
+          <a class="profile__link" routerLink="/home">Home</a>
+        </div>
+      </div>
     </div>
 </section>

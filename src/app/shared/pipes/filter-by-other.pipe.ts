@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Post} from "../../models/interfaces/post.interface";
-import {AuthService} from "../services/auth.service";
+import {Post} from '../../models/interfaces/post.interface';
+import {AuthService} from '../services/auth.service';
 
 @Pipe({
   name: 'filterByOther'

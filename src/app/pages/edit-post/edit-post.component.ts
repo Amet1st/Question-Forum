@@ -5,8 +5,8 @@ import {Subject, takeUntil} from 'rxjs';
 import {Post} from 'src/app/models/interfaces/post.interface';
 import {TAGS} from 'src/app/models/tags.const';
 import {PostService} from 'src/app/shared/services/post.service';
-import {AuthService} from "../../shared/services/auth.service";
-import {AppearanceAnimation} from "../../models/animations/appearence.animation";
+import {AuthService} from '../../shared/services/auth.service';
+import {AppearanceAnimation} from '../../models/animations/appearence.animation';
 
 @Component({
   selector: 'app-edit-post',

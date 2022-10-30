@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from 'src/app/shared/services/auth.service';
 import {Router} from '@angular/router';
 import {Observable, Subject, takeUntil} from 'rxjs';
-import {UserCredential} from "@firebase/auth-types";
-import {AppearanceAnimation} from "../../models/animations/appearence.animation";
+import {UserCredential} from '@firebase/auth-types';
+import {AppearanceAnimation} from '../../models/animations/appearence.animation';
 
 @Component({
   selector: 'app-sign-in',

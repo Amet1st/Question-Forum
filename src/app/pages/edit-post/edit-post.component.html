@@ -1,73 +1,73 @@
 <section class="edit">
-    <div class="container edit__container" [@appearance]="">
-        <h2 class="edit__title">Edit question</h2>
+  <div [@appearance]="" class="container edit__container">
+    <h2 class="edit__title">Edit question</h2>
 
-        <form class="edit__form" [formGroup]="form" (ngSubmit)="onSubmit()">
-          <div class="edit__group">
-            <label class="edit__label" for="title">
-                Title:
-                <input id="title" type="text" formControlName="title">
-            </label>
-          </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" class="edit__form">
+      <div class="edit__group">
+        <label class="edit__label" for="title">
+          Title:
+          <input formControlName="title" id="title" type="text">
+        </label>
+      </div>
 
-          <ng-container *ngIf="form.get('title')?.errors">
-            <small class="error" *ngIf="form.get('title').errors.required && form.get('title').touched">
-              Title is required!
-            </small>
+      <ng-container *ngIf="form.get('title')?.errors">
+        <small *ngIf="form.get('title').errors.required && form.get('title').touched" class="error">
+          Title is required!
+        </small>
 
-            <small class="error" *ngIf="form.get('title').errors.minlength && form.get('title').touched">
-              Title must contain at least {{form.get('title').errors.minlength.requiredLength}} characters!
-            </small>
+        <small *ngIf="form.get('title').errors.minlength && form.get('title').touched" class="error">
+          Title must contain at least {{form.get('title').errors.minlength.requiredLength}} characters!
+        </small>
 
-            <small class="error" *ngIf="form.get('title').errors.maxlength && form.get('title').touched">
-              Title must contain no more than {{form.get('title').errors.maxlength.requiredLength}} characters!
-            </small>
-          </ng-container>
+        <small *ngIf="form.get('title').errors.maxlength && form.get('title').touched" class="error">
+          Title must contain no more than {{form.get('title').errors.maxlength.requiredLength}} characters!
+        </small>
+      </ng-container>
 
-          <div class="edit__group">
-            <label class="edit__label" for="text">
-                Text:
-                <textarea name="text" id="text" formControlName="text"></textarea>
-            </label>
-          </div>
+      <div class="edit__group">
+        <label class="edit__label" for="text">
+          Text:
+          <textarea formControlName="text" id="text" name="text"></textarea>
+        </label>
+      </div>
 
-          <ng-container *ngIf="form.get('text')?.errors">
-            <small class="error" *ngIf="form.get('text').errors.required && form.get('text').touched">
-              Text is required!
-            </small>
+      <ng-container *ngIf="form.get('text')?.errors">
+        <small *ngIf="form.get('text').errors.required && form.get('text').touched" class="error">
+          Text is required!
+        </small>
 
-            <small class="error" *ngIf="form.get('text').errors.minlength && form.get('text').touched">
-              Text must contain at least {{form.get('text').errors.minlength.requiredLength}} characters!
-            </small>
+        <small *ngIf="form.get('text').errors.minlength && form.get('text').touched" class="error">
+          Text must contain at least {{form.get('text').errors.minlength.requiredLength}} characters!
+        </small>
 
-            <small class="error" *ngIf="form.get('text').errors.maxlength && form.get('text').touched">
-              Text must contain no more than {{form.get('text').errors.maxlength.requiredLength}} characters!
-            </small>
-          </ng-container>
+        <small *ngIf="form.get('text').errors.maxlength && form.get('text').touched" class="error">
+          Text must contain no more than {{form.get('text').errors.maxlength.requiredLength}} characters!
+        </small>
+      </ng-container>
 
-          <div class="edit__group edit__group--tags" formGroupName="tags">
+      <div class="edit__group edit__group--tags" formGroupName="tags">
             <span class="edit__label">
               Tags:
               <ul class="edit__checkbox">
                 <li *ngFor="let item of categories; let i = index">
                   <label class="edit__checkbox-label">
-                    <input type="checkbox"
-                     [id]="item.toLowerCase()"
-                     [checked]="isChecked(item.toLowerCase())"
-                     (change)="onChecked($event)"
+                    <input (change)="onChecked($event)"
+                           [checked]="isChecked(item.toLowerCase())"
+                           [id]="item.toLowerCase()"
+                           type="checkbox"
                     >
                     {{item}}
                   </label>
                 </li>
               </ul>
             </span>
-          </div>
+      </div>
 
-          <div class="edit__group edit__group--buttons">
-            <button class="edit__button edit__button--ok" [disabled]="form.invalid || !isTagChecked">Ok</button>
+      <div class="edit__group edit__group--buttons">
+        <button [disabled]="form.invalid || !isTagChecked" class="edit__button edit__button--ok">Ok</button>
 
-            <a class="edit__button edit__button--cancel" routerLink="/home">Cancel</a>
-          </div>
-        </form>
-    </div>
+        <a class="edit__button edit__button--cancel" routerLink="/home">Cancel</a>
+      </div>
+    </form>
+  </div>
 </section>

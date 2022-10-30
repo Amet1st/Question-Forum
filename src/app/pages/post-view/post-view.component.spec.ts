@@ -1,5 +1,5 @@
-import {PostViewComponent} from "./post-view.component";
-import {FormBuilder} from "@angular/forms";
+import {PostViewComponent} from './post-view.component';
+import {FormBuilder} from '@angular/forms';
 
 describe('PostViewComponent', () => {
   let component: PostViewComponent;

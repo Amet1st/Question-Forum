@@ -2,12 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject, takeUntil} from 'rxjs';
 import {Post} from 'src/app/models/interfaces/post.interface';
 import {PostService} from 'src/app/shared/services/post.service';
-import {AuthService} from "../../shared/services/auth.service";
-import {UsersService} from "../../shared/services/users.service";
-import {TAGS} from "../../models/tags.const";
-import {AppearanceAnimation} from "../../models/animations/appearence.animation";
-import {SettingsService} from "../../shared/services/settings.service";
-import {WidthAnimation} from "../../models/animations/width.animation";
+import {AuthService} from '../../shared/services/auth.service';
+import {UsersService} from '../../shared/services/users.service';
+import {TAGS} from '../../models/tags.const';
+import {AppearanceAnimation} from '../../models/animations/appearence.animation';
+import {SettingsService} from '../../shared/services/settings.service';
+import {WidthAnimation} from '../../models/animations/width.animation';
 
 @Component({
   selector: 'app-home',
@@ -114,7 +114,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private initSettings(): void {
-    this.options.selectedTheme = this.settingsService.theme;
+    if (!(this.settingsService.theme === 'null')) {
+      this.options.selectedTheme = this.settingsService.theme;
+    }
     const display = this.settingsService.display;
     this.options.selectedDisplay = display;
     this.options.isDisplayInline = display === 'Inline';

@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Post} from "../../models/interfaces/post.interface";
+import {Post} from '../../models/interfaces/post.interface';
 
 @Pipe({
   name: 'filterBySolution',

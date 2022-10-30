@@ -5,8 +5,8 @@ import {Subject, takeUntil} from 'rxjs';
 import {PostService} from 'src/app/shared/services/post.service';
 import {TAGS} from 'src/app/models/tags.const';
 import {AuthService} from 'src/app/shared/services/auth.service';
-import {Post} from "../../models/interfaces/post.interface";
-import {AppearanceAnimation} from "../../models/animations/appearence.animation";
+import {Post} from '../../models/interfaces/post.interface';
+import {AppearanceAnimation} from '../../models/animations/appearence.animation';
 
 @Component({
   selector: 'app-create-post',

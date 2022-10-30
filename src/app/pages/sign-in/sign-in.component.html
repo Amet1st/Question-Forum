@@ -1,56 +1,56 @@
 <section class="auth">
-    <div class="container auth__container" [@appearance]="">
-        <form class="auth__form" [formGroup]="form" (ngSubmit)="onSubmit()">
-            <h2 class="auth__title">Sign In</h2>
-            <div class="auth__form-group">
-                <label class="auth__label" for="user">Email:</label>
+  <div [@appearance]="" class="container auth__container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" class="auth__form">
+      <h2 class="auth__title">Sign In</h2>
+      <div class="auth__form-group">
+        <label class="auth__label" for="user">Email:</label>
 
-                <input class="auth__input" id="user" type="text" formControlName="email" (focus)="onFocus()">
-            </div>
+        <input (focus)="onFocus()" class="auth__input" formControlName="email" id="user" type="text">
+      </div>
 
-            <small class="error" *ngIf="isControlInvalid('email')">
-                Invalid email!
-            </small>
+      <small *ngIf="isControlInvalid('email')" class="error">
+        Invalid email!
+      </small>
 
-            <div class="auth__form-group">
-                <label class="auth__label" for="password">Password:</label>
+      <div class="auth__form-group">
+        <label class="auth__label" for="password">Password:</label>
 
-                <input class="auth__input" id="password" type="password" formControlName="password" (focus)="onFocus()">
-            </div>
+        <input (focus)="onFocus()" class="auth__input" formControlName="password" id="password" type="password">
+      </div>
 
-            <small class="error" *ngIf="isControlInvalid('password')">
-                Incorrect password!
-            </small>
+      <small *ngIf="isControlInvalid('password')" class="error">
+        Incorrect password!
+      </small>
 
-            <small class="error" *ngIf="errorMessage">
-                {{errorMessage}}
-            </small>
+      <small *ngIf="errorMessage" class="error">
+        {{errorMessage}}
+      </small>
 
-            <div class="auth__media-label">
-                Or Sign In with:
-            </div>
+      <div class="auth__media-label">
+        Or Sign In with:
+      </div>
 
-            <ul class="auth__icons">
-                <li>
-                    <img src="../../../assets/svg/facebook.svg" alt="facebook" (click)="facebookAuth()">
-                </li>
-                    <img src="../../../assets/svg/git.svg" alt="github" (click)="githubAuth()">
-                <li>
-                    <img src="../../../assets/svg/google.svg" alt="google" (click)="googleAuth()">
-                </li>
-            </ul>
+      <ul class="auth__icons">
+        <li>
+          <img (click)="facebookAuth()" alt="facebook" src="../../../assets/svg/facebook.svg">
+        </li>
+        <img (click)="githubAuth()" alt="github" src="../../../assets/svg/git.svg">
+        <li>
+          <img (click)="googleAuth()" alt="google" src="../../../assets/svg/google.svg">
+        </li>
+      </ul>
 
-            <button class="auth__sign-in" type="submit" [disabled]="form.invalid || isSubmitted">
-                Sign In
-            </button>
+      <button [disabled]="form.invalid || isSubmitted" class="auth__sign-in" type="submit">
+        Sign In
+      </button>
 
-            <div class="auth__not-have">
-                Don't have an account?
-            </div>
+      <div class="auth__not-have">
+        Don't have an account?
+      </div>
 
-            <a routerLink="/sign-up" class="auth__sign-up">
-                Sign Up
-            </a>
-        </form>
+      <a class="auth__sign-up" routerLink="/sign-up">
+        Sign Up
+      </a>
+    </form>
     </div>
 </section>

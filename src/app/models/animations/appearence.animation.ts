@@ -1,4 +1,4 @@
-import {animate, style, transition, trigger} from "@angular/animations";
+import {animate, style, transition, trigger} from '@angular/animations';
 
 export const AppearanceAnimation = trigger('appearance', [
   transition(':enter', [

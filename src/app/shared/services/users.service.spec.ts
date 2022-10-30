@@ -1,5 +1,5 @@
-import {UsersService} from "./users.service";
-import {EMPTY} from "rxjs";
+import {UsersService} from './users.service';
+import {EMPTY} from 'rxjs';
 
 describe('UsersService', () => {
   let service: UsersService;

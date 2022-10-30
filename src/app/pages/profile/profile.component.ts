@@ -2,8 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from 'src/app/models/interfaces/user.interface';
 import {AuthService} from 'src/app/shared/services/auth.service';
 import {UsersService} from 'src/app/shared/services/users.service';
-import {Subject, takeUntil} from "rxjs";
-import {AppearanceAnimation} from "../../models/animations/appearence.animation";
+import {Subject, takeUntil} from 'rxjs';
+import {AppearanceAnimation} from '../../models/animations/appearence.animation';
 
 @Component({
   selector: 'app-profile',

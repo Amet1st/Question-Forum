@@ -1,58 +1,63 @@
 <section class="auth">
-    <div class="container auth__container" [@appearance]="">
-        <form class="auth__form" [formGroup]="form" (ngSubmit)="onSubmit()">
-            <h2 class="auth__title">Sign Up</h2>
-            <div class="auth__form-group">
-                <label class="auth__label" for="user">Email:</label>
+  <div [@appearance]="" class="container auth__container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" class="auth__form">
+      <h2 class="auth__title">Sign Up</h2>
 
-                <input class="auth__input" id="user" type="text" formControlName="email" (focus)="onFocus()">
-            </div>
+      <div class="auth__form-group">
+        <label class="auth__label" for="user">Email:</label>
 
-            <small class="error" *ngIf="isControlInvalid('email')">
-                Invalid email!
-            </small>
+        <input (focus)="onFocus()" class="auth__input" formControlName="email" id="user" type="text">
+      </div>
 
-            <div class="auth__form-group">
-                <label class="auth__label" for="password">Password:</label>
+      <small *ngIf="isControlInvalid('email')" class="error">
+        Invalid email!
+      </small>
 
-                <input class="auth__input" id="password" type="password" formControlName="password" (focus)="onFocus()">
-            </div>
+      <div class="auth__form-group">
+        <label class="auth__label" for="password">Password:</label>
 
-            <small class="error" *ngIf="isControlInvalid('password')">
-                Password must contain 8-18 characters!
-            </small>
+        <input (focus)="onFocus()" class="auth__input" formControlName="password" id="password" type="password">
+      </div>
 
-            <small class="error" *ngIf="errorMessage">
-                {{errorMessage}}
-            </small>
+      <small *ngIf="isControlInvalid('password')" class="error">
+        Password must contain 8-18 characters!
+      </small>
 
-            <div class="auth__media-label">
-                Or Sign Up with:
-            </div>
+      <small *ngIf="errorMessage" class="error">
+        {{errorMessage}}
+      </small>
 
-            <ul class="auth__icons">
-                <li>
-                    <img src="../../../assets/svg/facebook.svg" alt="facebook" (click)="facebookAuth()">
-                </li>
-                <img src="../../../assets/svg/git.svg" alt="github" (click)="githubAuth()">
-                <li>
-                    <img src="../../../assets/svg/google.svg" alt="google" (click)="googleAuth()">
-                </li>
-            </ul>
+      <div class="auth__media-label">
+        Or Sign Up with:
+      </div>
 
-            <div class="auth__buttons">
-                <button class="auth__sign-up" type="submit" [disabled]="form.invalid || isSubmitted">
-                    Sign Up
-                </button>
-            </div>
+      <ul class="auth__icons">
+        <li>
+          <img (click)="facebookAuth()" alt="facebook" src="../../../assets/svg/facebook.svg">
+        </li>
 
-            <div class="auth__already">
-                Already have an account?
-            </div>
+        <li>
+          <img (click)="githubAuth()" alt="github" src="../../../assets/svg/git.svg">
+        </li>
 
-            <a class="auth__sign-in" routerLink="/sign-in">
-                Sign In
-            </a>
-        </form>
-    </div>
+        <li>
+          <img (click)="googleAuth()" alt="google" src="../../../assets/svg/google.svg">
+        </li>
+      </ul>
+
+      <div class="auth__buttons">
+        <button [disabled]="form.invalid || isSubmitted" class="auth__sign-up" type="submit">
+          Sign Up
+        </button>
+      </div>
+
+      <div class="auth__already">
+        Already have an account?
+      </div>
+
+      <a class="auth__sign-in" routerLink="/sign-in">
+        Sign In
+      </a>
+    </form>
+  </div>
 </section>

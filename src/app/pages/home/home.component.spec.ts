@@ -1,6 +1,6 @@
-import {HomeComponent} from "./home.component";
-import {EMPTY} from "rxjs";
-import {PostService} from "../../shared/services/post.service";
+import {HomeComponent} from './home.component';
+import {EMPTY} from 'rxjs';
+import {PostService} from '../../shared/services/post.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

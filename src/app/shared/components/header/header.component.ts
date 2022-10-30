@@ -3,7 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {UsersService} from '../../services/users.service';
-import {SettingsService} from "../../services/settings.service";
+import {SettingsService} from '../../services/settings.service';
 
 @Component({
   selector: 'app-header',

@@ -103,15 +103,15 @@
     overflow: hidden;
 
     &:hover {
-        text-decoration: underline;
+      text-decoration: underline;
     }
 
     @media screen and (max-width: 850px) {
-        font-size: 20px;
+      font-size: 20px;
     }
 
     @media screen and (max-width: 400px) {
-        font-size: 12px;
+      font-size: 12px;
     }
   }
 
@@ -120,11 +120,11 @@
     align-self: center;
 
     @media screen and (max-width: 600px) {
-        font-size: 10px;
+      font-size: 10px;
     }
 
     @media screen and (max-width: 350px) {
-        font-size: 8px;
+      font-size: 8px;
     }
 
     &--inline {
@@ -171,16 +171,17 @@
   &__post-tag {
     cursor: pointer;
     color: blue;
+
     &:hover {
-        text-decoration: underline;
+      text-decoration: underline;
     }
 
     @media screen and (max-width: 600px) {
-        font-size: 12px;
+      font-size: 12px;
     }
 
     @media screen and (max-width: 350px) {
-        font-size: 10px;
+      font-size: 10px;
     }
   }
 

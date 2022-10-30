@@ -1,19 +1,20 @@
 import {AfterViewInit, Directive, ElementRef, EventEmitter, Inject, OnDestroy, Output} from '@angular/core';
-import {DOCUMENT} from "@angular/common";
-import {filter, fromEvent, Subject, takeUntil} from "rxjs";
+import {DOCUMENT} from '@angular/common';
+import {filter, fromEvent, Subject, takeUntil} from 'rxjs';
 
 @Directive({
   selector: '[clickOutside]'
 })
-export class ClickOutsideDirective implements AfterViewInit, OnDestroy{
+export class ClickOutsideDirective implements AfterViewInit, OnDestroy {
 
   @Output() clickOutside = new EventEmitter<void>();
-  private destroy = new Subject<boolean>()
+  private destroy = new Subject<boolean>();
 
   constructor(
     private element: ElementRef,
     @Inject(DOCUMENT) private document: Document
-  ) { }
+  ) {
+  }
 
   ngAfterViewInit() {
     fromEvent(this.document, 'click')

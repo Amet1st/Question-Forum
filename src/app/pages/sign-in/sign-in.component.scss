@@ -2,24 +2,24 @@
 @import "../../../assets/styles/mixins";
 
 .auth {
-    &__title {
-      font-size: 35px;
-      margin-bottom: 50px;
-    }
+  &__title {
+    font-size: 35px;
+    margin-bottom: 50px;
+  }
 
-    &__form {
-      @include auth-form;
-    }
+  &__form {
+    @include auth-form;
+  }
 
-    &__form-group {
-      width: 30%;
-      min-width: 280px;
-      display: flex;
-      justify-content: space-between;
-    }
+  &__form-group {
+    width: 30%;
+    min-width: 280px;
+    display: flex;
+    justify-content: space-between;
+  }
 
-    &__label {
-        font-size: 25px;
+  &__label {
+    font-size: 25px;
     }
 
     &__input {

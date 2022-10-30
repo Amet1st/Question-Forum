@@ -1,48 +1,48 @@
 <header class="header container header__container">
-    <a routerLink="/home" routerLinkActive="header__home">
+  <a routerLink="/home" routerLinkActive="header__home">
+    <img
+      [class.header__logo--white]="theme === 'Dark'"
+      alt="logo"
+      class="header__logo"
+      src="../../../../assets/png/logo.png">
+  </a>
+
+  <nav class="header__content">
+    <ng-container *ngIf="!isLoggedIn; else loggedHeader">
+      <a class="header__sign-in" routerLink="/sign-in" routerLinkActive="active">Sign In</a>
+      <a class="header__sign-up" routerLink="/sign-up" routerLinkActive="active">Sign Up</a>
+    </ng-container>
+    <ng-template #loggedHeader>
+      <a
+        class="header__add"
+        routerLink="/create-post"
+        routerLinkActive="active-add"
+      >Add question</a>
+      <a (click)="goToProfile()">
         <img
-          class="header__logo"
-          [class.header__logo--white]="theme === 'Dark'"
-          src="../../../../assets/png/logo.png"
-          alt="logo">
-    </a>
+          alt="user"
+          class="header__user-logo"
+          src="../../../../assets/svg/user.svg"
+        >
+      </a>
 
-    <nav class="header__content">
-        <ng-container *ngIf="!isLoggedIn; else loggedHeader">
-            <a class="header__sign-in" routerLink="/sign-in" routerLinkActive="active">Sign In</a>
-            <a class="header__sign-up" routerLink="/sign-up" routerLinkActive="active">Sign Up</a>
-        </ng-container>
-        <ng-template #loggedHeader>
-            <a
-                class="header__add"
-                routerLink="/create-post"
-                routerLinkActive="active-add"
-            >Add question</a>
-            <a (click)="goToProfile()">
-                <img
-                  class="header__user-logo"
-                  src="../../../../assets/svg/user.svg"
-                  alt="user"
-                >
-            </a>
+      <div (clickOutside)="clickOutside()" class="menu-container">
+        <p (click)="toggleMenu()" class="header__email">
+          {{userEmail}}
+        </p>
+        <div *ngIf="isMenuOpened" class="menu">
+          <ul class="header__menu-items">
+            <li>
+              <a (click)="goToProfile()" class="header__menu-item">Profile</a>
+            </li>
 
-            <div class="menu-container" (clickOutside)="clickOutside()">
-              <p class="header__email" (click)="toggleMenu()">
-                {{userEmail}}
-              </p>
-              <div class="menu" *ngIf="isMenuOpened">
-                <ul class="header__menu-items">
-                  <li>
-                    <a class="header__menu-item" (click)="goToProfile()">Profile</a>
-                  </li>
-
-                  <li>
-                    <a class="header__menu-item header__menu-item--logout" (click)="logOut()">Log out</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-        </ng-template>
-    </nav>
+            <li>
+              <a (click)="logOut()" class="header__menu-item header__menu-item--logout">Log out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ng-template>
+  </nav>
 </header>
 

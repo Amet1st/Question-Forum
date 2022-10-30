@@ -7,8 +7,8 @@ import {AuthService} from 'src/app/shared/services/auth.service';
 import {PostService} from 'src/app/shared/services/post.service';
 import {UsersService} from 'src/app/shared/services/users.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AppearanceAnimation} from "../../models/animations/appearence.animation";
-import {SettingsService} from "../../shared/services/settings.service";
+import {AppearanceAnimation} from '../../models/animations/appearence.animation';
+import {SettingsService} from '../../shared/services/settings.service';
 
 @Component({
   selector: 'app-post-view',

@@ -1,5 +1,5 @@
-import {PostService} from "./post.service";
-import {EMPTY} from "rxjs";
+import {PostService} from './post.service';
+import {EMPTY} from 'rxjs';
 
 describe('PostsService', () => {
 
@@ -7,7 +7,7 @@ describe('PostsService', () => {
 
   beforeEach(() => {
     service = new PostService(null);
-  })
+  });
 
   it('should make a request for post creation', () => {
     const spy = spyOn(service, 'createPost').and.callFake(() => {

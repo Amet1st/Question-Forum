@@ -8,9 +8,13 @@ import {FilterByTagOption} from '../../models/types/filter-by-tag-option.type';
 })
 export class FilterByTagPipe implements PipeTransform {
 
-  transform(posts: Post[] = [], tag: FilterByTagOption): Post[] {
+  transform(posts: Post[] = [], option: FilterByTagOption): Post[] {
 
-    return posts.filter(post => post.tags.includes(tag.toLowerCase()));
+    if (option === 'All' || option === 'By category') {
+      return posts;
+    }
+
+    return posts.filter(post => post.tags.includes(option.toLowerCase()));
   }
 
 }

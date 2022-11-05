@@ -1,9 +1,12 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Post} from '../../models/interfaces/post.interface';
 import {AuthService} from '../services/auth.service';
+import {FilterByOtherOption} from '../../models/types/filter-by-other-option.type';
+
 
 @Pipe({
-  name: 'filterByOther'
+  name: 'filterByOther',
+  pure: false
 })
 export class FilterByOtherPipe implements PipeTransform {
 
@@ -12,16 +15,16 @@ export class FilterByOtherPipe implements PipeTransform {
   ) {
   }
 
-  transform(posts: Post[], option: string): Post[] {
+  transform(posts: Post[] = [], option: FilterByOtherOption): Post[] {
 
     switch (option) {
       case 'My questions':
         return posts.filter(post => post.author === this.authService.currentUser.email);
       case 'On moderation':
         return posts.filter(post => !post.isApproved);
+      default:
+        return posts;
     }
-
-    return posts;
   }
 
 }

@@ -1,1 +1,1 @@
-export const TAGS = ['Frontend', 'Java', 'NET', 'Android'];
+export const TAGS = ['Frontend', 'Java', 'NET', 'Android'] as const;

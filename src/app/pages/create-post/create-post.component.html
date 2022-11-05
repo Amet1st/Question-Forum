@@ -51,7 +51,11 @@
           <ul class="add__checkbox">
             <li *ngFor="let item of categories; let i = index">
               <label class="add__checkbox-label">
-                <input (change)="onChecked($event)" [id]="item.toLowerCase()" type="checkbox">
+                <input
+                  (change)="onChecked($event)"
+                  [id]="item.toLowerCase()"
+                  type="checkbox"
+                >
                 {{item}}
               </label>
             </li>

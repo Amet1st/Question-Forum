@@ -8,6 +8,11 @@ import {TAGS} from '../../models/tags.const';
 import {AppearanceAnimation} from '../../models/animations/appearence.animation';
 import {SettingsService} from '../../shared/services/settings.service';
 import {WidthAnimation} from '../../models/animations/width.animation';
+import {FilterByOtherOption} from '../../models/types/filter-by-other-option.type';
+import {FilterByTimeOption} from '../../models/types/filter-by-time-option.type';
+import {FilterByTagOption} from '../../models/types/filter-by-tag-option.type';
+import {FilterBySolutionOption} from '../../models/types/filter-by-solution-option.type';
+import {SortPostsOption} from '../../models/types/sort-posts-option.type';
 
 @Component({
   selector: 'app-home',
@@ -23,14 +28,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   public userEmail: string;
   public isAdmin = false;
   public filters = {
-    filterByAnswer: 'By answer',
-    filterByCategory: 'By category',
-    filterByTime: 'Time period',
-    filterOther: 'Other',
+    filterByAnswer: 'By answer' as FilterBySolutionOption,
+    filterByCategory: 'By category' as FilterByTagOption,
+    filterByTime: 'Time period' as FilterByTimeOption,
+    filterOther: 'Other' as FilterByOtherOption,
     selectedPostDisplay: 'Posts display'
   };
   public options = {
-    selectedSort: 'New first',
+    selectedSort: 'New first' as SortPostsOption,
     selectedTheme: 'Light',
     selectedDisplay: 'Tiled',
     toggledMenuId: 0,
@@ -79,7 +84,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public sortPosts(event: Event): void {
     this.options.toggledMenuId = null;
     const target = event.target as HTMLElement;
-    this.options.selectedSort = target.innerText;
+    this.options.selectedSort = target.innerText as SortPostsOption;
   }
 
   public postDisplayChange(): void {

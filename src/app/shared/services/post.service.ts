@@ -68,8 +68,8 @@ export class PostService {
               return {
                 id,
                 ...data[id]
-              }
-            })
+              };
+            });
           }
 
           return [];

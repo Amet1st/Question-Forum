@@ -1,17 +1,21 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Post} from '../../models/interfaces/post.interface';
+import {SortPostsOption} from '../../models/types/sort-posts-option.type';
 
 @Pipe({
-  name: 'sortPosts'
+  name: 'sortPosts',
+  pure: false
 })
 export class SortPostsPipe implements PipeTransform {
 
-  transform(posts: Post[] = [], option: string): Post[] {
-    if (option === 'Old first') {
-      return posts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    }
+  transform(posts: Post[] = [], option: SortPostsOption = 'New first'): Post[] {
 
-    return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    switch (option) {
+      case 'New first':
+        return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      case 'Old first':
+        return posts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    }
   }
 
 }

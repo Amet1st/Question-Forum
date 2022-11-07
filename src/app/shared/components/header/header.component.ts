@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
@@ -8,7 +8,8 @@ import {SettingsService} from '../../services/settings.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
@@ -23,7 +24,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private usersService: UsersService,
     private router: Router,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
   }
 
@@ -37,6 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(user => {
         this.userEmail = user?.email;
         this.isLoggedIn = !!user;
+        this.changeDetectorRef.markForCheck();
       });
   }
 

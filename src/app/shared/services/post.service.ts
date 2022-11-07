@@ -87,7 +87,7 @@ export class PostService {
 
   public markCommentAsSolution(postId: string, commentId: string): Observable<Object>  {
     return this.http
-      .patch(`${environment.apiUrl}/posts/comments/${commentId}.json`, {
+      .patch(`${environment.apiUrl}/posts/${postId}/comments/${commentId}.json`, {
         isSolution: true
       })
   }

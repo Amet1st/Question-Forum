@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subject, takeUntil} from 'rxjs';
 import {Post} from 'src/app/models/interfaces/post.interface';
@@ -7,13 +7,14 @@ import {AuthService} from 'src/app/shared/services/auth.service';
 import {PostService} from 'src/app/shared/services/post.service';
 import {UsersService} from 'src/app/shared/services/users.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AppearanceAnimation} from '../../models/animations/appearence.animation';
 import {SettingsService} from '../../shared/services/settings.service';
+import {AppearanceAnimation} from '../../models/animations/appearence.animation';
 
 @Component({
   selector: 'app-post-view',
   templateUrl: './post-view.component.html',
   styleUrls: ['./post-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [AppearanceAnimation]
 })
 export class PostViewComponent implements OnInit, OnDestroy {
@@ -21,13 +22,13 @@ export class PostViewComponent implements OnInit, OnDestroy {
   public post: Post;
   public comments: Comment[];
   public postMeta = {
-    postId: '',
+    postId: this.activatedRoute.snapshot.params.id,
     authorId: '',
     userEmail: '',
     isAuthor: false,
     isPostSolved: false,
-  }
-  public theme = 'Light'
+  };
+  public theme = this.settingsService.theme;
   public form: FormGroup;
   public isAdmin = false;
   private destroy$ = new Subject<void>();
@@ -39,14 +40,12 @@ export class PostViewComponent implements OnInit, OnDestroy {
     private settingsService: SettingsService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
+  }
 
   ngOnInit(): void {
-
-    this.postMeta.postId = this.activatedRoute.snapshot.params.id;
-    this.theme = this.settingsService.theme;
-
     this.initForm();
     this.getPost();
   }
@@ -55,7 +54,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       text: ['', [
         Validators.maxLength(500)
-        ]]
+      ]]
     });
   }
 
@@ -80,6 +79,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
         comment.id = Object.values(id)[0];
         this.comments.push(comment);
         this.form.reset();
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -87,7 +87,9 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
     this.postService.markPostAsSolved(this.postMeta.postId)
       .pipe(takeUntil(this.destroy$))
-      .subscribe();
+      .subscribe(() => {
+        this.changeDetectorRef.markForCheck();
+      });
 
     this.postService.markCommentAsSolution(this.postMeta.postId, id)
       .pipe(takeUntil(this.destroy$))
@@ -95,6 +97,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
         const comment = this.comments.find(item => item.id === id);
         comment.isSolution = true;
         this.postMeta.isPostSolved = true;
+        this.changeDetectorRef.markForCheck();
       })
   }
 
@@ -123,6 +126,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
           this.comments = post.comments;
           this.postMeta.isPostSolved = !this.comments.every(item => !item.isSolution);
           this.checkRole(post.author);
+          this.changeDetectorRef.markForCheck();
         }
       );
   }
@@ -134,6 +138,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.isAdmin = user.isAdmin;
+        this.changeDetectorRef.markForCheck();
       });
   }
 

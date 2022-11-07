@@ -13,6 +13,7 @@ describe('PostViewComponent', () => {
       new FormBuilder(),
       null,
       null,
+      null
       );
   });
 

@@ -1,12 +1,14 @@
 import {Inject, Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
+import {ThemeOption} from '../../models/types/theme-option.type';
+import {DisplayOption} from '../../models/types/display-option.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
-  public theme$ = new BehaviorSubject<string>(`${this.theme}`);
+  public theme$ = new BehaviorSubject<ThemeOption>(`${this.theme}`);
 
   constructor(
     @Inject(DOCUMENT) private document: Document
@@ -16,24 +18,26 @@ export class SettingsService {
     });
   }
 
-  get theme(): string {
-    return localStorage.getItem('theme');
+  get theme(): ThemeOption {
+    return localStorage.getItem('theme') === 'null' ?
+      null :
+      localStorage.getItem('theme') as ThemeOption;
   }
 
-  set theme(theme: string) {
+  set theme(theme: ThemeOption) {
     localStorage.setItem('theme', theme);
     this.changeTheme(theme);
   }
 
-  get display(): string {
-    return localStorage.getItem('display');
+  get display(): DisplayOption {
+    return localStorage.getItem('display') as DisplayOption;
   }
 
-  set display(display: string) {
+  set display(display: DisplayOption) {
     localStorage.setItem('display', display);
   }
 
-  private changeTheme(theme: string): void {
+  private changeTheme(theme: ThemeOption): void {
     switch (theme) {
       case 'Light':
         document.body.style.background = '#eee';

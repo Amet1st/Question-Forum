@@ -13,6 +13,8 @@ import {FilterByTimeOption} from '../../models/types/filter-by-time-option.type'
 import {FilterByTagOption} from '../../models/types/filter-by-tag-option.type';
 import {FilterBySolutionOption} from '../../models/types/filter-by-solution-option.type';
 import {SortPostsOption} from '../../models/types/sort-posts-option.type';
+import {DisplayOption} from '../../models/types/display-option.type';
+import {ThemeOption} from '../../models/types/theme-option.type';
 
 @Component({
   selector: 'app-home',
@@ -89,7 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public postDisplayChange(): void {
     this.options.toggledMenuId = null;
-    this.settingsService.display = this.filters.selectedPostDisplay;
+    this.settingsService.display = this.filters.selectedPostDisplay as DisplayOption;
     this.options.selectedDisplay = this.settingsService.display;
     this.options.isDisplayInline = this.filters.selectedPostDisplay === 'Inline';
   }
@@ -99,7 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public changeTheme(): void {
-    this.settingsService.theme$.next(this.options.selectedTheme);
+    this.settingsService.theme$.next(this.options.selectedTheme as ThemeOption);
   }
 
   private initializeHomePage(email: string): void {
@@ -114,7 +116,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private initSettings(): void {
-    if (!(this.settingsService.theme === 'null')) {
+    if (this.settingsService.theme) {
       this.options.selectedTheme = this.settingsService.theme;
     }
     const display = this.settingsService.display;

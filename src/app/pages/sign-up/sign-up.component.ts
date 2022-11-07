@@ -19,7 +19,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public isSubmitted = false;
   public errorMessage: string;
   public form: FormGroup;
-  private destroy = new Subject<boolean>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,7 +46,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
     this.authService
       .signUp(email, password)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           this.createUser(email);
@@ -61,8 +61,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
    public handleSocialAuth(provider: Observable<UserCredential>): void {
     this.form.markAsUntouched();
 
-    provider
-      .pipe(takeUntil(this.destroy))
+     provider
+       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (userCred) => {
           this.createUser(userCred.user.email);
@@ -113,7 +113,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   private createUser(email: string) {
     this.usersService.createUser(email)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
          this.router.navigate(['/home']);
       });
@@ -135,7 +135,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

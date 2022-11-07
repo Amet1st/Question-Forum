@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   public user: User;
   public role: string;
   private userEmail: string;
-  private destroy = new Subject<boolean>()
+  private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private getUser(email: string): void {
     this.userService.getUserByEmail(email)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         if (user) {
           this.user = user;
@@ -41,7 +41,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

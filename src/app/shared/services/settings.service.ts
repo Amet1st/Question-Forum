@@ -1,18 +1,17 @@
 import {Inject, Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
-  public themeStream = new Subject<string>();
+  public theme$ = new BehaviorSubject<string>(`${this.theme}`);
 
   constructor(
     @Inject(DOCUMENT) private document: Document
   ) {
-    this.theme = this.theme;
-    this.themeStream.subscribe(theme => {
+    this.theme$.subscribe(theme => {
       this.theme = theme;
     });
   }

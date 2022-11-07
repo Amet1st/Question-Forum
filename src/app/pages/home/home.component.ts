@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     toggledMenuId: 0,
     isDisplayInline: false
   };
-  private destroy = new Subject<boolean>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private postService: PostService,
@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public approvePost(id: string): void {
     this.postService.approvePost(id)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const post = this.posts.find(post => post.id);
         post.isApproved = true;
@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public deletePost(id: string): void {
     this.postService.deletePost(id)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.posts = this.posts.filter(post => post.id !== id);
       });
@@ -99,12 +99,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public changeTheme(): void {
-    this.settingsService.themeStream.next(this.options.selectedTheme);
+    this.settingsService.theme$.next(this.options.selectedTheme);
   }
 
   private initializeHomePage(email: string): void {
     this.userService.getUserByEmail(email)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         if (user) {
           this.isAdmin = user.isAdmin;
@@ -124,14 +124,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private getAllPosts(email: string): void {
     this.postService.getAllPosts()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(posts => {
         this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
       });
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

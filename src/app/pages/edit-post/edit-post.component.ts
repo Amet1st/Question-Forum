@@ -23,7 +23,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
   private tags: string[];
   private author: string;
   private postId: string;
-  private destroy = new Subject<boolean>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,7 +55,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
     }
 
     this.postService.updatePost(this.postId, body)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.form.reset();
         this.router.navigate(['/posts/', this.postId]);
@@ -84,14 +84,9 @@ export class EditPostComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
-  }
-
   private getPost() {
     this.postService.getPost(this.postId)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         post => {
           this.author = post.author;
@@ -124,5 +119,10 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
       tags: this.formBuilder.group({})
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

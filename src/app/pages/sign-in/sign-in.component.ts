@@ -18,7 +18,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   public isSubmitted = false;
   public errorMessage: string;
   public form: FormGroup;
-  private destroy = new Subject<boolean>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,7 +39,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
 
     this.authService.signIn(controls['email'].value, controls['password'].value)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           this.form.reset();
@@ -67,7 +67,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.form.markAsUntouched();
 
     provider
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
           this.form.reset();
@@ -119,7 +119,7 @@ export class SignInComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

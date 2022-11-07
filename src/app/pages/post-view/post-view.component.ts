@@ -30,7 +30,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
   public theme = 'Light'
   public form: FormGroup;
   public isAdmin = false;
-  private destroy = new Subject<boolean>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private postService: PostService,
@@ -74,7 +74,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
     }
 
     this.postService.createComment(this.postMeta.postId, commentBody)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((id) => {
         const comment = commentBody as Comment;
         comment.id = Object.values(id)[0];
@@ -86,11 +86,11 @@ export class PostViewComponent implements OnInit, OnDestroy {
   public markAsSolution(id: string): void {
 
     this.postService.markPostAsSolved(this.postMeta.postId)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe();
 
     this.postService.markCommentAsSolution(this.postMeta.postId, id)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         const comment = this.comments.find(item => item.id === id);
         comment.isSolution = true;
@@ -100,7 +100,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   public approvePost(id: string): void {
     this.postService.approvePost(id)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.router.navigate(['/home']);
       })
@@ -108,7 +108,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   public deletePost(id: string): void {
     this.postService.deletePost(id)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.router.navigate(['/home']);
       })
@@ -116,7 +116,7 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   private getPost(): void {
     this.postService.getPost(this.postMeta.postId)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         post => {
           this.post = post;
@@ -131,14 +131,14 @@ export class PostViewComponent implements OnInit, OnDestroy {
     this.postMeta.userEmail = this.authService.currentUser.email;
     this.postMeta.isAuthor = this.authService.currentUser.email === author;
     this.usersService.getUserByEmail(this.authService.currentUser.email)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.isAdmin = user.isAdmin;
       });
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

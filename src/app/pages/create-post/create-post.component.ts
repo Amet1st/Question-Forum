@@ -19,7 +19,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   public categories = TAGS;
   public form: FormGroup;
   public isTagChecked = false;
-  private destroy = new Subject<boolean>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,7 +61,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     }
 
     this.postService.createPost(body)
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((response) => {
         const id = Object.values(response)[0];
         this.router.navigate(['/posts/', id]);
@@ -89,7 +89,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,7 +1,7 @@
 <header class="header container header__container">
   <a routerLink="/home" routerLinkActive="header__home">
     <img
-      [class.header__logo--white]="theme === 'Dark'"
+      [class.header__logo--white]="(theme$ | async) === 'Dark'"
       alt="logo"
       class="header__logo"
       src="../../../../assets/png/logo.png">

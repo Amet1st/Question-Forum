@@ -16,8 +16,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public userEmail: string;
   public userId: string;
   public isMenuOpened = false;
-  public theme = 'Light';
-  private destroy = new Subject<boolean>();
+  public theme$ = this.settingsService.theme$;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
@@ -28,19 +28,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.theme = this.settingsService.theme;
+    this.getAuthState();
+  }
 
-    this.settingsService.themeStream
-      .pipe(takeUntil(this.destroy))
-      .subscribe(theme => {
-        this.theme = theme;
-      });
-
-    this.authService.getAuthState().subscribe(user => {
+  private getAuthState(): void {
+    this.authService.getAuthState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
         this.userEmail = user?.email;
         this.isLoggedIn = !!user;
-
-    })
+      });
   }
 
   public goToProfile() {
@@ -56,7 +53,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isMenuOpened = false;
 
     this.authService.signOut()
-      .pipe(takeUntil(this.destroy))
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.router.navigate(['/sign-in']))
   }
 
@@ -65,7 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

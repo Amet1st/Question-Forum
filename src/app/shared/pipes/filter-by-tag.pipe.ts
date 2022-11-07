@@ -4,7 +4,6 @@ import {FilterByTagOption} from '../../models/types/filter-by-tag-option.type';
 
 @Pipe({
   name: 'filterByTag',
-  pure: false
 })
 export class FilterByTagPipe implements PipeTransform {
 

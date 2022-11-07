@@ -16,15 +16,15 @@ export class PostService {
   ) { }
 
   public createPost(post: Post): Observable<Object> {
-    return this.http.post((environment.apiUrl + '/posts.json'), post);
+    return this.http.post(`${environment.apiUrl}/posts.json`, post);
   }
 
   public getPost(id: string): Observable<Post> {
-    return this.http.get<Post>((environment.apiUrl + '/posts/' + id + '.json'))
+    return this.http.get<Post>(`${environment.apiUrl}/posts/${id}.json`)
       .pipe(
         map(item => {
           const comments: Comment[] = this.getAllComments(item.comments);
-          if(comments.length) {
+          if (comments.length) {
             return {
               ...item,
               id,
@@ -32,9 +32,9 @@ export class PostService {
                 return {
                   commentId,
                   ...comments[commentId]
-                }
+                };
               })
-            }
+            };
           }
 
           return {
@@ -60,7 +60,7 @@ export class PostService {
   }
 
   public getAllPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>((environment.apiUrl + '/posts.json'))
+    return this.http.get<Post[]>(`${environment.apiUrl}/posts.json`)
       .pipe(
         map(data => {
           if (data) {
@@ -78,33 +78,33 @@ export class PostService {
   }
 
   public updatePost(id: string, post: Post): Observable<Object> {
-    return this.http.patch<Post>((environment.apiUrl + '/posts/' + id + '.json'), post);
+    return this.http.patch<Post>(`${environment.apiUrl}/posts/${id}.json`, post);
   }
 
   public createComment(id: string, comment: object): Observable<Object> {
-    return this.http.post((environment.apiUrl + '/posts/' + id + '/comments.json'), comment)
+    return this.http.post(`${environment.apiUrl}/posts/${id}/comments.json`, comment);
   }
 
   public markCommentAsSolution(postId: string, commentId: string): Observable<Object>  {
     return this.http
-      .patch((environment.apiUrl + '/posts/' + postId + '/comments/' + commentId + '.json'), {
+      .patch(`${environment.apiUrl}/posts/comments/${commentId}.json`, {
         isSolution: true
       })
   }
 
   public markPostAsSolved(id: string) {
-    return this.http.patch((environment.apiUrl + '/posts/' + id + '.json'), {
+    return this.http.patch(`${environment.apiUrl}/posts/${id}.json`, {
       isSolved: true
-    })
+    });
   }
 
   public approvePost(id: string): Observable<Object> {
-    return this.http.patch((environment.apiUrl + '/posts/' + id + '.json'), {
+    return this.http.patch(`${environment.apiUrl}/posts/${id}.json`, {
       isApproved: true
     });
   }
 
   public deletePost(id: string): Observable<Object> {
-    return this.http.delete((environment.apiUrl + '/posts/' + id + '.json'));
+    return this.http.delete(`${environment.apiUrl}/posts/${id}.json`);
   }
 }

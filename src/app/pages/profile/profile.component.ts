@@ -29,11 +29,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.getUser(this.authService.currentUser.email);
   }
 
-  ngOnDestroy() {
-    this.destroy.next(true);
-    this.destroy.complete();
-  }
-
   private getUser(email: string): void {
     this.userService.getUserByEmail(email)
       .pipe(takeUntil(this.destroy))
@@ -45,4 +40,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngOnDestroy() {
+    this.destroy.next(true);
+    this.destroy.complete();
+  }
 }

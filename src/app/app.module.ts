@@ -11,9 +11,7 @@ import {AppComponent} from './app.component';
 import {HeaderComponent} from './shared/components/header/header.component';
 import {SignUpComponent} from './pages/sign-up/sign-up.component';
 import {SignInComponent} from './pages/sign-in/sign-in.component';
-import {AuthService} from './shared/services/auth.service';
 import {HomeComponent} from './pages/home/home.component';
-import {AuthGuard} from './shared/guard/auth.guard';
 import {CreatePostComponent} from './pages/create-post/create-post.component';
 import {HttpClientModule} from '@angular/common/http';
 import {PostViewComponent} from './pages/post-view/post-view.component';
@@ -53,10 +51,6 @@ import {SortPostsPipe} from './shared/pipes/sort-posts.pipe';
       HttpClientModule,
       FormsModule,
       BrowserAnimationsModule
-  ],
-  providers: [
-    AuthService,
-    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

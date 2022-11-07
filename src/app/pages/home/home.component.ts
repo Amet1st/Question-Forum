@@ -102,11 +102,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.settingsService.themeStream.next(this.options.selectedTheme);
   }
 
-  ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
-  }
-
   private initializeHomePage(email: string): void {
     this.userService.getUserByEmail(email)
       .pipe(takeUntil(this.destroy))
@@ -133,5 +128,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(posts => {
         this.posts = this.isAdmin ? posts : posts.filter(post => (post.isApproved || post.author === email));
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 }

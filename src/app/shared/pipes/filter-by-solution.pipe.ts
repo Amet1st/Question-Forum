@@ -5,7 +5,6 @@ import {FilterBySolutionOption} from '../../models/types/filter-by-solution-opti
 
 @Pipe({
   name: 'filterBySolution',
-  pure: false
 })
 export class FilterBySolutionPipe implements PipeTransform {
 

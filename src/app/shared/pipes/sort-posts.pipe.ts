@@ -3,8 +3,7 @@ import {Post} from '../../models/interfaces/post.interface';
 import {SortPostsOption} from '../../models/types/sort-posts-option.type';
 
 @Pipe({
-  name: 'sortPosts',
-  pure: false
+  name: 'sortPosts'
 })
 export class SortPostsPipe implements PipeTransform {
 

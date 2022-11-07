@@ -114,11 +114,6 @@ export class PostViewComponent implements OnInit, OnDestroy {
       })
   }
 
-  ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
-  }
-
   private getPost(): void {
     this.postService.getPost(this.postMeta.postId)
       .pipe(takeUntil(this.destroy))
@@ -142,4 +137,8 @@ export class PostViewComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngOnDestroy(): void {
+    this.destroy.next(true);
+    this.destroy.complete();
+  }
 }

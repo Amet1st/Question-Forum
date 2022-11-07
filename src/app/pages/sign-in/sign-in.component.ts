@@ -90,11 +90,6 @@ export class SignInComponent implements OnInit, OnDestroy {
     this.isSubmitted = false;
   }
 
-  ngOnDestroy() {
-   this.destroy.next(true);
-   this.destroy.complete();
-  }
-
   private initForm(): void {
       this.form = this.formBuilder.group({
       email: ['', [
@@ -123,4 +118,8 @@ export class SignInComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnDestroy() {
+    this.destroy.next(true);
+    this.destroy.complete();
+  }
 }

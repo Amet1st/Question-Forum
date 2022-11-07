@@ -24,7 +24,7 @@ export class UsersService {
   }
 
   public createUser(email: string): Observable<object> {
-    return this.http.post((environment.apiUrl + '/users.json'), {
+    return this.http.post(`${environment.apiUrl}/users.json`, {
       email,
       dateOfSignUp: new Date(),
       isAdmin: false,
@@ -32,7 +32,7 @@ export class UsersService {
   }
 
   getUserByEmail(email: string): Observable<User> {
-    return this.http.get((environment.apiUrl + '/users.json'))
+    return this.http.get(`${environment.apiUrl}/users.json`)
       .pipe(
         map(data => {
           if (data) {

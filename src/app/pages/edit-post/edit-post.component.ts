@@ -31,29 +31,13 @@ export class EditPostComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private authService: AuthService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.postId = this.activatedRoute.snapshot.params.id;
-
     this.initForm();
-
-    this.postService.getPost(this.postId)
-      .pipe(takeUntil(this.destroy))
-      .subscribe(
-        post => {
-          this.author = post.author;
-          this.post = post;
-          this.tags = post.tags;
-          this.form.patchValue({
-            title: post.title,
-            text: post.text,
-          });
-          this.tags.forEach(tag => {
-            (<FormGroup>this.form.get('tags')).addControl(tag, new FormControl(true))
-          })
-        }
-      );
+    this.getPost();
   }
 
   public onSubmit(): void {
@@ -61,7 +45,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const formData = { ...this.form.value }
+    const formData = {...this.form.value};
     formData.tags = Object.keys(formData.tags);
 
     const body = {
@@ -105,6 +89,25 @@ export class EditPostComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
+  private getPost() {
+    this.postService.getPost(this.postId)
+      .pipe(takeUntil(this.destroy))
+      .subscribe(
+        post => {
+          this.author = post.author;
+          this.post = post;
+          this.tags = post.tags;
+          this.form.patchValue({
+            title: post.title,
+            text: post.text,
+          });
+          this.tags.forEach(tag => {
+            (<FormGroup>this.form.get('tags')).addControl(tag, new FormControl(true));
+          });
+        }
+      );
+  }
+
   private initForm(): void {
     this.form = this.formBuilder.group({
       title: ['', [
@@ -120,7 +123,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
       ]],
 
       tags: this.formBuilder.group({})
-    })
+    });
   }
-
 }

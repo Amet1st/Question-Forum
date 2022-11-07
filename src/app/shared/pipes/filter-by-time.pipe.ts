@@ -4,13 +4,12 @@ import {FilterByTimeOption} from '../../models/types/filter-by-time-option.type'
 
 @Pipe({
   name: 'filterByTime',
-  pure: false
 })
 export class FilterByTimePipe implements PipeTransform {
 
-  transform(posts: Post[] = [], time: FilterByTimeOption): Post[] {
+  transform(posts: Post[] = [], option: FilterByTimeOption): Post[] {
 
-    switch (time) {
+    switch (option) {
       case 'Last day':
         return posts.filter(post => this.getTimeDifference(post.date) <= 8.64e+7);
       case 'Last week':
@@ -20,7 +19,6 @@ export class FilterByTimePipe implements PipeTransform {
       default:
         return posts;
     }
-
   }
 
   private getTimeDifference(date: Date): number {

@@ -70,11 +70,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
-    this.destroy.next(true);
-    this.destroy.complete();
-  }
-
   private initForm(): void {
     this.form = this.formBuilder.group({
       title: ['', [
@@ -91,5 +86,10 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
       tags: this.formBuilder.group({})
     })
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next(true);
+    this.destroy.complete();
   }
 }

@@ -6,7 +6,6 @@ import {FilterByOtherOption} from '../../models/types/filter-by-other-option.typ
 
 @Pipe({
   name: 'filterByOther',
-  pure: false
 })
 export class FilterByOtherPipe implements PipeTransform {
 

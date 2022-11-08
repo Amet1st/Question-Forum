@@ -17,12 +17,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {PostViewComponent} from './pages/post-view/post-view.component';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {EditPostComponent} from './pages/edit-post/edit-post.component';
-import {ClickOutsideDirective} from './shared/directives/click-outside.directive';
-import {FilterByTagPipe} from './shared/pipes/filter-by-tag.pipe';
-import {FilterByTimePipe} from './shared/pipes/filter-by-time.pipe';
-import {FilterBySolutionPipe} from './shared/pipes/filter-by-solution.pipe';
-import {FilterByOtherPipe} from './shared/pipes/filter-by-other.pipe';
-import {SortPostsPipe} from './shared/pipes/sort-posts.pipe';
+import {SharedModule} from './shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -35,22 +31,17 @@ import {SortPostsPipe} from './shared/pipes/sort-posts.pipe';
     PostViewComponent,
     ProfileComponent,
     EditPostComponent,
-    ClickOutsideDirective,
-    FilterByTagPipe,
-    FilterByTimePipe,
-    FilterBySolutionPipe,
-    FilterByOtherPipe,
-    SortPostsPipe,
   ],
   imports: [
-      BrowserModule,
-      AppRoutingModule,
-      ReactiveFormsModule,
-      AngularFireModule.initializeApp(environment.firebase),
-      AngularFireAuthModule,
-      HttpClientModule,
-      FormsModule,
-      BrowserAnimationsModule
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    SharedModule
   ],
   bootstrap: [AppComponent]
 })

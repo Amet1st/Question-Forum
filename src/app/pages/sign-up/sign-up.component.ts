@@ -101,7 +101,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
     email: ['', [
       Validators.required,
-      Validators.email
+      Validators.email,
+      Validators.pattern('^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$')
     ]],
 
     password: ['', [

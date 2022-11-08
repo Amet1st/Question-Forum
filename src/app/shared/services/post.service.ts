@@ -16,7 +16,7 @@ export class PostService {
   ) { }
 
   public createPost(post: Post): Observable<Object> {
-    return this.http.post(`${environment.apiUrl}/posts.json`, post);
+    return this.http.post<Post>(`${environment.apiUrl}/posts.json`, post);
   }
 
   public getPost(id: string): Observable<Post> {
@@ -28,7 +28,7 @@ export class PostService {
             return {
               ...item,
               id,
-              comments: Object.keys(comments).map((commentId: any) => {
+              comments: Object.keys(comments).map((commentId: string) => {
                 return {
                   commentId,
                   ...comments[commentId]
@@ -41,22 +41,21 @@ export class PostService {
             ...item,
             id,
             comments: []
-          }
+          };
         }))
   }
 
-  public getAllComments(comments: object): Comment[] {
-    if(!comments) {
+  public getAllComments(comments: Comment[]): Comment[] {
+    if (!comments) {
       return [];
     }
 
-    const res = comments as {[key: string]: object}
-    return Object.keys(res).map((id: string) => {
+    return Object.keys(comments).map((id: string) => {
       return {
         id,
-        ...res[id]
-      } as Comment;
-    })
+        ...comments[id]
+      };
+    });
   }
 
   public getAllPosts(): Observable<Post[]> {
@@ -64,7 +63,7 @@ export class PostService {
       .pipe(
         map(data => {
           if (data) {
-            return Object.keys(data).map((id: any) => {
+            return Object.keys(data).map((id: string) => {
               return {
                 id,
                 ...data[id]
@@ -74,32 +73,32 @@ export class PostService {
 
           return [];
         })
-    )
+      )
   }
 
   public updatePost(id: string, post: Post): Observable<Object> {
-    return this.http.patch<Post>(`${environment.apiUrl}/posts/${id}.json`, post);
+    return this.http.put<Post>(`${environment.apiUrl}/posts/${id}.json`, post);
   }
 
-  public createComment(id: string, comment: object): Observable<Object> {
-    return this.http.post(`${environment.apiUrl}/posts/${id}/comments.json`, comment);
+  public createComment(id: string, comment: Partial<Comment>): Observable<Object> {
+    return this.http.post<Comment>(`${environment.apiUrl}/posts/${id}/comments.json`, comment);
   }
 
-  public markCommentAsSolution(postId: string, commentId: string): Observable<Object>  {
+  public markCommentAsSolution(postId: string, commentId: string): Observable<Object> {
     return this.http
-      .patch(`${environment.apiUrl}/posts/${postId}/comments/${commentId}.json`, {
+      .patch<Partial<Comment>>(`${environment.apiUrl}/posts/${postId}/comments/${commentId}.json`, {
         isSolution: true
-      })
+      });
   }
 
   public markPostAsSolved(id: string) {
-    return this.http.patch(`${environment.apiUrl}/posts/${id}.json`, {
+    return this.http.patch<Partial<Post>>(`${environment.apiUrl}/posts/${id}.json`, {
       isSolved: true
     });
   }
 
   public approvePost(id: string): Observable<Object> {
-    return this.http.patch(`${environment.apiUrl}/posts/${id}.json`, {
+    return this.http.patch<Partial<Post>>(`${environment.apiUrl}/posts/${id}.json`, {
       isApproved: true
     });
   }

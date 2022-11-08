@@ -99,20 +99,4 @@ describe('PostsService', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should get all comments from object', () => {
-    expect(service.getAllComments(null)).toEqual([]);
-    expect(service.getAllComments({'id': {
-      author: '',
-      text: '',
-      date: new Date(0),
-      isSolution: false,
-      }}
-    )).toEqual([{
-      id: 'id',
-      author: '',
-      text: '',
-      date: new Date(0),
-      isSolution: false
-    }])
-  });
 })
